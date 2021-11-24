@@ -1,0 +1,16 @@
+{% block title %}{% endblock %}
+
+{% block content %}
+    <h1>Registration</h1>
+    <p>Please, use the following form to register new account:</p>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Register"></p>
+    </form>
+
+    <form action="{% url 'memo:home' %}" method="post">
+        {% csrf_token %}
+        <p><input type="submit" value="Home"></p>
+    </form>
+{% endblock %}

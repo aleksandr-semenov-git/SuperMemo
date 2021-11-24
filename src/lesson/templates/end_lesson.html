@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Lesson {{lesson.name}}</h1>
+
+
+<form class="container" method="POST" action="{% url 'lesson:end_lesson' %}">
+
+    <input type="submit" value="End lesson" name="end" id="end">
+    <input type="submit" value="Continue lesson" name="continue" id="continue">
+    {% csrf_token %}
+</form>
+{% endblock %}
+

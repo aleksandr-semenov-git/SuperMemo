@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+</head>
+{% if not request.user.is_authenticated %}
+      <form class="container" action="{% url 'account:login' %}">
+
+            <button>Login</button>
+      </form>
+
+      <form class="container" action="{% url 'account:registration' %}">
+
+            <button>Registration</button>
+      </form>
+      <form class="container" action="{% url 'account:password_reset' %}">
+
+            <button>Forgot your password?</button>
+      </form>
+ {% else %}
+      <form class="container" action="{% url 'account:logout' %}">
+
+            <button>Logout</button>
+      </form>
+ {% endif %}
+<body>
+    {% block content %}
+
+    {% endblock %}
+</body>
+
+</html>

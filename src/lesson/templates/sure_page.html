@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<a>Is all correct?</a><br>
+<a>Goal - {{goal.name}}</a><br>
+<a>Section - {{section.name}}</a><br>
+<a>Theme - {{theme.name}}</a><br>
+
+
+<form class="container" method="POST">
+    <button>Start lesson</button>
+    {% csrf_token %}
+</form>
+
+
+
+
+{% endblock %}

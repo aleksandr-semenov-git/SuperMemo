@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{goal.name}}</h1>
+<h1>Choose chapter</h1>
+
+<form class="container" method="POST">
+{{ form }}
+    <input type="submit" value="Next">
+    {% csrf_token %}
+</form>
+
+<h1>or</h1>
+<form class="container" action="{% url 'lesson:add_section' %}">
+    <button>Add new chapter</button>
+</form>
+
+{% endblock %}

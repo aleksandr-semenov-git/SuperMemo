@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+
+<style>
+   table {
+    width: 20%; /* Ширина таблицы */
+    border: 4px double black; /* Рамка вокруг таблицы */
+    border-collapse: collapse; /* Отображать только одинарные линии */
+   }
+   th {
+    text-align: left; /* Выравнивание по левому краю */
+    background: #ccc; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+   }
+   td {
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+   }
+  </style>
+<h1>{{goal.name}}</h1>
+    <tr>
+        <td>
+            <form class="container" action="{% url 'lesson:choose_section' %}">
+                <button>Begin new lesson</button>
+            </form>
+        </td>
+    <tr>
+<form class="container" action="{% url 'memo:profile_basic' %}">
+    <button>Profile</button>
+</form>
+
+
+{% endblock %}

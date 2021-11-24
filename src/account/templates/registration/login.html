@@ -1,0 +1,16 @@
+{% block title %}{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+    <h1>Log-in</h1>
+    <p>Please, use the following form to log-in:</p>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Log-in"></p>
+    </form>
+    <form class="container" action="{% url 'account:password_reset' %}">
+
+            <button>Forgot your password?</button>
+    </form>
+{% endblock %}
