@@ -4,8 +4,6 @@ from django.conf import settings
 from .views import LessonPage, EndLessonPage, AddThemePage, ChooseThemePage, AddSectionPage, ChooseSectionPage
 from .views import SurePage
 
-SurePage
-
 
 urlpatterns = [
 
