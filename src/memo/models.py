@@ -28,7 +28,6 @@ class Section(models.Model):
 class Theme(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True)
     section = models.ForeignKey(Section, verbose_name='section', related_name='themes', on_delete=models.CASCADE, null=True)
-    goal = models.ForeignKey(Goal, verbose_name='goal', related_name='themes', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -52,8 +51,6 @@ class Question(models.Model):
                                null=True)
     theme = models.ForeignKey(Theme, verbose_name='theme', related_name='questions', on_delete=models.CASCADE,
                               null=True)
-    section = models.ForeignKey(Section, verbose_name='section', related_name='questions', on_delete=models.CASCADE)
-    goal = models.ForeignKey(Goal, verbose_name='goal', related_name='questions', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.question

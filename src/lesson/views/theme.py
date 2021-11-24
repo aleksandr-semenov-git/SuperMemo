@@ -39,7 +39,6 @@ class AddThemePage(View):
         form = AddThemeForm(request.POST or None)
         if form.is_valid():
             cd = form.cleaned_data
-            goal = Goal.objects.get(pk=request.session['goal_id'])
             section = Section.objects.get(pk=request.session['lesson_section_id'])
-            theme = Theme.objects.create(name=cd['name'], goal=goal, section=section)
+            theme = Theme.objects.create(name=cd['name'], section=section)
         return redirect('lesson:choose_theme')

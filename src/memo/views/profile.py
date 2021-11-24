@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.http import require_POST
 from memo.models import Profile, Goal, Question, Theme, Section
 from django.contrib.auth.models import User
 from memo.forms import PersonalDataEditForm, AddGoalForm
@@ -16,7 +15,7 @@ class HomePage(View):
 class ProfilePage(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        profile = User.objects.filter(profile__id=user.id).exists()
+        profile = user.profile
         if profile:
             profile = user.profile
             goals = profile.goals.all()

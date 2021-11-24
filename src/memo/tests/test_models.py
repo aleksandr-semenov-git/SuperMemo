@@ -1,15 +1,7 @@
 import os
-
-from django.test import TestCase, RequestFactory
-from django.urls import reverse
+from django.test import TestCase
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from memo.models import Profile, Goal, Question, Section, Theme, Lesson
-from django.core.files.uploadedfile import SimpleUploadedFile
-from unittest import mock
-from django.contrib.auth import authenticate, login
-
-from memo.views import ProfilePage
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'
 
@@ -35,14 +27,12 @@ class MemoTestCases(TestCase):
                                               )
         self.goal = Goal.objects.create(name='TEST_GOAL', profile=self.profile)
         self.section = Section.objects.create(name='TEST_SECTION', goal=self.goal)
-        self.theme = Theme.objects.create(name='TEST_THEME', section=self.section, goal=self.goal)
+        self.theme = Theme.objects.create(name='TEST_THEME', section=self.section)
         self.lesson = Lesson.objects.create(name=123123, goal=self.goal, profile=self.profile)
         self.question = Question.objects.create(question='TEST_QUESTION',
                                                 answer='TEST_ANSWER',
                                                 lesson=self.lesson,
-                                                section=self.section,
-                                                theme=self.theme,
-                                                goal=self.goal)
+                                                theme=self.theme,)
 
     def test_profile_id_equal_user_id(self):
         self.assertEquals(self.user.id, self.profile.id)
@@ -82,11 +72,9 @@ class MemoTestCases(TestCase):
         theme = self.theme
         field_label_name = theme._meta.get_field('name').verbose_name
         field_label_section = theme._meta.get_field('section').verbose_name
-        field_label_goal = theme._meta.get_field('goal').verbose_name
 
         self.assertEquals(field_label_name, 'name')
         self.assertEquals(field_label_section, 'section')
-        self.assertEquals(field_label_goal, 'goal')
 
     def test_lesson_fields_labels(self):
         lesson = self.lesson
@@ -107,15 +95,11 @@ class MemoTestCases(TestCase):
         question = self.question
         field_label_question = question._meta.get_field('question').verbose_name
         field_label_answer = question._meta.get_field('answer').verbose_name
-        field_label_section = question._meta.get_field('section').verbose_name
         field_label_theme = question._meta.get_field('theme').verbose_name
-        field_label_goal = question._meta.get_field('goal').verbose_name
 
         self.assertEquals(field_label_question, 'question')
         self.assertEquals(field_label_answer, 'answer')
-        self.assertEquals(field_label_section, 'section')
         self.assertEquals(field_label_theme, 'theme')
-        self.assertEquals(field_label_goal, 'goal')
 
     def test_username_max_length(self):
         max_length = self.user._meta.get_field('username').max_length

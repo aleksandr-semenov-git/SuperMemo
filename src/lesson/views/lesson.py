@@ -38,8 +38,6 @@ class LessonPage(View):
 
     def post(self, request, *args, **kwargs):
         form = LearningForm(request.POST)
-        goal = Goal.objects.get(pk=request.session['goal_id'])
-        section = Section.objects.get(pk=request.session['lesson_section_id'])
         theme = Theme.objects.get(pk=request.session['lesson_theme_id'])
         lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
         if form.is_valid():
@@ -49,8 +47,6 @@ class LessonPage(View):
             new_question = Question.objects.create(question=question,
                                                    answer=answer,
                                                    lesson=lesson,
-                                                   goal=goal,
-                                                   section=section,
                                                    theme=theme)
             form = LearningForm()
             return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
