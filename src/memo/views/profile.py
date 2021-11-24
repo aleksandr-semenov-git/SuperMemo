@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from memo.models import Profile, Goal, Question, Theme, Section
-from django.contrib.auth.models import User
 from memo.forms import PersonalDataEditForm, AddGoalForm
 
 
@@ -16,15 +15,12 @@ class ProfilePage(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         profile = user.profile
-        if profile:
-            profile = user.profile
-            goals = profile.goals.all()
-        else:
+        if not profile:
             profile = Profile.objects.create(
-                id=request.user.id,
+                id=request.user.id,  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 user=request.user
             )
-            goals = profile.goals.all()
+        goals = profile.goals.all()
 
         return render(request, 'profile_page.html', {'profile': profile,
                                                      'goals': goals,
@@ -32,6 +28,7 @@ class ProfilePage(View):
 
 
 class ProfilePageBasic(View):
+    """Build url to user's profile or redirect to login"""
     def get(self, request, *args, **kwargs):
         username = request.user.username
         if username:
@@ -48,7 +45,7 @@ class EditPage(View):
                                              'email': user.email,
                                              'first_name': user.first_name,
                                              'last_name': user.last_name},
-                                    instance=user)
+                                    )
         return render(request, 'edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -58,4 +55,6 @@ class EditPage(View):
             username = cd['username']
             user = form.save(commit=True)
             return redirect('memo:profile', username=username)
+        else:
+            pass  # Todo exeption?
         return render(request, 'edit.html', {'form': form})
