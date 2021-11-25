@@ -14,13 +14,15 @@ class HomePage(View):
 class ProfilePage(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        profile = user.profile
-        if not profile:
+        profile_exists = Profile.objects.filter(user=user).exists()
+        if not profile_exists:  # Todo create_profile(user)
             profile = Profile.objects.create(
                 id=request.user.id,  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 user=request.user
             )
-        goals = profile.goals.all()
+        else:
+            profile = user.profile
+        goals = profile.goals.all()  # Todo get_goals_by_profile(profile)
 
         return render(request, 'profile_page.html', {'profile': profile,
                                                      'goals': goals,

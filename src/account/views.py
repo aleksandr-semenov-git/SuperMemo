@@ -38,7 +38,7 @@ class LogoutView(View):
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm()
         return render(request, 'registration/registration.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
