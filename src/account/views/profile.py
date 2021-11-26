@@ -1,4 +1,4 @@
-from account.functions import profile_exists, create_profile, get_goals_by_profile
+from memo.services import profile_exists, create_profile, get_goals_by_profile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -47,6 +47,6 @@ class EditPage(View):
         if form.is_valid():
             cd = form.cleaned_data
             username = cd['username']
-            user = form.save(commit=True)
+            form.save(commit=True)
             return redirect('account:profile', username=username)
         return render(request, 'edit.html', {'form': form})
