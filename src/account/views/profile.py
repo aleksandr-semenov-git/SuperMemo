@@ -5,10 +5,8 @@ from django.views import View
 from memo.models import Profile, Goal, Question, Theme, Section
 from memo.forms import PersonalDataEditForm, AddGoalForm
 
-
-class HomePage(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'home.html', {})
+# all_lessons = Lesson.objects.filter(goal__profile=profile)
+# theme_lessons = my_theme.section.goal.lessons
 
 
 class ProfilePage(View):
@@ -17,7 +15,6 @@ class ProfilePage(View):
         profile_exists = Profile.objects.filter(user=user).exists()
         if not profile_exists:  # Todo create_profile(user)
             profile = Profile.objects.create(
-                id=request.user.id,  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 user=request.user
             )
         else:
@@ -34,7 +31,7 @@ class ProfilePageBasic(View):
     def get(self, request, *args, **kwargs):
         username = request.user.username
         if username:
-            return redirect('memo:profile', username=username)
+            return redirect('account:profile', username=username)
         else:
             return redirect('account:login')
 
@@ -56,7 +53,7 @@ class EditPage(View):
             cd = form.cleaned_data
             username = cd['username']
             user = form.save(commit=True)
-            return redirect('memo:profile', username=username)
+            return redirect('account:profile', username=username)
         else:
-            pass  # Todo exeption?
+            pass  # Todo exeption? form.errors/ message?
         return render(request, 'edit.html', {'form': form})

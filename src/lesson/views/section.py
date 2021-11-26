@@ -13,7 +13,7 @@ from lesson.forms import ChooseSectionForm, ChooseThemeForm, AddSectionForm, Add
 @method_decorator(login_required, name='dispatch')
 class ChooseSectionPage(View):
     def get(self, request, *args, **kwargs):
-        # name = goal.lessons.count() + 1  # Todo Подумать над именами целей
+        # name = goal.lessons.count() + 1  # Todo Think about goal naming and query principles
         # form.fields['name'].queryset = Section.objects.filter(goal__id=request.session['goal_id'])
         # sections = goal.sections.all().values('name')
         goal = Goal.objects.get(pk=request.session['goal_id'])
@@ -25,7 +25,7 @@ class ChooseSectionPage(View):
         form = ChooseSectionForm(request.POST or None)
         if form.is_valid():
             cd = form.cleaned_data
-            request.session['lesson_section_id'] = Section.objects.get(name=cd['name']).id
+            request.session['lesson_section_id'] = Section.objects.get(name=cd['name']).id  # Todo Multiple ERROR todo 16 row
         return redirect('lesson:choose_theme')
 
 

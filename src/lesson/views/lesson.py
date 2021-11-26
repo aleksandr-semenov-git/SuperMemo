@@ -24,13 +24,12 @@ class SurePage(View):
 class LessonPage(View):
     def get(self, request, *args, **kwargs):
 
-        profile = request.user.profile
         goal = Goal.objects.get(pk=request.session['goal_id'])
         if 'active_lesson_id' in request.session:  # Todo Пока нет декоратора active-lesson будет так
             lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
         else:
             name = goal.lessons.count() + 1  # Todo Подумать над именем урока
-            lesson = Lesson.objects.create(name=name, goal=goal, profile=profile)
+            lesson = Lesson.objects.create(name=name, goal=goal)
             request.session['active_lesson_id'] = lesson.id
 
         form = LearningForm()

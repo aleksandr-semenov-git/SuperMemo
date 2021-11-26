@@ -38,7 +38,6 @@ class Lesson(models.Model):
     start = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(auto_now=True)
     goal = models.ForeignKey(Goal, verbose_name='goal', related_name='lessons',  on_delete=models.CASCADE, null=True)
-    profile = models.ForeignKey(Profile, verbose_name='profile', related_name='lessons',  on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.name)

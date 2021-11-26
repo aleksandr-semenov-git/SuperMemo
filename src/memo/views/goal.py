@@ -31,4 +31,4 @@ class AddGoalPage(View):
             cd = form.cleaned_data
             profile = request.user.profile
             goal = Goal.objects.create(name=cd['name'], profile=profile)
-        return redirect('memo:profile_basic')
+        return redirect('account:profile_basic')

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import LoginForm, RegistrationForm
+from account.forms import LoginForm, RegistrationForm
 
 
 class LoginView(View):
@@ -21,7 +21,7 @@ class LoginView(View):
                 if user.is_active:
                     login(request, user)
                     request.session['user_id'] = user.id
-                    return redirect('memo:profile', username=username)
+                    return redirect('account:profile', username=username)
                 else:
                     return HttpResponse('Disabled account')
             else:
@@ -63,4 +63,4 @@ class RegistrationView(View):
             username = cd['username']
         else:
             return render(request, 'registration/registration.html', {'form': form})
-        return redirect('memo:profile', username=username)
+        return redirect('account:profile', username=username)
