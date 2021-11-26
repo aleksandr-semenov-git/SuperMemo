@@ -9,8 +9,8 @@
         <p><input type="submit" value="Register"></p>
     </form>
 
-    <form action="{% url 'memo:home' %}" method="post">
+    <form action="{% url 'memo:home' %}">
         {% csrf_token %}
-        <p><input type="submit" value="Home"></p>
+            <button>Back</button>
     </form>
 {% endblock %}
