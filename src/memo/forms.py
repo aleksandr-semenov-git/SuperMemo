@@ -18,12 +18,12 @@ class PersonalDataEditForm(forms.ModelForm):
         username = self.cleaned_data['username']
         email = self.cleaned_data['email']
         chd = self.changed_data
-        if User.objects.filter(username=username).exists() and 'username' in chd:
+        if 'username' in chd and User.objects.filter(username=username).exists():
             if User.objects.filter(email=email).exists() and 'email' in chd:
                 raise forms.ValidationError(f'Login {username} and email {email} are already exist')
             raise forms.ValidationError(f'Login {username} is already exist')
 
-        elif User.objects.filter(email=email).exists() and 'email' in chd:
+        elif 'email' in chd and User.objects.filter(email=email).exists():
             raise forms.ValidationError(f'User with email {email} is already exist')
 
     class Meta:

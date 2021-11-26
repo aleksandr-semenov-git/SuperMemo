@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models import Q
 from memo.models import Theme, Question, Goal, Section
 
 
@@ -60,7 +59,7 @@ class AddThemeForm(forms.ModelForm):
     name = forms.CharField(required=True, min_length=3, max_length=150)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs    )
         self.fields['name'].label = 'Name your theme'
 
     class Meta:

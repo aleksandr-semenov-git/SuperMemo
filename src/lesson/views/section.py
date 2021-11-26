@@ -1,12 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.decorators.http import require_POST
-
 from memo.models import Lesson, Question, Goal, Theme, Section
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
-from django import forms
 from lesson.forms import ChooseSectionForm, ChooseThemeForm, AddSectionForm, AddThemeForm
 
 
@@ -22,7 +18,7 @@ class ChooseSectionPage(View):
         # return HttpResponseRedirect(reverse('choose_chapter', kwargs={'location': location}))
 
     def post(self, request, *args, **kwargs):
-        form = ChooseSectionForm(request.POST or None)
+        form = ChooseSectionForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             request.session['lesson_section_id'] = Section.objects.get(name=cd['name']).id  # Todo Multiple ERROR todo 16 row
@@ -32,11 +28,11 @@ class ChooseSectionPage(View):
 @method_decorator(login_required, name='dispatch')
 class AddSectionPage(View):
     def get(self, request, *args, **kwargs):
-        form = AddSectionForm
+        form = AddSectionForm()
         return render(request, 'add_section.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = AddSectionForm(request.POST or None)
+        form = AddSectionForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             goal = Goal.objects.get(pk=request.session['goal_id'])

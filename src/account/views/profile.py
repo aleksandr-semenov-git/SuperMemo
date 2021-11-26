@@ -54,6 +54,4 @@ class EditPage(View):
             username = cd['username']
             user = form.save(commit=True)
             return redirect('account:profile', username=username)
-        else:
-            pass  # Todo exeption? form.errors/ message?
         return render(request, 'edit.html', {'form': form})

@@ -4,7 +4,6 @@ from django.views.decorators.http import require_POST
 from memo.models import Lesson, Question, Goal, Theme, Section
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
 from lesson.forms import ChooseSectionForm, ChooseThemeForm, AddSectionForm, AddThemeForm
 
 
@@ -17,7 +16,7 @@ class ChooseThemePage(View):
         return render(request, 'choose_theme.html', {'form': form, 'goal': goal, 'section': section})
 
     def post(self, request, *args, **kwargs):
-        form = ChooseThemeForm(request.POST or None)
+        form = ChooseThemeForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             request.session['lesson_theme_id'] = Theme.objects.get(name=cd['name']).id
@@ -32,11 +31,11 @@ class ChooseThemePage(View):
 @method_decorator(login_required, name='dispatch')
 class AddThemePage(View):
     def get(self, request, *args, **kwargs):
-        form = AddThemeForm
+        form = AddThemeForm()
         return render(request, 'add_theme.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = AddThemeForm(request.POST or None)
+        form = AddThemeForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             section = Section.objects.get_object_or_404(pk=request.session['lesson_section_id'])
