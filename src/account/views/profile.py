@@ -24,7 +24,7 @@ class ProfilePage(View):
 class ProfilePageBasic(View):
     def get(self, request, *args, **kwargs):
         """Redirect to user's profile or redirect to login"""
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect('account:profile', username=request.user.username)
         else:
             return redirect('account:login')

@@ -14,11 +14,11 @@ class LearningForm(forms.ModelForm):
 
 
 class ChooseSectionForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Section.objects.all(), empty_label='Choose chapter')
+    name = forms.ModelChoiceField(queryset=Section.objects.none(), empty_label='Choose chapter')
 
     def __init__(self, *args, **kwargs):
         goal_id = kwargs.pop('goal_id', None)
-        super(ChooseSectionForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if goal_id:
             self.fields['name'].queryset = Section.objects.filter(goal__id=goal_id)
@@ -29,11 +29,11 @@ class ChooseSectionForm(forms.ModelForm):
 
 
 class ChooseThemeForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Theme.objects.all(), empty_label='Choose theme')
+    name = forms.ModelChoiceField(queryset=Theme.objects.none(), empty_label='Choose theme')
 
     def __init__(self, *args, **kwargs):
         section_id = kwargs.pop('section_id', None)
-        super(ChooseThemeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if section_id:
             self.fields['name'].queryset = Theme.objects.filter(section__id=section_id)
