@@ -1,19 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.decorators.http import require_POST
 from memo.models import Lesson, Question, Goal, Theme, Section
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
 from lesson.forms import ChooseSectionForm, ChooseThemeForm, LearningForm
+from memo.services import GoalService, SectionService, ThemeService
 
 
 @method_decorator(login_required, name='dispatch')
 class SurePage(View):
     def get(self, request, *args, **kwargs):
-        section = Section.objects.get(pk=request.session['lesson_section_id'])
-        theme = Theme.objects.get(pk=request.session['lesson_theme_id'])
-        goal = Goal.objects.get(pk=request.session['goal_id'])
+        section = SectionService.get_section_by_id(request.session['lesson_section_id'])
+        theme = ThemeService.get_theme_by_id(request.session['lesson_theme_id'])
+        goal = GoalService.get_goal_by_id(request.session['goal_id'])
         return render(request, 'sure_page.html', {'goal': goal, 'section': section, 'theme': theme})
 
     def post(self, request, *args, **kwargs):
@@ -25,7 +24,7 @@ class LessonPage(View):
     def get(self, request, *args, **kwargs):
 
         goal = Goal.objects.get(pk=request.session['goal_id'])
-        if 'active_lesson_id' in request.session:  # Todo Пока нет декоратора active-lesson будет так
+        if 'active_lesson_id' in request.session:  # Todo decorator is_active_lesson
             lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
         else:
             name = goal.lessons.count() + 1  # Todo Подумать над именем урока

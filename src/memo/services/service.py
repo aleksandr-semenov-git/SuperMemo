@@ -29,3 +29,15 @@ class GoalService:
     @staticmethod
     def create_goal(name: str, profile: Profile):
         return Goal.objects.create(name=name, profile=profile)
+
+
+class SectionService:
+    @staticmethod
+    def get_section_by_id(section: Section):
+        return Section.goals.all()
+
+
+class ThemeService:
+    @staticmethod
+    def get_theme_by_id(theme: Theme):
+        return Theme.goals.all()

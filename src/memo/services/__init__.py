@@ -1,1 +1,1 @@
-from .service import ProfileService, GoalService
+from .service import ProfileService, GoalService, SectionService, ThemeService
