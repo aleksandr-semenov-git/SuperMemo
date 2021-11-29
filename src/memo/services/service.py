@@ -21,3 +21,11 @@ class GoalService:
     @staticmethod
     def get_goals_by_profile(profile: Profile):
         return profile.goals.all()
+
+    @staticmethod
+    def get_goal_by_id(goal_id: int) -> Goal:
+        return Goal.objects.get(pk=goal_id)
+
+    @staticmethod
+    def create_goal(name: str, profile: Profile):
+        return Goal.objects.create(name=name, profile=profile)
