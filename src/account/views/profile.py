@@ -1,20 +1,20 @@
-from memo.services import profile_exists, create_profile, get_goals_by_profile
+from memo.services import ProfileService, GoalService
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
-from memo.models import Profile, Goal, Question, Theme, Section
-from memo.forms import PersonalDataEditForm, AddGoalForm
+from memo.forms import PersonalDataEditForm
 
 
 class ProfilePage(View):
     def get(self, request, *args, **kwargs):
+        """Get or create user's profile
+        get profile's goals
+        display profile's attributes and goals
+        """
         user = request.user
-        if not profile_exists(user):
-            profile = create_profile(user)
-        else:
-            profile = user.profile
-        goals = get_goals_by_profile(profile)
+        profile = ProfileService.get_or_create_profile(user)
+        goals = GoalService.get_goals_by_profile(profile)
 
         return render(request, 'profile_page.html', {'profile': profile,
                                                      'goals': goals,
@@ -22,11 +22,10 @@ class ProfilePage(View):
 
 
 class ProfilePageBasic(View):
-    """Build url to user's profile or redirect to login"""
     def get(self, request, *args, **kwargs):
-        username = request.user.username
-        if username:
-            return redirect('account:profile', username=username)
+        """Redirect to user's profile or redirect to login"""
+        if request.user.is_authenticated():
+            return redirect('account:profile', username=request.user.username)
         else:
             return redirect('account:login')
 
@@ -34,6 +33,7 @@ class ProfilePageBasic(View):
 @method_decorator(login_required, name='dispatch')
 class EditPage(View):
     def get(self, request, *args, **kwargs):
+        """Prepare and display the form with user's data"""
         user = request.user
         form = PersonalDataEditForm(initial={'username': user.username,
                                              'email': user.email,
@@ -43,6 +43,7 @@ class EditPage(View):
         return render(request, 'edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
+        """Redirect to profile-page if the form is valid or refresh edit-page and show errors messages"""
         form = PersonalDataEditForm(request.POST, instance=request.user)
         if form.is_valid():
             cd = form.cleaned_data
