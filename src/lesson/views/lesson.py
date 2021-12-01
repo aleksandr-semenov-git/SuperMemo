@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views import View
-from memo.models import Lesson, Question, Goal, Theme, Section
+from memo.models import Lesson, Question, Goal, Theme
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from lesson.forms import ChooseSectionForm, ChooseThemeForm, LearningForm
+from lesson.forms import LearningForm
 from memo.services import GoalService, SectionService, ThemeService
 
 
@@ -42,10 +42,10 @@ class LessonPage(View):
             cd = form.cleaned_data
             question = cd['question']
             answer = cd['answer']
-            new_question = Question.objects.create(question=question,
-                                                   answer=answer,
-                                                   lesson=lesson,
-                                                   theme=theme)
+            Question.objects.create(question=question,
+                                    answer=answer,
+                                    lesson=lesson,
+                                    theme=theme)
             form = LearningForm()
             return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
         else:

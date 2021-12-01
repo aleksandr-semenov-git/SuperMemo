@@ -12,7 +12,7 @@ urlpatterns = [
     path('new-lesson/add-section/', AddSectionPage.as_view(), name='add_section'),
     path('new-lesson/add-theme/', AddThemePage.as_view(), name='add_theme'),
     path('new-lesson/confirm/', SurePage.as_view(), name='sure'),
-    path('learning-page/lesson/', LessonPage.as_view(), name='lesson_page'),
+    path('learning-page/', LessonPage.as_view(), name='lesson_page'),
     path('learning-page/end-lesson/', EndLessonPage.as_view(), name='end_lesson'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
