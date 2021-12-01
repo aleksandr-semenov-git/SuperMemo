@@ -26,7 +26,7 @@ class GoalService:
 
     @staticmethod
     def get_goal_by_id(goal_id: int) -> Goal:
-        return Goal.objects.get(pk=goal_id)
+        return get_object_or_404(Goal, pk=goal_id)
 
     @staticmethod
     def create_goal(name: str, profile: Profile):
@@ -40,7 +40,7 @@ class SectionService:
 
     @staticmethod
     def get_section_by_name_and_goal_id(name, goal_id):
-        return Section.objects.get(Q(name=name), Q(goal__id=goal_id))
+        return get_object_or_404(Section, Q(name=name), Q(goal__id=goal_id))
 
     @staticmethod
     def create_section(name: str, goal: Goal) -> Section:
@@ -54,7 +54,7 @@ class ThemeService:
 
     @staticmethod
     def get_theme_by_name_and_section_id(name, section_id):
-        return Theme.objects.get(Q(name=name), Q(section__id=section_id))
+        return get_object_or_404(Theme, Q(name=name), Q(section__id=section_id))
 
     @staticmethod
     def create_theme(name: str, section: Section) -> Theme:
