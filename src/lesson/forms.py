@@ -13,8 +13,9 @@ class LearningForm(forms.ModelForm):
         fields = ['question', 'answer']
 
 
-class ChooseSectionForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Section.objects.none(), empty_label='Choose chapter')
+class ChooseSectionForm(forms.Form):
+    name = forms.ModelChoiceField(queryset=Section.objects.none(),
+                                  empty_label='Choose section')
 
     def __init__(self, *args, **kwargs):
         goal_id = kwargs.pop('goal_id', None)
@@ -23,13 +24,10 @@ class ChooseSectionForm(forms.ModelForm):
         if goal_id:
             self.fields['name'].queryset = Section.objects.filter(goal__id=goal_id)
 
-    class Meta:
-        model = Section
-        fields = ['name']
 
-
-class ChooseThemeForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Theme.objects.none(), empty_label='Choose theme')
+class ChooseThemeForm(forms.Form):
+    name = forms.ModelChoiceField(queryset=Theme.objects.none(),
+                                  empty_label='Choose theme')
 
     def __init__(self, *args, **kwargs):
         section_id = kwargs.pop('section_id', None)
@@ -37,10 +35,6 @@ class ChooseThemeForm(forms.ModelForm):
 
         if section_id:
             self.fields['name'].queryset = Theme.objects.filter(section__id=section_id)
-
-    class Meta:
-        model = Theme
-        fields = ['name']
 
 
 class AddSectionForm(forms.ModelForm):
@@ -59,7 +53,7 @@ class AddThemeForm(forms.ModelForm):
     name = forms.CharField(required=True, min_length=3, max_length=150)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs    )
+        super().__init__(*args, **kwargs)
         self.fields['name'].label = 'Name your theme'
 
     class Meta:

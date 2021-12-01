@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from memo.models import Profile, Goal, Question, Theme, Section, Lesson
 
 
@@ -33,11 +34,11 @@ class GoalService:
 
 class SectionService:
     @staticmethod
-    def get_section_by_id(section: Section):
-        return Section.goals.all()
+    def get_section_by_id(section_id: int) -> Section:
+        return get_object_or_404(Section, pk=section_id)
 
 
 class ThemeService:
     @staticmethod
-    def get_theme_by_id(theme: Theme):
-        return Theme.goals.all()
+    def get_theme_by_id(theme_id: id) -> Theme:
+        return get_object_or_404(Theme, pk=theme_id)
