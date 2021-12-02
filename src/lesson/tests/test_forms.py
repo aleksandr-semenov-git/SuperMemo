@@ -1,10 +1,6 @@
 from django.test import TestCase
-import datetime
-from django.utils import timezone
 
 from lesson.forms import LearningForm, ChooseSectionForm, ChooseThemeForm, AddSectionForm, AddThemeForm
-from memo.forms import PersonalDataEditForm, AddGoalForm
-from django.contrib.auth.models import User
 
 from memo.models import Section, Theme
 
