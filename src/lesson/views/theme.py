@@ -18,8 +18,9 @@ class ChooseThemePage(View):
         form = ChooseThemeForm(request.POST, section_id=request.session['lesson_section_id'])
         if form.is_valid():
             cd = form.cleaned_data
-            request.session['lesson_theme_id'] = ThemeService.get_theme_by_name_and_section_id\
-                (name=cd['name'], section_id=request.session['lesson_section_id']).id
+            theme = ThemeService.get_theme_by_name_and_section_id(name=cd['name'],
+                                                                  section_id=request.session['lesson_section_id'])
+            request.session['lesson_theme_id'] = theme.id
             return redirect('lesson:sure')
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])

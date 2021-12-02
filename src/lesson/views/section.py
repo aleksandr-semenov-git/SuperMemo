@@ -17,9 +17,9 @@ class ChooseSectionPage(View):
         form = ChooseSectionForm(request.POST, goal_id=request.session['goal_id'])
         if form.is_valid():
             cd = form.cleaned_data
-            request.session['lesson_section_id'] = SectionService.get_section_by_name_and_goal_id(name=cd['name'],
-                                                                                                  goal_id=request.
-                                                                                                  session['goal_id']).id
+            section = SectionService.get_section_by_name_and_goal_id(name=cd['name'],
+                                                                     goal_id=request.session['goal_id'])
+            request.session['lesson_section_id'] = section.id
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             return render(request, 'choose_section.html', {'form': form, 'goal': goal})
