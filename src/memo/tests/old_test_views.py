@@ -5,7 +5,8 @@ from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
 from memo.models import Profile, Goal
-from memo.views import ProfilePage, HomePage, AddGoalPage
+from memo.views import HomePage, AddGoalPage
+from account.views import ProfilePage
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'
 

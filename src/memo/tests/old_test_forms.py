@@ -1,5 +1,6 @@
 from django.test import TestCase
-from account.forms.profile_forms import PersonalDataEditForm, AddGoalForm
+from account.forms.profile_forms import PersonalDataEditForm
+from memo.forms import AddGoalForm
 
 
 class PersonalDataEditFormTest(TestCase):
