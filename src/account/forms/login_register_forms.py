@@ -1,17 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import User
 
 
 class LoginForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Login'
-        self.fields['password'].label = 'Password'
-
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(min_length=3, max_length=20, required=True, label='Login')
+    password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
     def clean(self):
         username = self.cleaned_data['username']
@@ -30,17 +23,11 @@ class LoginForm(forms.ModelForm):
 
 
 class RegistrationForm(forms.ModelForm):
-    username = forms.CharField(min_length=3, max_length=20, required=True)
-    password = forms.CharField(widget=forms.PasswordInput, required=True, max_length=20)
-    confirm_password = forms.CharField(widget=forms.PasswordInput, required=True, max_length=20)
-    email = forms.EmailField(required=True)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Login'
-        self.fields['password'].label = 'Password'
-        self.fields['confirm_password'].label = 'Confirm password'
-        self.fields['email'].label = 'Email'
+    username = forms.CharField(min_length=3, max_length=20, required=True, label='Login')
+    password = forms.CharField(widget=forms.PasswordInput, required=True, max_length=20, label='Password')
+    confirm_password = forms.CharField(widget=forms.PasswordInput, required=True, max_length=20,
+                                       label='Confirm password')
+    email = forms.EmailField(required=True, label='Email')
 
     def clean_email(self):
         email = self.cleaned_data['email']

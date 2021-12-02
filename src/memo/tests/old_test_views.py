@@ -4,10 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
-from memo.forms import PersonalDataEditForm, AddGoalForm
 from memo.models import Profile, Goal
-from memo.views import ProfilePage, ProfilePageBasic, EditPage, HomePage, GoalPage, AddGoalPage
+from memo.views import HomePage, AddGoalPage
+from account.views import ProfilePage
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'
 

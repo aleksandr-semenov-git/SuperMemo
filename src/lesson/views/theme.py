@@ -1,30 +1,30 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views import View
-from django.views.decorators.http import require_POST
-from memo.models import Lesson, Question, Goal, Theme, Section
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
-from lesson.forms import ChooseSectionForm, ChooseThemeForm, AddSectionForm, AddThemeForm
+from lesson.forms import ChooseThemeForm, AddThemeForm
+from memo.services import GoalService, SectionService, ThemeService
 
 
 @method_decorator(login_required, name='dispatch')
 class ChooseThemePage(View):
     def get(self, request, *args, **kwargs):
-        goal = Goal.objects.get(pk=request.session['goal_id'])
-        section = Section.objects.get(pk=request.session['lesson_section_id'])
+        goal = GoalService.get_goal_by_id(request.session['goal_id'])
+        section = SectionService.get_section_by_id(request.session['lesson_section_id'])
         form = ChooseThemeForm(section_id=request.session['lesson_section_id'])
         return render(request, 'choose_theme.html', {'form': form, 'goal': goal, 'section': section})
 
     def post(self, request, *args, **kwargs):
-        form = ChooseThemeForm(request.POST or None)
+        form = ChooseThemeForm(request.POST, section_id=request.session['lesson_section_id'])
         if form.is_valid():
             cd = form.cleaned_data
-            request.session['lesson_theme_id'] = Theme.objects.get(name=cd['name']).id
+            theme = ThemeService.get_theme_by_name_and_section_id(name=cd['name'],
+                                                                  section_id=request.session['lesson_section_id'])
+            request.session['lesson_theme_id'] = theme.id
             return redirect('lesson:sure')
         else:
-            goal = Goal.objects.get(pk=request.session['goal_id'])
-            section = Section.objects.get(pk=request.session['lesson_section_id'])
+            goal = GoalService.get_goal_by_id(request.session['goal_id'])
+            section = SectionService.get_section_by_id(request.session['lesson_section_id'])
             form = ChooseThemeForm(section_id=request.session['lesson_section_id'])
             return render(request, 'choose_theme.html', {'form': form, 'goal': goal, 'section': section})
 
@@ -32,14 +32,13 @@ class ChooseThemePage(View):
 @method_decorator(login_required, name='dispatch')
 class AddThemePage(View):
     def get(self, request, *args, **kwargs):
-        form = AddThemeForm
+        form = AddThemeForm()
         return render(request, 'add_theme.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = AddThemeForm(request.POST or None)
+        form = AddThemeForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            goal = Goal.objects.get(pk=request.session['goal_id'])
-            section = Section.objects.get(pk=request.session['lesson_section_id'])
-            theme = Theme.objects.create(name=cd['name'], goal=goal, section=section)
+            section = SectionService.get_section_by_id(request.session['lesson_section_id'])
+            theme = ThemeService.create_theme(name=cd['name'], section=section)
         return redirect('lesson:choose_theme')

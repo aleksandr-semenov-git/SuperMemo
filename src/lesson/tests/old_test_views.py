@@ -2,15 +2,9 @@ import os
 from unittest.mock import patch, MagicMock
 from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
-from django.contrib.auth.models import User
 from django.urls import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.contrib.auth import authenticate, login
-import factory
 
 from lesson.views import SurePage, LessonPage, EndLessonPage
-from memo.views import ProfilePage, ProfilePageBasic, EditPage, HomePage, GoalPage
-from memo.forms import PersonalDataEditForm, AddGoalForm
 from memo.models import Profile, Goal, Section, Theme, Question, Lesson
 from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory, SectionFactory, ThemeFactory, LessonFactory,\
     QuestionFactory
@@ -28,8 +22,8 @@ class LessonTest(TestCase):
         self.goal = GoalFactory(profile=self.profile)
         self.section1 = SectionFactory.create(goal=self.goal)
         self.section2 = SectionFactory.create(goal=self.goal)
-        self.theme1 = ThemeFactory.create(section=self.section1, goal=self.goal)
-        self.theme2 = ThemeFactory.create(section=self.section1, goal=self.goal)
+        self.theme1 = ThemeFactory.create(section=self.section1)
+        self.theme2 = ThemeFactory.create(section=self.section1)
 
         self.lesson1 = LessonFactory.create(profile=self.profile,
                                             goal=self.goal)

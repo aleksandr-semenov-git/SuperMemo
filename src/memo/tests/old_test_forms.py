@@ -1,9 +1,6 @@
 from django.test import TestCase
-import datetime
-from django.utils import timezone
-from memo.forms import PersonalDataEditForm, AddGoalForm
-from .test_models import MemoTestCases
-from django.contrib.auth.models import User
+from account.forms.profile_forms import PersonalDataEditForm
+from memo.forms import AddGoalForm
 
 
 class PersonalDataEditFormTest(TestCase):
