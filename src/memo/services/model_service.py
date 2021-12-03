@@ -59,3 +59,19 @@ class ThemeService:
     @staticmethod
     def create_theme(name: str, section: Section) -> Theme:
         return Theme.objects.create(name=name, section=section)
+
+
+class LessonService:
+    @staticmethod
+    def get_lesson_by_id(lesson_id: int) -> Lesson:
+        return Lesson.objects.get(pk=lesson_id)
+
+    @staticmethod
+    def create_lesson(name: str, goal: Goal) -> Lesson:
+        return Lesson.objects.create(name=name, goal=goal)
+
+
+class QuestionService:
+    @staticmethod
+    def create_question(question: Question, answer: str, lesson: Lesson, theme: Theme) -> Question:
+        return Question.objects.create(question=question, answer=answer, lesson=lesson, theme=theme)
