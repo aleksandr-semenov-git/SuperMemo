@@ -12,15 +12,15 @@ class PersonalDataEditForm(forms.ModelForm):
         username = self.cleaned_data['username']
         email = self.cleaned_data['email']
         chd = self.changed_data
-        if 'username' in chd and User.objects.filter(username=username).exists():
+        if username == '' or email == '':
+            raise forms.ValidationError('You cant leave username or email field empty')
+        elif 'username' in chd and User.objects.filter(username=username).exists():
             if 'email' in chd and User.objects.filter(email=email).exists():
                 raise forms.ValidationError(f'Login {username} and email {email} already exist')
             raise forms.ValidationError(f'Login {username} already exists')
 
         elif 'email' in chd and User.objects.filter(email=email).exists():
             raise forms.ValidationError(f'User with email {email} already exists')
-        elif username == '' or email == '':
-            raise forms.ValidationError('You cant leave username or email field empty')
 
     class Meta:
         model = User

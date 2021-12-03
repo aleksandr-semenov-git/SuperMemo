@@ -27,7 +27,7 @@ class LessonPage(View):
         if 'active_lesson_id' in request.session:  # Todo decorator is_active_lesson
             lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
         else:
-            name = goal.lessons.count() + 1  # Todo Подумать над именем урока
+            name = goal.lessons.count() + 1  # Todo Think about lesson_name
             lesson = Lesson.objects.create(name=name, goal=goal)
             request.session['active_lesson_id'] = lesson.id
 
