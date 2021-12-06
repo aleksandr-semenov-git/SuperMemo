@@ -9,7 +9,7 @@
     {% csrf_token %}
 </form>
 <h1>or</h1>
-<form class="container" action="{% url 'lesson:add_theme' %}">
+<form class="container" action="{% url 'lesson:add_theme' section.id %}">
             <button>Add new theme</button>
 
 </form>

@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from memo.models import Profile, Goal, Question, Theme, Section, Lesson
+from django.db.models.query import QuerySet
 
 
 class ProfileService:
@@ -21,7 +22,7 @@ class ProfileService:
 
 class GoalService:
     @staticmethod
-    def get_goals_by_profile(profile: Profile):
+    def get_goals_by_profile(profile: Profile) -> QuerySet:
         return profile.goals.all()
 
     @staticmethod
@@ -29,7 +30,7 @@ class GoalService:
         return get_object_or_404(Goal, pk=goal_id)
 
     @staticmethod
-    def create_goal(name: str, profile: Profile):
+    def create_goal(name: str, profile: Profile) -> Goal:
         return Goal.objects.create(name=name, profile=profile)
 
 
@@ -39,7 +40,7 @@ class SectionService:
         return get_object_or_404(Section, pk=section_id)
 
     @staticmethod
-    def get_section_by_name_and_goal_id(name, goal_id):
+    def get_section_by_name_and_goal_id(name, goal_id) -> Section:
         return get_object_or_404(Section, Q(name=name), Q(goal__id=goal_id))
 
     @staticmethod
@@ -53,7 +54,7 @@ class ThemeService:
         return get_object_or_404(Theme, pk=theme_id)
 
     @staticmethod
-    def get_theme_by_name_and_section_id(name, section_id):
+    def get_theme_by_name_and_section_id(name, section_id) -> Theme:
         return get_object_or_404(Theme, Q(name=name), Q(section__id=section_id))
 
     @staticmethod
@@ -65,6 +66,10 @@ class LessonService:
     @staticmethod
     def get_lesson_by_id(lesson_id: int) -> Lesson:
         return Lesson.objects.get(pk=lesson_id)
+
+    @staticmethod
+    def get_lessons_by_profile(profile: Profile) -> QuerySet:
+        return Lesson.objects.filter(goal__profile=profile)
 
     @staticmethod
     def create_lesson(name: str, goal: Goal) -> Lesson:

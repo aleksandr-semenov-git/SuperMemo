@@ -1,5 +1,3 @@
-{% extends "base.html" %}
-
 {% block title %}{% endblock %}
 
 {% block content %}
@@ -22,42 +20,37 @@
     border: 1px solid black; /* Граница вокруг ячеек */
    }
   </style>
-<h1>{{goal.name}}</h1>
 
-{% for section in goal.sections.all %}
-<table>
-<tr><td>{{section}}</td></tr>
-    {% for theme in section.themes.all %}
-    <tr>
-        <td>
-            <form class="container" action="{% url 'lesson:sure' theme.id %}">
-                <button>{{theme}}</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td>
-            <form class="container" action="{% url 'lesson:add_theme' section.id%}">
-                <button>{{theme}}</button>
-            </form>
-        </td>
-    </tr>
-</table>
-{% endfor %}
-
-
-
-
-
-
+<h1>My Goals</h1>
+    {% if goals %}
 
 <form class="container" action="{% url 'account:profile_basic' %}">
     <button>CHECK MY PROFILE</button>
 </form>
 
-<form class="container" action="{% url 'memo:my_goals' %}">
-    <button>CHECK MY GOALS</button>
-</form>
+<table class="goals" >
+    {% for goal in goals %}
+    <tr>
+
+        <td>
+            <form class="container" action="{% url 'memo:goal_page' goal.id %}">
+                <button>{{goal}}</button>
+            </form>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+
+    {% endif %}
+    <tr><td>
+            <form class="container" action="{% url 'memo:add_goal' %}">
+                <button>Add Goal</button>
+            </form>
+    </td></tr>
+    </table>
+
+
 
 {% endblock %}
