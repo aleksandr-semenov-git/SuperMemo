@@ -3,8 +3,8 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from lesson.forms import LearningForm
-from memo.services import GoalService, SectionService, ThemeService
-from memo.services.model_service import LessonService, QuestionService
+from memo.services import GoalService
+from lesson.services.model_service import SectionService, ThemeService, LessonService, QuestionService
 
 
 @method_decorator(login_required, name='dispatch')

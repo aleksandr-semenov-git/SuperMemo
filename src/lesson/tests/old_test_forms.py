@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from lesson.forms import LearningForm, ChooseSectionForm, ChooseThemeForm, AddSectionForm, AddThemeForm
 
-from memo.models import Section, Theme
+from lesson.models import Section, Theme
 
 
 class LearningFormTest(TestCase):

@@ -1,5 +1,6 @@
 from django import forms
-from memo.models import Theme, Question, Goal, Section
+from memo.models import Goal
+from lesson.models import Section, Theme, Question
 
 
 class LearningForm(forms.ModelForm):
