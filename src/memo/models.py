@@ -1,5 +1,4 @@
 from django.db import models
-
 from account.models import Profile
 
 
@@ -10,5 +9,3 @@ class Goal(models.Model):
 
     def __str__(self):
         return self.name
-
-

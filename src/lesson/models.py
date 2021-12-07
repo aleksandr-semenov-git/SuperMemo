@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from memo.models import Goal
 
 
@@ -14,7 +12,11 @@ class Section(models.Model):
 
 class Theme(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True)
-    section = models.ForeignKey(Section, verbose_name='section', related_name='themes', on_delete=models.CASCADE, null=True)
+    section = models.ForeignKey(Section,
+                                verbose_name='section',
+                                related_name='themes',
+                                on_delete=models.CASCADE,
+                                null=True)
 
     def __str__(self):
         return self.name
