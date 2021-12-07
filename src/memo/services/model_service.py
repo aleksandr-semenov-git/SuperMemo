@@ -14,6 +14,10 @@ class GoalService:
         return get_object_or_404(Goal, pk=goal_id)
 
     @staticmethod
+    def get_goal_by_name(name: str) -> Goal:
+        return get_object_or_404(Goal, name=name)
+
+    @staticmethod
     def create_goal(name: str, profile: Profile) -> Goal:
         return Goal.objects.create(name=name, profile=profile)
 

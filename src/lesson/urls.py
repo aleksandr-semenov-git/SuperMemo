@@ -4,7 +4,6 @@ from django.conf import settings
 from .views import LessonPage, EndLessonPage, AddThemePage, ChooseThemePage, AddSectionPage, ChooseSectionPage
 from .views import SurePage, MyLessonsPage
 
-
 urlpatterns = [
 
     path('my-lessons/', MyLessonsPage.as_view(), name='my_lessons'),

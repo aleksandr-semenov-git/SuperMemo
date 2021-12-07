@@ -1,5 +1,4 @@
 from django import forms
-from memo.models import Goal
 from lesson.models import Section, Theme, Question
 
 

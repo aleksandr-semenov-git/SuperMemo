@@ -27,36 +27,26 @@
     <button>CHECK MY PROFILE</button>
 </form>
 
-<form class="container" action="{% url 'memo:my_goals' %}">
-    <button>CHECK MY GOALS</button>
-</form>
-
     {% if lessons %}
 
 <table class="lessons" >
     <tr><td>Sort by</td></tr>
     {% for lesson in lessons %}
-    <tr>
-
-        <td>
+    <tr><td>
             <form class="container" action="#">
                 <button>{{lesson.goal}} Lesson {{lesson.name}}</button>
             </form>
-        </td>
-
-    </tr>
+        </td></tr>
 
     {% endfor %}
 
 
     {% endif %}
     <tr><td>
-            <form class="container" action="{% url 'lesson:choose_section' %}">
+            <form class="container" action="{% url 'memo:my_goals' %}">
                 <button>NEW LESSON</button>
             </form>
-    </td></tr>
-    </table>
-
-
+        </td></tr>
+</table>
 
 {% endblock %}

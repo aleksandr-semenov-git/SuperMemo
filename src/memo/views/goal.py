@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from memo.forms import AddGoalForm
 from memo.services import GoalService
-import pandas as pd
 
 
 @method_decorator(login_required, name='dispatch')
@@ -30,7 +29,7 @@ class AddGoalPage(View):
             cd = form.cleaned_data
             profile = request.user.profile
             GoalService.create_goal(cd['name'], profile)
-        return redirect('account:profile_basic')
+        return redirect('memo:my_goals')
 
 
 @method_decorator(login_required, name='dispatch')
