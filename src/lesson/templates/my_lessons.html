@@ -21,8 +21,7 @@
    }
   </style>
 
-<h1>My Goals</h1>
-    {% if lessons %}
+<h1>My Lessons</h1>
 
 <form class="container" action="{% url 'account:profile_basic' %}">
     <button>CHECK MY PROFILE</button>
@@ -31,6 +30,8 @@
 <form class="container" action="{% url 'memo:my_goals' %}">
     <button>CHECK MY GOALS</button>
 </form>
+
+    {% if lessons %}
 
 <table class="lessons" >
     <tr><td>Sort by</td></tr>

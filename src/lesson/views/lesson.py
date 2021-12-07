@@ -17,14 +17,13 @@ class MyLessonsPage(View):
 
 @method_decorator(login_required, name='dispatch')
 class SurePage(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, theme_id, *args, **kwargs):
         """Render confirm-page
 
         User confirm information about the lesson: goal, section, theme
-        View get theme_id key from kwargs
         Control active-lesson by django-sessions with goal_id, theme_id keys
         """
-        theme = ThemeService.get_theme_by_id(theme_id=kwargs['theme_id'])
+        theme = ThemeService.get_theme_by_id(theme_id)
         request.session['theme_id'] = theme.id
         section = SectionService.get_section_by_id(theme.section.id)
         goal = GoalService.get_goal_by_id(request.session['goal_id'])
