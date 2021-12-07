@@ -4,10 +4,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from memo.models import Profile, Goal
+from memo.models import Goal
+from account.models import Profile
 from memo.views import HomePage, AddGoalPage
 from account.views import ProfilePage
-from memo.services.model_service import ProfileService, GoalService
+from memo.services.model_service import GoalService
+from account.services.model_service import ProfileService
 from lesson.services.model_service import SectionService, ThemeService, LessonService
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'

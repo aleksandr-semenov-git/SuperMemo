@@ -1,5 +1,6 @@
 import factory.fuzzy
 
+import account.models
 import lesson.models
 from memo import models
 
@@ -13,7 +14,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Profile
+        model = account.models.Profile
 
     user = factory.SubFactory(UserFactory)
 

@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from account.forms.profile_forms import PersonalDataEditForm
-from memo.services import ProfileService, GoalService
+from memo.services import GoalService
+from account.services.model_service import ProfileService
 
 
 class ProfilePage(View):

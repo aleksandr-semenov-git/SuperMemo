@@ -2,7 +2,8 @@ from django.db.models import Q, QuerySet
 from django.shortcuts import get_object_or_404
 
 from lesson.models import Section, Theme, Lesson, Question
-from memo.models import Goal, Profile
+from memo.models import Goal
+from account.models import Profile
 
 
 class SectionService:
