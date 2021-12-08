@@ -4,7 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from memo.models import Profile, Goal
+from memo.models import Goal
+from account.models import Profile
 from memo.views import HomePage, AddGoalPage
 from account.views import ProfilePage
 

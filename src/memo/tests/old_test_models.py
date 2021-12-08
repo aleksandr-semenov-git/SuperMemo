@@ -1,7 +1,9 @@
 import os
 from django.test import TestCase
 from django.contrib.auth.models import User
-from memo.models import Profile, Goal, Question, Section, Theme, Lesson
+from memo.models import Goal
+from account.models import Profile
+from lesson.models import Section, Theme, Lesson, Question
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'
 

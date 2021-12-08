@@ -29,4 +29,12 @@ class AddGoalPage(View):
             cd = form.cleaned_data
             profile = request.user.profile
             GoalService.create_goal(cd['name'], profile)
-        return redirect('account:profile_basic')
+        return redirect('memo:my_goals')
+
+
+@method_decorator(login_required, name='dispatch')
+class MyGoalsPage(View):
+    def get(self, request, *args, **kwargs):
+        """"""
+        goals = GoalService.get_goals_by_profile(profile=request.user.profile)
+        return render(request, 'my_goals.html', {'goals': goals})

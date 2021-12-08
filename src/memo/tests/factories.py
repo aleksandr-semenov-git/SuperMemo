@@ -1,4 +1,7 @@
 import factory.fuzzy
+
+import account.models
+import lesson.models
 from memo import models
 
 
@@ -11,7 +14,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Profile
+        model = account.models.Profile
 
     user = factory.SubFactory(UserFactory)
 
@@ -26,7 +29,7 @@ class GoalFactory(factory.django.DjangoModelFactory):
 
 class SectionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Section
+        model = lesson.models.Section
 
     name = factory.Sequence(lambda n: 'section%d' % n)
     goal = factory.SubFactory(GoalFactory)
@@ -34,7 +37,7 @@ class SectionFactory(factory.django.DjangoModelFactory):
 
 class ThemeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Theme
+        model = lesson.models.Theme
 
     name = factory.Sequence(lambda n: 'theme%d' % n)
     section = factory.SubFactory(SectionFactory)
@@ -42,7 +45,7 @@ class ThemeFactory(factory.django.DjangoModelFactory):
 
 class LessonFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Lesson
+        model = lesson.models.Lesson
 
     name = factory.Sequence(lambda n: '%d' % n)
     profile = factory.SubFactory(ProfileFactory)
@@ -51,7 +54,7 @@ class LessonFactory(factory.django.DjangoModelFactory):
 
 class QuestionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Question
+        model = lesson.models.Question
 
     question = factory.Sequence(lambda n: 'question%d' % n)
     answer = factory.Sequence(lambda n: 'answer%d' % n)

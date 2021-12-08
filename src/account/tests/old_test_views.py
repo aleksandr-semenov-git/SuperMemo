@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from unittest.mock import MagicMock
-from memo.models import Profile, Goal
+from memo.models import Goal
+from account.models import Profile
 from django.urls import reverse
 
 

@@ -42,41 +42,14 @@
             {% endif %}
         {% endif %}
     </table>
-<!--        {% if request.user.is_authenticated %}-->
 
-<!--            {% if username == request.user.username %}-->
-    {% if goals %}
-<table class="goals" >
-    {% for goal in goals %}
-    <tr>
+<form class="container" action="{% url 'memo:my_goals' %}">
+    <button>CHECK MY GOALS</button>
+</form>
 
-        <td>
-            <form class="container" action="{% url 'memo:goal_page' goal.id %}">
-                <button>{{goal}}</button>
-            </form>
-        </td>
-
-    </tr>
-
-    {% endfor %}
-
-
-    {% endif %}
-    <tr><td>
-            <form class="container" action="{% url 'memo:add_goal' %}">
-                <button>Add Goal</button>
-            </form>
-    </td></tr>
-    </table>
-<!--            {% endif %}-->
-<!--        {% endif %}-->
-
-
-
-<!--<form class="container" action="{% url 'account:logout'%}">-->
-
-<!--      <button>LOGOUT</button>-->
-<!--</form>-->
+<form class="container" action="{% url 'lesson:my_lessons' %}">
+    <button>CHECK MY LESSONS</button>
+</form>
 
 
 {% endif %}

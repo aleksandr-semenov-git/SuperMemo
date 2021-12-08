@@ -3,7 +3,8 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from lesson.forms import ChooseSectionForm, AddSectionForm
-from memo.services import GoalService, SectionService
+from memo.services import GoalService
+from lesson.services.model_service import SectionService
 
 
 @method_decorator(login_required, name='dispatch')
@@ -19,11 +20,10 @@ class ChooseSectionPage(View):
             cd = form.cleaned_data
             section = SectionService.get_section_by_name_and_goal_id(name=cd['name'],
                                                                      goal_id=request.session['goal_id'])
-            request.session['lesson_section_id'] = section.id
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             return render(request, 'choose_section.html', {'form': form, 'goal': goal})
-        return redirect('lesson:choose_theme')
+        return redirect('lesson:choose_theme', section_id=section.id)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -5,7 +5,9 @@ from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 
 from lesson.views import SurePage, LessonPage, EndLessonPage
-from memo.models import Profile, Goal, Section, Theme, Question, Lesson
+from memo.models import Goal
+from account.models import Profile
+from lesson.models import Section, Theme, Lesson, Question
 from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory, SectionFactory, ThemeFactory, LessonFactory,\
     QuestionFactory
 os.environ['DJANGO_SETTINGS_MODULE'] = 'src.settings'
