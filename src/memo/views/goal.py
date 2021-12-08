@@ -8,10 +8,10 @@ from memo.services import GoalService
 
 @method_decorator(login_required, name='dispatch')
 class GoalPage(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, goal_id, *args, **kwargs):
         """"""
-        goal = GoalService.get_goal_by_id(kwargs['goal_id'])
-        request.session['goal_id'] = kwargs['goal_id']
+        goal = GoalService.get_goal_by_id(goal_id)
+        request.session['goal_id'] = goal_id
         return render(request, 'goal_page.html', {'goal': goal})
 
 

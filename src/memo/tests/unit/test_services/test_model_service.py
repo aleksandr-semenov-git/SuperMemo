@@ -1,5 +1,7 @@
 import os
 from unittest.mock import patch, MagicMock
+
+from django.db.models import QuerySet
 from django.http import HttpResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
@@ -27,15 +29,27 @@ class ModelServiceTest(TestCase):
         self.user.save()
         self.profile = Profile.objects.create(user=self.user)
         for goal_num in range(number_of_goals):
-            Goal.objects.create(name=f'TEST_GOAL {goal_num}', profile=self.profile)
+            Goal.objects.create(name=f'goal{goal_num}', profile=self.profile)
 
-    # @patch('memo.services.model_service.Profile.objects')
-    # def test_get_or_create_profile(self, mock_profile):
-    #     expected_result = (Profile(), bool)
-    #     mock_profile.get_or_create().return_value = expected_result
-    #     actual_result = ProfileService.get_or_create_profile()
+
+    @patch('memo.services.model_service.get_object_or_404')
+    def test_get_goal_by_id(self, mock_get_404):
+        goal_id = 1
+        expected_result = (Goal(), bool)
+        actual_result = GoalService.get_goal_by_id(goal_id)
+        mock_get_404.assert_called_once_with(Goal, goal_id)
+
+    # @patch('memo.services.model_service.GoalService.get_goals_by_profile')
+    # def test_get_goals_by_profile(self, mock_goal_service):
+    #     expected_result = QuerySet()
+    #     mock_goal_service.return_value =
+    #     profile = MagicMock()
+    #     profile.goals.return_value = profile
+    #     profile.goals.all.return_value = QuerySet()
+    #     actual_result = GoalService.get_goals_by_profile(profile=profile)
     #     self.assertEqual(actual_result, expected_result)
 
-    def test1(self):
-        self.assertEqual(1, 1)
 
+#         expected_result = (Profile(), bool)
+#         mock_profile.get_or_create().return_value = expected_result
+#         actual_result = GoalService.get_goals_by_profile(profile)
