@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from django.test import TestCase
-from memo.views import GoalPage, AddGoalPage
+from memo.views import GoalPage, AddGoalPage, MyGoalsPage
 
 
 class GoalPageTest(TestCase):
@@ -83,3 +83,22 @@ class GoalPageTest(TestCase):
         self.assertEqual(result, mock_redirect_result)
         mock_form.is_valid.assert_called_once()
         patch_redirect.assert_called_once_with('memo:my_goals')
+
+    @patch('memo.views.goal.render')
+    @patch('memo.views.goal.GoalService.get_goals_by_profile')
+    def test_get_mygoals_page(self, patch_get_goals, patch_render):
+        mock_request = MagicMock()
+        mock_profile = MagicMock()
+        mock_goals = MagicMock()
+        mock_render_result = MagicMock()
+        mock_request.user.profile = mock_profile
+
+        patch_render.return_value = mock_render_result
+        patch_get_goals.return_value = mock_goals
+
+        view = MyGoalsPage(request=mock_request)
+        result = view.get(mock_request)
+
+        self.assertEqual(result, mock_render_result)
+        patch_get_goals.assert_called_once_with(profile=mock_profile)
+        patch_render.assert_called_once_with(mock_request, 'my_goals.html', {'goals': mock_goals})
