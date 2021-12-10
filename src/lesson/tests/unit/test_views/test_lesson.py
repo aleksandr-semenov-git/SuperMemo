@@ -24,8 +24,8 @@ class LessonPagesTest(TestCase):
         patch_render.assert_called_once_with(mock_request, 'my_lessons.html', {'lessons': mock_lessons})
 
     @patch('lesson.views.lesson.render')
-    @patch('lesson.services.model_service.LessonService.get_lesson_by_id')
-    @patch('memo.services.model_service.GoalService.get_goal_by_id')
+    @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
+    @patch('lesson.views.lesson.GoalService.get_goal_by_id')
     @patch('lesson.views.lesson.LearningForm')
     def test_get_lesson_page_lesson_id_in_session(self, patch_form, patch_get_goal, patch_get_lesson, patch_render):
         test_goal_id = 1
@@ -51,8 +51,8 @@ class LessonPagesTest(TestCase):
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
     @patch('lesson.views.lesson.render')
-    @patch('lesson.services.model_service.LessonService.create_lesson')
-    @patch('memo.services.model_service.GoalService.get_goal_by_id')
+    @patch('lesson.views.lesson.LessonService.create_lesson')
+    @patch('lesson.views.lesson.GoalService.get_goal_by_id')
     @patch('lesson.views.lesson.LearningForm')
     def test_get_lesson_page_else(
             self, patch_form, patch_get_goal, patch_create_lesson, patch_render):
@@ -84,10 +84,10 @@ class LessonPagesTest(TestCase):
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
     @patch('lesson.views.lesson.render')
-    @patch('lesson.services.model_service.QuestionService.create_question')
-    @patch('lesson.services.model_service.LessonService.get_lesson_by_id')
+    @patch('lesson.views.lesson.QuestionService.create_question')
+    @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
     @patch('lesson.views.lesson.LearningForm')
-    @patch('lesson.services.model_service.ThemeService.get_theme_by_id')
+    @patch('lesson.views.lesson.ThemeService.get_theme_by_id')
     def test_post_lesson_page_valid_form(
             self, patch_get_theme, patch_form, patch_get_lesson, patch_create_question, patch_render):
         test_theme_id = 1
@@ -123,9 +123,9 @@ class LessonPagesTest(TestCase):
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
     @patch('lesson.views.lesson.render')
-    @patch('lesson.services.model_service.LessonService.get_lesson_by_id')
+    @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
     @patch('lesson.views.lesson.LearningForm')
-    @patch('lesson.services.model_service.ThemeService.get_theme_by_id')
+    @patch('lesson.views.lesson.ThemeService.get_theme_by_id')
     def test_post_lesson_page_invalid_form(
             self, patch_get_theme, patch_form, patch_get_lesson, patch_render):
         test_theme_id = 1
@@ -156,3 +156,52 @@ class LessonPagesTest(TestCase):
         patch_get_lesson.assert_called_once_with(test_active_lesson_id)
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
         patch_form.assert_called_once_with(mock_request.POST)
+
+    @patch('lesson.views.lesson.render')
+    @patch('lesson.views.lesson.GoalService.get_goal_by_id')
+    @patch('lesson.views.lesson.SectionService.get_section_by_id')
+    @patch('lesson.views.lesson.ThemeService.get_theme_by_id')
+    def test_get_sure_page(self, patch_get_theme, patch_get_section, patch_get_goal, patch_render):
+        test_goal_id = 1
+        test_theme_id1 = 1
+        test_theme_id2 = 2
+        test_section_id = 1
+        mock_request = MagicMock(session={'goal_id': test_goal_id})
+        mock_render_result = MagicMock()
+        mock_goal = MagicMock()
+        mock_section = MagicMock()
+        mock_theme = MagicMock()
+
+        patch_render.return_value = mock_render_result
+        patch_get_goal.return_value = mock_goal
+        patch_get_section.return_value = mock_section
+        patch_get_theme.return_value = mock_theme
+        mock_theme.id = test_theme_id2
+        mock_theme.section.id = test_section_id
+
+        view = SurePage(request=mock_request)
+        result = view.get(mock_request, test_theme_id1)
+
+        self.assertEqual(result, mock_render_result)
+        self.assertEqual(mock_request.session['goal_id'], test_goal_id)
+        patch_get_theme.assert_called_once_with(test_theme_id1)
+        self.assertEqual(mock_request.session['theme_id'], test_theme_id2)
+        patch_get_section.assert_called_once_with(test_section_id)
+        patch_get_goal.assert_called_once_with(test_goal_id)
+        patch_render.assert_called_once_with(
+            mock_request, 'sure_page.html', {'goal': mock_goal,
+                                             'section': mock_section,
+                                             'theme': mock_theme})
+
+    @patch('lesson.views.lesson.redirect')
+    def test_post_sure_page(self, patch_redirect):
+        mock_request = MagicMock()
+        mock_redirect_result = MagicMock()
+
+        patch_redirect.return_value = mock_redirect_result
+
+        view = SurePage(request=mock_request)
+        result = view.post(mock_request)
+
+        self.assertEqual(result, mock_redirect_result)
+        patch_redirect.assert_called_once_with('lesson:lesson_page')
