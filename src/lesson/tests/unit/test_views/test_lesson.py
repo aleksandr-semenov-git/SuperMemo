@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from django.test import TestCase
-from lesson.views import MyLessonsPage, SurePage, LessonPage
+from lesson.views import MyLessonsPage, SurePage, LessonPage, EndLessonPage
 
 
 class LessonPagesTest(TestCase):
@@ -205,3 +205,47 @@ class LessonPagesTest(TestCase):
 
         self.assertEqual(result, mock_redirect_result)
         patch_redirect.assert_called_once_with('lesson:lesson_page')
+
+    @patch('lesson.views.lesson.render')
+    @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
+    def test_get_end_lesson_page(self, patch_get_lesson, patch_render):
+        test_active_lesson_id = 1
+        mock_request = MagicMock(session={'active_lesson_id': test_active_lesson_id})
+        mock_lesson = MagicMock()
+        mock_render_result = MagicMock()
+
+        patch_get_lesson.return_value = mock_lesson
+        patch_render.return_value = mock_render_result
+
+        view = EndLessonPage(request=mock_request)
+        result = view.get(mock_request)
+
+        self.assertEqual(result, mock_render_result)
+        patch_get_lesson.assert_called_once_with(test_active_lesson_id)
+        patch_render.assert_called_once_with(mock_request, 'end_lesson.html', {'lesson': mock_lesson})
+
+    @patch('lesson.views.lesson.redirect')
+    @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
+    @patch('lesson.views.lesson.GoalService.get_goal_by_id')
+    def test_post_end_lesson_page_if_end(self, patch_get_goal, patch_get_lesson, patch_redirect):
+        test_active_lesson_id = 1
+        test_theme_id = 1
+        test_goal_id = 1
+        mock_request = MagicMock(session={'theme_id': test_theme_id,
+                                          'active_lesson_id': test_active_lesson_id,
+                                          'goal_id': test_goal_id})
+        mock_redirect_result = MagicMock()
+        mock_goal = MagicMock()
+
+        mock_request.POST.get.return_value = 'End lesson'
+        patch_redirect.return_value = mock_redirect_result
+        patch_get_goal.return_value = mock_goal
+
+        view = EndLessonPage(request=mock_request)
+        result = view.post(mock_request)
+
+        self.assertEqual(result, mock_redirect_result)
+        mock_request.POST.get.assert_called_once_with('end')
+        patch_get_goal.assert_called_once_with(test_goal_id)
+        # mock_request.session.pop.assert_called_with('test_theme_id')  # Todo: ask
+        patch_redirect.assert_called_once_with('memo:goal_page', goal_id=mock_goal.id)
