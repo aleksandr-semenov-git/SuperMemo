@@ -3,7 +3,7 @@ from django.test import TestCase
 from memo.views import GoalPage, AddGoalPage, MyGoalsPage
 
 
-class GoalPageTest(TestCase):
+class GoalPagesTest(TestCase):
     @patch('memo.views.goal.render')
     @patch('memo.views.goal.GoalService.get_goal_by_id')
     def test_get_goal_page(self, patch_get_goal_by_id, patch_render):
