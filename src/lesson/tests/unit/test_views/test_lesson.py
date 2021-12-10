@@ -249,3 +249,17 @@ class LessonPagesTest(TestCase):
         patch_get_goal.assert_called_once_with(test_goal_id)
         # mock_request.session.pop.assert_called_with('test_theme_id')  # Todo: ask
         patch_redirect.assert_called_once_with('memo:goal_page', goal_id=mock_goal.id)
+
+    @patch('lesson.views.lesson.redirect')
+    def test_post_end_lesson_page_else(self, patch_redirect):
+        mock_request = MagicMock()
+        mock_redirect_result = MagicMock()
+
+        patch_redirect.return_value = mock_redirect_result
+        mock_request.POST.get.return_value = 'Else'
+
+        view = EndLessonPage(request=mock_request)
+        result = view.post(mock_request)
+
+        self.assertEqual(result, mock_redirect_result)
+        patch_redirect.assert_called_once_with('lesson:lesson_page')
