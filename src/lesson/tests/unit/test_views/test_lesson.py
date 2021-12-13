@@ -1,9 +1,9 @@
 from unittest.mock import patch, MagicMock
-from django.test import TestCase
+from django.test import SimpleTestCase
 from lesson.views import MyLessonsPage, SurePage, LessonPage, EndLessonPage
 
 
-class LessonPagesTest(TestCase):
+class LessonPagesTest(SimpleTestCase):
     @patch('lesson.views.lesson.render')
     @patch('lesson.views.lesson.LessonService.get_lessons_by_profile')
     def test_get_mylessons_page(self, patch_get_lessons, patch_render):
@@ -83,17 +83,17 @@ class LessonPagesTest(TestCase):
         self.assertEqual(mock_request.session['active_lesson_id'], mock_lesson.id)
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
-    @patch('lesson.views.lesson.render')
+    @patch('lesson.views.lesson.redirect')
     @patch('lesson.views.lesson.QuestionService.create_question')
     @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
     @patch('lesson.views.lesson.LearningForm')
     @patch('lesson.views.lesson.ThemeService.get_theme_by_id')
     def test_post_lesson_page_valid_form(
-            self, patch_get_theme, patch_form, patch_get_lesson, patch_create_question, patch_render):
+            self, patch_get_theme, patch_form, patch_get_lesson, patch_create_question, patch_redirect):
         test_theme_id = 1
         test_active_lesson_id = 1
         mock_request = MagicMock(session={'theme_id': test_theme_id, 'active_lesson_id': test_active_lesson_id})
-        mock_render_result = MagicMock()
+        mock_redirect_result = MagicMock()
         mock_form = MagicMock()
         mock_lesson = MagicMock()
         mock_theme = MagicMock()
@@ -104,23 +104,23 @@ class LessonPagesTest(TestCase):
         patch_get_lesson.return_value = mock_lesson
         mock_form.cleaned_data = cd
         mock_form.is_valid.return_value = True
-        patch_render.return_value = mock_render_result
+        patch_redirect.return_value = mock_redirect_result
 
         patch_form.reset_mock()
         view = LessonPage(request=mock_request)
         result = view.post(mock_request)
 
-        self.assertEqual(result, mock_render_result)
+        self.assertEqual(result, mock_redirect_result)
         self.assertEqual(mock_request.session['theme_id'], test_theme_id)
         self.assertEqual(mock_request.session['active_lesson_id'], test_active_lesson_id)
         mock_form.is_valid.assert_called_once()
 
-        # patch_form.assert_called_with(mock_request.POST)  # Todo: fix
+        patch_form.assert_called_with(mock_request.POST)
         patch_get_theme.assert_called_once_with(test_theme_id)
         patch_get_lesson.assert_called_once_with(test_active_lesson_id)
         patch_create_question.assert_called_once_with(
             question='testquestion', answer='testanswer', lesson=mock_lesson, theme=mock_theme)
-        patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
+        patch_redirect.assert_called_once_with('lesson:lesson_page')
 
     @patch('lesson.views.lesson.render')
     @patch('lesson.views.lesson.LessonService.get_lesson_by_id')
@@ -247,7 +247,7 @@ class LessonPagesTest(TestCase):
         self.assertEqual(result, mock_redirect_result)
         mock_request.POST.get.assert_called_once_with('end')
         patch_get_goal.assert_called_once_with(test_goal_id)
-        # mock_request.session.pop.assert_called_with('test_theme_id')  # Todo: ask
+        self.assertFalse('theme_id' in mock_request.session)
         patch_redirect.assert_called_once_with('memo:goal_page', goal_id=mock_goal.id)
 
     @patch('lesson.views.lesson.redirect')
@@ -261,5 +261,5 @@ class LessonPagesTest(TestCase):
         view = EndLessonPage(request=mock_request)
         result = view.post(mock_request)
 
-        self.assertEqual(result, mock_redirect_result)
         patch_redirect.assert_called_once_with('lesson:lesson_page')
+        self.assertEqual(result, mock_redirect_result)
