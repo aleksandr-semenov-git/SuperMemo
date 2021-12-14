@@ -66,6 +66,6 @@ class RegistrationView(View):
                 return HttpResponse('Invalid login')
             #  --------------------------------------------------------------------------
             username = cd['username']
+            return redirect('account:profile', username=username)
         else:
             return render(request, 'registration/registration.html', {'form': form})
-        return redirect('account:profile', username=username)
