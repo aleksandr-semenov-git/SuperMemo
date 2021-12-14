@@ -97,6 +97,7 @@ class SectionPagesTest(SimpleTestCase):
         result = view.get(mock_request)
 
         self.assertEqual(result, mock_http_result)
+        patch_form.assert_called_once()
         patch_render.assert_called_once_with(mock_request, 'add_section.html', {'form': mock_form})
 
     @patch(f'{FILE_PATH}.render')
