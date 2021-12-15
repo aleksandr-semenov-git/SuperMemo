@@ -188,8 +188,6 @@ class AccountPagesTest(SimpleTestCase):
         cd = {'username': 'username1', 'password': 'password1', 'email': 'email1@email.ru'}
         mock_form.cleaned_data = cd
         mock_form.save.return_value = mock_user
-        # mock_user.set_password.return_value = mock_user
-        # mock_user.save.return_value = mock_user # Todo: ask Why I dont need to set return value here?
         patch_authenticate.return_value = None
 
         view = RegistrationView(request=mock_request)
@@ -233,3 +231,37 @@ class AccountPagesTest(SimpleTestCase):
         mock_user.set_password.assert_called_once_with('password1')
         mock_user.save.assert_called_once()
         patch_authenticate.assert_called_once_with(username='username1', password='password1')
+
+    @patch(f'{FILE_PATH}.redirect')
+    @patch(f'{FILE_PATH}.RegistrationForm')
+    @patch(f'{FILE_PATH}.authenticate')
+    @patch(f'{FILE_PATH}.login')
+    def test_get_registration_page_valid_form_user_is_active(
+            self, patch_login, patch_authenticate, patch_form, patch_redirect):
+        mock_request = MagicMock()
+        mock_http_result = MagicMock()
+        mock_form = MagicMock()
+        mock_user = MagicMock()
+
+        patch_redirect.return_value = mock_http_result
+        patch_form.return_value = mock_form
+        mock_form.is_valid.return_value = True
+        cd = {'username': 'username1', 'password': 'password1', 'email': 'email1@email.ru'}
+        mock_form.cleaned_data = cd
+        mock_form.save.return_value = mock_user
+        patch_authenticate.return_value = mock_user
+        mock_user.is_active = True
+
+        view = RegistrationView(request=mock_request)
+        result = view.post(mock_request)
+
+        self.assertEqual(result, mock_http_result)
+        patch_redirect.assert_called_once_with('account:profile', username='username1')
+        patch_form.assert_called_once_with(mock_request.POST)
+        mock_form.is_valid.assert_called_once()
+        mock_form.save.assert_called_once_with(commit=False)
+        mock_user.set_password.assert_called_once_with('password1')
+        mock_user.save.assert_called_once()
+        patch_authenticate.assert_called_once_with(username='username1', password='password1')
+        patch_login.assert_called_once_with(mock_request, mock_user)
+
