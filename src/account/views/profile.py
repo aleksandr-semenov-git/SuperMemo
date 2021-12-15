@@ -9,7 +9,7 @@ from account.services.model_service import ProfileService
 
 
 class ProfilePage(View):
-    def get(self, request, *args, **kwargs) -> HttpResponse:
+    def get(self, request, username, *args, **kwargs) -> HttpResponse:
         """Get or create user's profile
         get profile's goals
         display profile's attributes and goals
@@ -20,7 +20,7 @@ class ProfilePage(View):
 
         return render(request, 'profile_page.html', {'profile': profile,
                                                      'goals': goals,
-                                                     'username': kwargs['username']})
+                                                     'username': username})
 
 
 class ProfilePageBasic(View):
