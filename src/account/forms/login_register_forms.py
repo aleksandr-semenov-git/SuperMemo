@@ -40,24 +40,27 @@ class RegistrationForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         domain = email.split('.')[-1]
-        if domain in ['com', 'net']:
-            raise forms.ValidationError(f'Registration for domain "{domain}" is impossible')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError(f'Current email is already registered')
-        return email
+        if domain in ['net']:
+            raise forms.ValidationError('Registration for domain "net" is impossible')
+        elif User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Current email is already registered')
+        else:
+            return email
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'Current username {username} is already registered')
-        return username
+        else:
+            return username
 
     def clean(self):
         password = self.cleaned_data['password']
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
             raise forms.ValidationError('Passwords not match')
-        return self.cleaned_data
+        else:
+            return self.cleaned_data
 
     class Meta:
         model = User
