@@ -6,16 +6,24 @@ class LoginForm(forms.ModelForm):
     username = forms.CharField(min_length=3, max_length=20, required=True, label='Login')
     password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
-    def clean(self):
+    def clean_username(self):
         username = self.cleaned_data['username']
-        password = self.cleaned_data['password']
         if not User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'User with login {username} not found.')
+        return username
+
+    def clean_password(self):
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+
         user = User.objects.filter(username=username).first()
         if user:
             if not user.check_password(password):
                 raise forms.ValidationError('Incorrect password')
-        return self.cleaned_data
+        return password
+
+    def clean(self):
+        super().clean()
 
     class Meta:
         model = User
@@ -48,7 +56,7 @@ class RegistrationForm(forms.ModelForm):
         password = self.cleaned_data['password']
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
-            raise forms.ValidationError(f'Passwords not match')
+            raise forms.ValidationError('Passwords not match')
         return self.cleaned_data
 
     class Meta:
