@@ -69,8 +69,7 @@ class LessonPage(View):
                                             answer=answer,
                                             lesson=lesson,
                                             theme=theme)
-            form = LearningForm()
-            return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
+            return redirect('lesson:lesson_page')
         else:
             return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
 

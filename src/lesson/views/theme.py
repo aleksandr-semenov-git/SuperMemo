@@ -26,7 +26,6 @@ class ChooseThemePage(View):
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             section = SectionService.get_section_by_id(section_id=section_id)
-            form = ChooseThemeForm(section_id=section_id)
             return render(request, 'choose_theme.html', {'form': form, 'goal': goal, 'section': section})
 
 
@@ -38,8 +37,9 @@ class AddThemePage(View):
 
     def post(self, request, section_id, *args, **kwargs):
         form = AddThemeForm(request.POST)
+        section = SectionService.get_section_by_id(section_id)
         if form.is_valid():
             cd = form.cleaned_data
-            section = SectionService.get_section_by_id(section_id)
             theme = ThemeService.create_theme(name=cd['name'], section=section)
+            return render(request, 'add_theme.html', {'form': form})
         return redirect('lesson:choose_theme', section_id=section.id)

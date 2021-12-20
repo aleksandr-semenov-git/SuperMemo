@@ -38,11 +38,7 @@ class ChooseThemeForm(forms.Form):
 
 
 class AddSectionForm(forms.ModelForm):
-    name = forms.CharField(required=True, min_length=3, max_length=150)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].label = 'Name your section'
+    name = forms.CharField(required=True, min_length=3, max_length=150, label='Name your section')
 
     class Meta:
         model = Section
@@ -50,11 +46,7 @@ class AddSectionForm(forms.ModelForm):
 
 
 class AddThemeForm(forms.ModelForm):
-    name = forms.CharField(required=True, min_length=3, max_length=150)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].label = 'Name your theme'
+    name = forms.CharField(required=True, min_length=3, max_length=150, label='Name your theme')
 
     class Meta:
         model = Theme
