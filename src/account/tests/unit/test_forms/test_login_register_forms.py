@@ -65,12 +65,10 @@ class RegistrationFormTest(SimpleTestCase):
     def test_clean_email_domain_in_net(self):
         cd = {'username': 'user1', 'password': 'password11',
               'confirm_password': 'password11', 'email': 'user1@example.net'}
-
         form = RegistrationForm()
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'Registration for domain "net" is impossible'):
             form.clean_email()
-            self.assertEqual(form.clean_email(), 'user1@example.net')
 
     @patch(f'{FILE_PATH}.User.objects.filter')
     def test_clean_email_exists(self, patch_user_filter):
@@ -78,15 +76,13 @@ class RegistrationFormTest(SimpleTestCase):
               'confirm_password': 'password11', 'email': 'user1@example.com'}
         mock_user = MagicMock()
         patch_user_filter.return_value = mock_user
-        patch_user_filter.exists.return_value = True
+        mock_user.exists.return_value = True
         form = RegistrationForm()
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'Current email is already registered'):
             form.clean_email()
-            self.assertEqual(form.clean_email(), 'user1@example.net')
-
-            patch_user_filter.assert_called_once_with(email='user1@example.com')
-            patch_user_filter.exists.assert_called_once()
+        patch_user_filter.assert_called_once_with(email='user1@example.com')
+        mock_user.exists.assert_called_once()
 
     @patch(f'{FILE_PATH}.User.objects.filter')
     def test_clean_email_not_exists(self, patch_user_filter):
@@ -113,7 +109,7 @@ class RegistrationFormTest(SimpleTestCase):
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'Current username user1 is already registered'):
             form.clean_username()
-        patch_user_filter().exists.assert_called_once_with()
+        mock_user.exists.assert_called_once_with()
 
     @patch(f'{FILE_PATH}.User.objects.filter')
     def test_clean_username_not_exists(self, patch_user_filter):
@@ -127,6 +123,7 @@ class RegistrationFormTest(SimpleTestCase):
         result = form.clean_username()
         self.assertEqual(result, 'user1')
         patch_user_filter.assert_called_once_with(username='user1')
+        mock_user.exists.assert_called_once_with()
 
     def test_clean_password1_is_not_password2(self):
         cd = {'username': 'user1', 'password': 'password11',
@@ -136,7 +133,7 @@ class RegistrationFormTest(SimpleTestCase):
         with self.assertRaisesMessage(forms.ValidationError, 'Passwords not match'):
             form.clean()
 
-    def test_clean_else(self):
+    def test_clean_success(self):
         cd = {'username': 'user1', 'password': 'password11',
               'confirm_password': 'password11', 'email': 'user1@example.com'}
         form = RegistrationForm()

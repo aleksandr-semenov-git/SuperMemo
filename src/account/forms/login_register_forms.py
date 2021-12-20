@@ -23,13 +23,6 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError('Incorrect password')
         return password
 
-    def clean(self):
-        return super().clean()
-
-    # class Meta:
-    #     model = User
-    #     fields = ['username', 'password']
-
 
 class RegistrationForm(forms.ModelForm):
     username = forms.CharField(min_length=3, max_length=20, required=True, label='Login')
