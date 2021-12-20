@@ -33,6 +33,7 @@ class AccountFormsTest(SimpleTestCase):
 
     @patch(f'{FILE_PATH}.User.objects')
     def test_edit_form_username_in_chd_and_exists__email_in_chd_and_exists(self, patch_user_model):
+        expected_exists_call_count = 2
         cd = {'username': 'user1', 'password': 'password11', 'email': 'user1@example.com'}
         chd = ['username', 'email']
         mock_user = MagicMock()
@@ -45,9 +46,15 @@ class AccountFormsTest(SimpleTestCase):
         form.changed_data = chd
         with self.assertRaisesMessage(forms.ValidationError, 'Login user1 and email user1@example.com already exist'):
             form.clean()
+        call_args_list = patch_user_model.filter.call_args_list
+        expected_call_args_list = ['user1', 'user1@example.com']
+        for i, call in enumerate(call_args_list):
+            call.assert_called_once_with(expected_call_args_list[i])
+        actual_exists_call_count = mock_user.exists.call_count
+        self.assertEqual(actual_exists_call_count, expected_exists_call_count)
 
     @patch(f'{FILE_PATH}.User.objects')
-    def test_edit_form_username_in_chd_and_exists_email_not_in_chd(self, patch_user_model):
+    def test_edit_form_username_in_chd_and_exists__email_not_in_chd(self, patch_user_model):
         cd = {'username': 'user1', 'password': 'password11', 'email': 'user1@example.com'}
         chd = ['username']
         mock_user = MagicMock()
@@ -60,6 +67,8 @@ class AccountFormsTest(SimpleTestCase):
         form.changed_data = chd
         with self.assertRaisesMessage(forms.ValidationError, 'Login user1 already exists'):
             form.clean()
+        patch_user_model.filter.assert_called_once_with(username='user1')
+        mock_user.exists.assert_called_once()
 
     @patch(f'{FILE_PATH}.User.objects')
     def test_edit_form_email_in_chd_and_user_exists(self, patch_user_model):
@@ -75,3 +84,5 @@ class AccountFormsTest(SimpleTestCase):
         form.changed_data = chd
         with self.assertRaisesMessage(forms.ValidationError, 'User with email user1@example.com already exists'):
             form.clean()
+        patch_user_model.filter.assert_called_once_with(email='user1@example.com')
+        mock_user.exists.assert_called_once()
