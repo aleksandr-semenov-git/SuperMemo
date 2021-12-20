@@ -2,11 +2,12 @@ from django import forms
 from django.contrib.auth.models import User
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     username = forms.CharField(min_length=3, max_length=20, required=True, label='Login')
     password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
     def clean_username(self):
+
         username = self.cleaned_data['username']
         if not User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'User with login {username} not found.')
@@ -23,11 +24,11 @@ class LoginForm(forms.ModelForm):
         return password
 
     def clean(self):
-        super().clean()
+        return super().clean()
 
-    class Meta:
-        model = User
-        fields = ['username', 'password']
+    # class Meta:
+    #     model = User
+    #     fields = ['username', 'password']
 
 
 class RegistrationForm(forms.ModelForm):

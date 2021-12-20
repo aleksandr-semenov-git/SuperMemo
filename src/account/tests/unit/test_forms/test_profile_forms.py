@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from django.test import SimpleTestCase
-from account.forms import LoginForm, RegistrationForm, PersonalDataEditForm
+from account.forms import PersonalDataEditForm
 from django import forms
 
 
@@ -58,7 +58,7 @@ class AccountFormsTest(SimpleTestCase):
         form = PersonalDataEditForm()
         form.cleaned_data = cd
         form.changed_data = chd
-        with self.assertRaisesMessage(forms.ValidationError, 'Login user1 already exists'):  # Todo: ask message
+        with self.assertRaisesMessage(forms.ValidationError, 'Login user1 already exists'):
             form.clean()
 
     @patch(f'{FILE_PATH}.User.objects')

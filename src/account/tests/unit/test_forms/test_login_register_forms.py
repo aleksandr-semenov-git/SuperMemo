@@ -19,7 +19,6 @@ class LoginFormTest(SimpleTestCase):
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'User with login user1 not found.'):
             form.clean_username()
-            self.assertEqual(form.clean_username(), 'user1')
         patch_user_model.filter.assert_called_once_with(username='user1')
         mock_user.exists.assert_called_once()
 
@@ -114,8 +113,7 @@ class RegistrationFormTest(SimpleTestCase):
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'Current username user1 is already registered'):
             form.clean_username()
-        # result = form.clean_username()
-        # patch_user_filter.exists.assert_called_once_with()  # Todo: ask
+        patch_user_filter().exists.assert_called_once_with()
 
     @patch(f'{FILE_PATH}.User.objects.filter')
     def test_clean_username_not_exists(self, patch_user_filter):
