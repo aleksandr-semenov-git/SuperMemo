@@ -23,3 +23,17 @@ class SectionsFormTest(SimpleTestCase):
 
         self.assertEqual(form.fields['name'].queryset, mock_section)
         patch_section.filter.assert_called_once_with(goal__id=goal_id)
+
+    @patch(f'{FILE_PATH}.Section.objects')
+    @patch(f'{FILE_PATH}.forms.Form.__init__')
+    def test_init_goal_id_not_exists(self, patch_init, patch_section):
+        mock_section = MagicMock()
+        mock_section.all.return_value = mock_section
+        patch_section.filter.return_value = mock_section
+        args = ()
+        kwargs = {}
+
+        ChooseSectionForm.fields = {'name': MagicMock()}
+        form = ChooseSectionForm(*args, **kwargs)
+
+        patch_init.assert_called_once_with(*args, **{})
