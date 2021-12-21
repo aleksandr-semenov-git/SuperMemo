@@ -7,21 +7,19 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
     def clean_username(self):
+        return self.cleaned_data['username']
 
-        username = self.cleaned_data['username']
-        if not User.objects.filter(username=username).exists():
-            raise forms.ValidationError(f'User with login {username} not found.')
-        return username
-
-    def clean_password(self):
+    def clean(self):
         username = self.cleaned_data['username']
         password = self.cleaned_data['password']
-
-        user = User.objects.filter(username=username).first()
-        if user:
-            if not user.check_password(password):
-                raise forms.ValidationError('Incorrect password')
-        return password
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError(f'User with login {username} not found.')
+        else:
+            user = User.objects.filter(username=username).first()
+            if user:
+                if not user.check_password(password):
+                    raise forms.ValidationError('Incorrect password')
+            return self.cleaned_data
 
 
 class RegistrationForm(forms.ModelForm):
