@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.test import TestCase, RequestFactory, Client
 
 
-
 class GoalPagesTest(TestCase):
     def setUp(self):
         self.client = Client()
@@ -63,7 +62,7 @@ class GoalPagesTest(TestCase):
         login = self.client.login(username='test_user0', password='121212test')
         with self.assertNumQueries(4):
             result = self.client.get(reverse('memo:my_goals'), data={})
-        expected_goals_query = Goal.objects.all()
+        expected_goals_query = Goal.objects.filter(profile=self.profile)
         self.assertEqual(result.status_code, 200)
         self.assertTemplateUsed(result, 'my_goals.html')
         actual_goals_query = result.context['goals']
