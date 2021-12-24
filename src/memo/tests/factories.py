@@ -11,7 +11,6 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
     username = 'test_user0'
     email = 'test@test.email'
-    # email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.test')
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -25,7 +24,6 @@ class GoalFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Goal
 
-    # name = 'test_goal_name'
     name = factory.Sequence(lambda n: 'goal%d' % n)
     profile = factory.SubFactory(ProfileFactory)
 
@@ -35,7 +33,6 @@ class SectionFactory(factory.django.DjangoModelFactory):
         model = lesson.models.Section
 
     name = 'test_section_name'
-    # name = factory.Sequence(lambda n: 'section%d' % n)
     goal = factory.SubFactory(GoalFactory)
 
 
@@ -44,7 +41,6 @@ class ThemeFactory(factory.django.DjangoModelFactory):
         model = lesson.models.Theme
 
     name = 'test_theme_name'
-    # name = factory.Sequence(lambda n: 'theme%d' % n)
     section = factory.SubFactory(SectionFactory)
 
 

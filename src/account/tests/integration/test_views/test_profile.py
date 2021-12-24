@@ -1,10 +1,9 @@
 from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
-from django.contrib.auth.models import User, AnonymousUser
-from account.forms import LoginForm, RegistrationForm, PersonalDataEditForm
+from django.contrib.auth.models import User
+from account.forms import PersonalDataEditForm
 from memo.models import Goal
-from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory, SectionFactory, ThemeFactory, LessonFactory,\
-    QuestionFactory
+from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory
 
 
 class ProfilePagesTest(TestCase):

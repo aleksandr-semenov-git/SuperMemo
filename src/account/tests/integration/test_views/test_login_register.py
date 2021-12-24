@@ -2,8 +2,7 @@ from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from account.forms import LoginForm, RegistrationForm
-from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory, SectionFactory, ThemeFactory, LessonFactory,\
-    QuestionFactory
+from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory
 
 
 class AccountPagesTest(TestCase):

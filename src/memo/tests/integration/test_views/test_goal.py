@@ -1,4 +1,3 @@
-import memo
 from memo.forms import AddGoalForm
 from memo.tests.factories import UserFactory, ProfileFactory, GoalFactory
 from memo.models import Goal
@@ -20,8 +19,8 @@ class GoalPagesTest(TestCase):
     def test_user_get_goal_page(self):
         login = self.client.login(username='test_user0', password='121212test')
         goal = self.goal1
-        # with self.assertNumQueries(2):  # Todo: fix
-        #     result = self.client.get(reverse('memo:goal_page', kwargs={'goal_id': 1}), data={})
+        with self.assertNumQueries(7):
+            result = self.client.get(reverse('memo:goal_page', kwargs={'goal_id': 1}), data={})
         result = self.client.get(reverse('memo:goal_page', kwargs={'goal_id': 1}), data={})
         self.assertTemplateUsed(result, 'goal_page.html')
         self.assertEqual(result.status_code, 200)
@@ -55,8 +54,8 @@ class GoalPagesTest(TestCase):
         with self.assertNumQueries(2):
             result = self.client.post(reverse('memo:add_goal'), data={'name': fail_goal_name})
         self.assertRedirects(result, reverse('memo:my_goals'))
-        with self.assertRaises(memo.models.Goal.DoesNotExist):
-            Goal.objects.get(name=fail_goal_name)
+        none_goal = Goal.objects.filter(name=fail_goal_name).first()
+        self.assertIsNone(none_goal)
 
     def test_user_get_mygoals_page(self):
         login = self.client.login(username='test_user0', password='121212test')
