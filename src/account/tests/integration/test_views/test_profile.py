@@ -29,9 +29,9 @@ class ProfilePagesTest(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertTemplateUsed(result, 'profile_page.html')
         actual_goals_query = result.context['goals']
+        self.assertEqual(result.context['goals'].count(), 2)
         self.assertEqual(list(actual_goals_query), list(expected_goals_query))
         self.assertQuerysetEqual(actual_goals_query, expected_goals_query, transform=lambda x: x, ordered=False)
-        self.assertEqual(result.context['goals'].count(), 2)
         self.assertEqual(result.context['profile'], profile)
         self.assertEqual(result.context['username'], username)
 

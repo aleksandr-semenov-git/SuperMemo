@@ -46,15 +46,10 @@ class AccountPagesTest(TestCase):
         self.assertFormError(result, 'form', None, 'User with login fail_user0 not found.')
         # errors=None mean that formset.non_form_errors()) will be checked
 
-    # def test_post_login_page_inactive_user(self):
-    #     result = self.client.post(reverse('account:login'), data={'username': 'not_active_user',
-    #                                                               'password': '121212test'})
-    #     self.assertEqual(result.content, 'Disabled account')  # Todo: fix
-    #
-    # def test_post_login_page_user_is_none(self):
-    #     result = self.client.post(reverse('account:login'), data={'username': 'fail_username',
-    #                                                               'password': '121212test'})
-    #     self.assertEqual(result.content, 'Invalid login')    # Todo: fix
+    def test_post_login_page_user_is_none(self):
+        result = self.client.post(reverse('account:login'), data={'username': 'not_active_user',
+                                                                  'password': '121212test'})
+        self.assertEqual(result.content.decode('UTF-8'), 'Account with login not_active_user disabled')
 
     def test_get_logout_view(self):
         result = self.client.get(reverse('account:logout'), data={})
@@ -117,22 +112,17 @@ class AccountPagesTest(TestCase):
         self.assertFormError(result, 'form', 'email', 'Current email is already registered')
 
     def test_post_register_page_password1_is_not_password2(self):
-        with self.assertNumQueries(2):
-            result = self.client.post(reverse('account:registration'), data={'username': 'new_user0',
-                                                                             'email': 'new@test.test',
-                                                                             'password': '121212test',
-                                                                             'confirm_password': '121212xxxx'})
+        result = self.client.post(reverse('account:registration'), data={'username': 'new_user42',
+                                                                         'email': 'new@test.test',
+                                                                         'password': '121212test',
+                                                                         'confirm_password': '121212xxxx'})
         self.assertEqual(result.status_code, 200)
         self.assertTemplateUsed(result, 'registration/registration.html')
         self.assertTrue(isinstance(result.context['form'], RegistrationForm))
-        # Todo: How to check password form error?
 
     # def test_post_register_page_inactive_user(self):
-    #     result = self.client.post(reverse('account:login'), data={'username': 'not_active_user',
-    #                                                               'password': '121212test'})
-    #     self.assertEqual(result.content, 'Disabled account')  # Todo: fix
-    #
-    # def test_post_register_page_user_is_none(self):
-    #     result = self.client.post(reverse('account:login'), data={'username': 'fail_username',
-    #                                                               'password': '121212test'})
-    #     self.assertEqual(result.content, 'Invalid login')    # Todo: fix
+    #     result = self.client.post(reverse('account:registration'), data={'username': 'new_user01',
+    #                                                                      'email': 'new01@test.test',
+    #                                                                      'password': '121212test',
+    #                                                                      'confirm_password': '121212test'})
+    #     self.assertEqual(result.content, 'Account with login not_active_user disabled')
