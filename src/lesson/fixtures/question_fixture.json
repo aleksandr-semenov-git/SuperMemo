@@ -53,9 +53,9 @@
     "model": "lesson.lesson",
     "pk": 4,
     "fields": {
-        "name": 1,
+        "name": "test_goal_01-test_section_011-lesson-1",
         "start": "2021-12-24T13:22:14.283Z",
-        "end": "2021-12-24T13:22:14.283Z",
+        "end": "2021-12-28T10:22:26.668Z",
         "goal": 7
     }
 },

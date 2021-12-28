@@ -23,7 +23,7 @@ class Theme(models.Model):
 
 
 class Lesson(models.Model):
-    name = models.IntegerField(default=1)
+    name = models.CharField(max_length=250, null=True)
     start = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(auto_now=True)
     goal = models.ForeignKey(Goal, verbose_name='goal', related_name='lessons',  on_delete=models.CASCADE, null=True)

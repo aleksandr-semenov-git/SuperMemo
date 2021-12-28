@@ -35,39 +35,13 @@
     },
     {
         "fields": {
-            "end": "2021-12-24T13:22:14.283Z",
+            "end": "2021-12-28T10:22:26.668Z",
             "goal": 7,
-            "name": 1,
+            "name": "test_goal_01-test_section_011-lesson-1",
             "start": "2021-12-24T13:22:14.283Z"
         },
         "model": "lesson.lesson",
         "pk": 4
-    },
-    {
-        "fields": {
-            "goal": 7,
-            "name": "test_section_011"
-        },
-        "model": "lesson.section",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "name": "test_theme_0111",
-            "section": 4
-        },
-        "model": "lesson.theme",
-        "pk": 6
-    },
-    {
-        "fields": {
-            "answer": "test_q_0111_1",
-            "lesson": 4,
-            "question": "test_q_0111_1",
-            "theme": 6
-        },
-        "model": "lesson.question",
-        "pk": 9
     },
     {
         "fields": {
@@ -127,74 +101,28 @@
     },
     {
         "fields": {
-            "name": "test_theme_0313",
-            "section": 9
+            "goal": 7,
+            "name": "test_section_011"
         },
-        "model": "lesson.theme",
-        "pk": 15
+        "model": "lesson.section",
+        "pk": 4
     },
     {
         "fields": {
-            "name": "test_theme_0312",
-            "section": 9
-        },
-        "model": "lesson.theme",
-        "pk": 14
-    },
-    {
-        "fields": {
-            "name": "test_theme_0311",
-            "section": 9
-        },
-        "model": "lesson.theme",
-        "pk": 13
-    },
-    {
-        "fields": {
-            "name": "test_theme_0221",
-            "section": 8
-        },
-        "model": "lesson.theme",
-        "pk": 12
-    },
-    {
-        "fields": {
-            "name": "test_theme_0212",
-            "section": 7
-        },
-        "model": "lesson.theme",
-        "pk": 11
-    },
-    {
-        "fields": {
-            "name": "test_theme_0211",
-            "section": 7
-        },
-        "model": "lesson.theme",
-        "pk": 10
-    },
-    {
-        "fields": {
-            "name": "test_theme_0131",
-            "section": 6
-        },
-        "model": "lesson.theme",
-        "pk": 9
-    },
-    {
-        "fields": {
-            "name": "test_theme_0121",
-            "section": 5
-        },
-        "model": "lesson.theme",
-        "pk": 8
-    },
-    {
-        "fields": {
-            "name": "test_theme_0112",
+            "name": "test_theme_0111",
             "section": 4
         },
         "model": "lesson.theme",
-        "pk": 7
+        "pk": 6
+    },
+    {
+        "fields": {
+            "answer": "test_q_0111_1",
+            "lesson": 4,
+            "question": "test_q_0111_1",
+            "theme": 6
+        },
+        "model": "lesson.question",
+        "pk": 9
     }
 ]
