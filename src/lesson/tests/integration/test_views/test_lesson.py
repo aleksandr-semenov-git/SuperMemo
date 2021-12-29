@@ -156,5 +156,4 @@ class LessonTestCase(TestCase):
     def test_post_end_lesson_page_not_finish_lesson(self):
         login = self.client.login(username='test_user0', password='121212ab')
         result = self.client.post(reverse('lesson:end_lesson', kwargs={}), data={'end': 'Not End lesson'})
-
         self.assertRedirects(result, reverse('lesson:lesson_page', kwargs={}), fetch_redirect_response=False)

@@ -18,7 +18,7 @@ class LoginFormTest(SimpleTestCase):
         form = LoginForm()
         form.cleaned_data = cd
         with self.assertRaisesMessage(forms.ValidationError, 'User with login user1 not found.'):
-            form.clean_username()
+            form.clean()
         patch_user_model.filter.assert_called_once_with(username='user1')
         mock_user.exists.assert_called_once()
 
@@ -35,8 +35,8 @@ class LoginFormTest(SimpleTestCase):
         form.cleaned_data = cd
 
         with self.assertRaisesMessage(forms.ValidationError, 'Incorrect password'):
-            form.clean_password()
-        patch_user_model.filter.assert_called_once_with(username='user1')
+            form.clean()
+        mock_user.exists.assert_called_once()
         mock_user.first.assert_called_once()
         mock_user.check_password.assert_called_once_with('password11')
 
@@ -51,10 +51,10 @@ class LoginFormTest(SimpleTestCase):
 
         form = LoginForm()
         form.cleaned_data = cd
-        result = form.clean_password()
+        result = form.clean()
 
-        self.assertEqual(result, 'password11')
-        patch_user_model.filter.assert_called_once_with(username='user1')
+        self.assertEqual(result, cd)
+        mock_user.exists.assert_called_once()
         mock_user.first.assert_called_once()
         mock_user.check_password.assert_called_once_with('password11')
 
