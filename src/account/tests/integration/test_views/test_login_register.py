@@ -49,7 +49,7 @@ class AccountPagesTest(TestCase):
     def test_post_login_page_user_is_none(self):
         result = self.client.post(reverse('account:login'), data={'username': 'not_active_user',
                                                                   'password': '121212test'})
-        self.assertEqual(result.content.decode('UTF-8'), 'Account with login not_active_user disabled')
+        self.assertEqual(result.content, b'Account with login not_active_user disabled')
 
     def test_get_logout_view(self):
         result = self.client.get(reverse('account:logout'), data={})
@@ -79,7 +79,7 @@ class AccountPagesTest(TestCase):
         self.assertTrue(isinstance(result.context['form'], RegistrationForm))
         self.assertFormError(result, 'form', 'username', 'Ensure this value has at least 3 characters (it has 2).')
 
-    def test_post_register_page_username_already_exist(self):
+    def test_post_register_page_username_exist(self):
         result = self.client.post(reverse('account:registration'), data={'username': 'test_user0',
                                                                          'email': 'new@test.email',
                                                                          'password': '121212test',
@@ -119,10 +119,4 @@ class AccountPagesTest(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertTemplateUsed(result, 'registration/registration.html')
         self.assertTrue(isinstance(result.context['form'], RegistrationForm))
-
-    # def test_post_register_page_inactive_user(self):
-    #     result = self.client.post(reverse('account:registration'), data={'username': 'new_user01',
-    #                                                                      'email': 'new01@test.test',
-    #                                                                      'password': '121212test',
-    #                                                                      'confirm_password': '121212test'})
-    #     self.assertEqual(result.content, 'Account with login not_active_user disabled')
+        self.assertFormError(result, 'form', None, 'Passwords not match')

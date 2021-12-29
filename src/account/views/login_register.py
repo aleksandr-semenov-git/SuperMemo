@@ -54,10 +54,7 @@ class RegistrationView(View):
             new_user.email = cd['email']
             new_user.save()
             user = authenticate(username=username, password=cd['password'])
-            if user is not None:
-                login(request, user)
-                return redirect('account:profile', username=username)
-            else:
-                return HttpResponse(f'Account with login {username} disabled')
+            login(request, user)
+            return redirect('account:profile', username=username)
         else:
             return render(request, 'registration/registration.html', {'form': form})
