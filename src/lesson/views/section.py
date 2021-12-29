@@ -34,9 +34,10 @@ class AddSectionPage(View):
 
     def post(self, request, *args, **kwargs):
         form = AddSectionForm(request.POST)
+        goal_id = request.session['goal_id']
         if form.is_valid():
             cd = form.cleaned_data
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             section = SectionService.create_section(name=cd['name'], goal=goal)
-            return render(request, 'add_section.html', {'form': form})
-        return redirect('lesson:choose_section')
+            return redirect('memo:goal_page', goal_id=goal_id)
+        return render(request, 'add_section.html', {'form': form})

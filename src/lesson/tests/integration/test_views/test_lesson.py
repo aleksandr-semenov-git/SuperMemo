@@ -6,7 +6,7 @@ from django.urls import reverse
 from memo.models import Goal
 
 
-class LessonTestCase(TestCase):
+class LessonPagesTest(TestCase):
     fixtures = ['all_fixtures.json']
 
     def test_get_mylessons_page(self):
