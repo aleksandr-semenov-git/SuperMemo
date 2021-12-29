@@ -23,14 +23,14 @@ class AccountPagesTest(SimpleTestCase):
         patch_form.assert_called_once()
         patch_render.assert_called_once_with(mock_request, 'login.html', {'form': mock_form})
 
-    @patch(f'{FILE_PATH}.redirect')
+    @patch(f'{FILE_PATH}.render')
     @patch(f'{FILE_PATH}.LoginForm')
-    def test_post_login_page_invalid_form(self, patch_form, patch_redirect):
+    def test_post_login_page_invalid_form(self, patch_form, patch_render):
         mock_request = MagicMock()
         mock_http_result = MagicMock()
         mock_form = MagicMock()
 
-        patch_redirect.return_value = mock_http_result
+        patch_render.return_value = mock_http_result
         patch_form.return_value = mock_form
         mock_form.is_valid.return_value = False
 
@@ -40,7 +40,7 @@ class AccountPagesTest(SimpleTestCase):
         self.assertEqual(result, mock_http_result)
         patch_form.assert_called_once()
         mock_form.is_valid.assert_called_once()
-        patch_redirect.assert_called_once_with('account:login')
+        patch_render.assert_called_once_with(mock_request, 'login.html', {'form': mock_form})
 
     @patch(f'{FILE_PATH}.HttpResponse')
     @patch(f'{FILE_PATH}.LoginForm')
@@ -64,33 +64,7 @@ class AccountPagesTest(SimpleTestCase):
         patch_form.assert_called_once_with(mock_request.POST)
         mock_form.is_valid.assert_called_once()
         patch_authenticate.assert_called_once_with(username='username1', password='password1')
-        patch_httpresponce.assert_called_once_with('Invalid login')
-
-    @patch(f'{FILE_PATH}.HttpResponse')
-    @patch(f'{FILE_PATH}.LoginForm')
-    @patch(f'{FILE_PATH}.authenticate')
-    def test_post_login_page_valid_form_user_not_active(self, patch_authenticate, patch_form, patch_httpresponce):
-        mock_request = MagicMock()
-        mock_http_result = MagicMock()
-        mock_form = MagicMock()
-        mock_user = MagicMock()
-
-        patch_httpresponce.return_value = mock_http_result
-        patch_form.return_value = mock_form
-        mock_form.is_valid.return_value = True
-        cd = {'username': 'username1', 'password': 'password1'}
-        mock_form.cleaned_data = cd
-        patch_authenticate.return_value = mock_user
-        mock_user.is_active = False
-
-        view = LoginView(request=mock_request)
-        result = view.post(mock_request)
-
-        self.assertEqual(result, mock_http_result)
-        patch_form.assert_called_once_with(mock_request.POST)
-        mock_form.is_valid.assert_called_once()
-        patch_authenticate.assert_called_once_with(username='username1', password='password1')
-        patch_httpresponce.assert_called_once_with('Disabled account')
+        patch_httpresponce.assert_called_once_with('Account with login username1 disabled')
 
     @patch(f'{FILE_PATH}.redirect')
     @patch(f'{FILE_PATH}.LoginForm')
@@ -173,71 +147,11 @@ class AccountPagesTest(SimpleTestCase):
         patch_render.assert_called_once_with(mock_request, 'registration/registration.html', {'form': mock_form})
         patch_form.assert_called_once()
 
-    @patch(f'{FILE_PATH}.HttpResponse')
-    @patch(f'{FILE_PATH}.RegistrationForm')
-    @patch(f'{FILE_PATH}.authenticate')
-    def test_get_registration_page_valid_form_user_is_none(self, patch_authenticate, patch_form, patch_httpresponce):
-        mock_request = MagicMock()
-        mock_http_result = MagicMock()
-        mock_form = MagicMock()
-        mock_user = MagicMock()
-
-        patch_httpresponce.return_value = mock_http_result
-        patch_form.return_value = mock_form
-        mock_form.is_valid.return_value = True
-        cd = {'username': 'username1', 'password': 'password1', 'email': 'email1@email.ru'}
-        mock_form.cleaned_data = cd
-        mock_form.save.return_value = mock_user
-        patch_authenticate.return_value = None
-
-        view = RegistrationView(request=mock_request)
-        result = view.post(mock_request)
-
-        self.assertEqual(result, mock_http_result)
-        patch_httpresponce.assert_called_once_with('Invalid login')
-        patch_form.assert_called_once_with(mock_request.POST)
-        mock_form.is_valid.assert_called_once()
-        mock_form.save.assert_called_once_with(commit=False)
-        mock_user.set_password.assert_called_once_with('password1')
-        mock_user.save.assert_called_once()
-        patch_authenticate.assert_called_once_with(username='username1', password='password1')
-
-    @patch(f'{FILE_PATH}.HttpResponse')
-    @patch(f'{FILE_PATH}.RegistrationForm')
-    @patch(f'{FILE_PATH}.authenticate')
-    def test_get_registration_page_valid_form_user_not_active(self, patch_authenticate, patch_form, patch_httpresponce):
-        mock_request = MagicMock()
-        mock_http_result = MagicMock()
-        mock_form = MagicMock()
-        mock_user = MagicMock()
-
-        patch_httpresponce.return_value = mock_http_result
-        patch_form.return_value = mock_form
-        mock_form.is_valid.return_value = True
-        cd = {'username': 'username1', 'password': 'password1', 'email': 'email1@email.ru'}
-        mock_form.cleaned_data = cd
-        mock_form.save.return_value = mock_user
-        patch_authenticate.return_value = mock_user
-        mock_user.is_active = False
-
-        view = RegistrationView(request=mock_request)
-        result = view.post(mock_request)
-
-        self.assertEqual(result, mock_http_result)
-        patch_httpresponce.assert_called_once_with('Disabled account')
-        patch_form.assert_called_once_with(mock_request.POST)
-        mock_form.is_valid.assert_called_once()
-        mock_form.save.assert_called_once_with(commit=False)
-        mock_user.set_password.assert_called_once_with('password1')
-        mock_user.save.assert_called_once()
-        patch_authenticate.assert_called_once_with(username='username1', password='password1')
-
     @patch(f'{FILE_PATH}.redirect')
     @patch(f'{FILE_PATH}.RegistrationForm')
     @patch(f'{FILE_PATH}.authenticate')
     @patch(f'{FILE_PATH}.login')
-    def test_get_registration_page_valid_form_user_is_active(
-            self, patch_login, patch_authenticate, patch_form, patch_redirect):
+    def test_get_registration_page_valid_form(self, patch_login, patch_authenticate, patch_form, patch_redirect):
         mock_request = MagicMock()
         mock_http_result = MagicMock()
         mock_form = MagicMock()
@@ -250,7 +164,7 @@ class AccountPagesTest(SimpleTestCase):
         mock_form.cleaned_data = cd
         mock_form.save.return_value = mock_user
         patch_authenticate.return_value = mock_user
-        mock_user.is_active = True
+        patch_login.return_value = mock_user
 
         view = RegistrationView(request=mock_request)
         result = view.post(mock_request)
@@ -264,4 +178,3 @@ class AccountPagesTest(SimpleTestCase):
         mock_user.save.assert_called_once()
         patch_authenticate.assert_called_once_with(username='username1', password='password1')
         patch_login.assert_called_once_with(mock_request, mock_user)
-
