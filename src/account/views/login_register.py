@@ -20,16 +20,13 @@ class LoginView(View):
             password = cd['password']
             user = authenticate(username=username, password=password)
             if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    request.session['user_id'] = user.id
-                    return redirect('account:profile', username=username)
-                else:
-                    return HttpResponse('Disabled account')
+                login(request, user)
+                request.session['user_id'] = user.id
+                return redirect('account:profile', username=username)
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse(f'Account with login {username} disabled')
         else:
-            return redirect('account:login')
+            return render(request, 'login.html', {'form': form})
 
 
 class LogoutView(View):
@@ -51,21 +48,13 @@ class RegistrationView(View):
         if form.is_valid():
             new_user = form.save(commit=False)
             cd = form.cleaned_data
-            new_user.username = cd['username']
+            username = cd['username']
+            new_user.username = username
             new_user.set_password(cd['password'])
             new_user.email = cd['email']
             new_user.save()
-            #  --------------------------------------------------------------------------
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-            #  --------------------------------------------------------------------------
-            username = cd['username']
+            user = authenticate(username=username, password=cd['password'])
+            login(request, user)
             return redirect('account:profile', username=username)
         else:
             return render(request, 'registration/registration.html', {'form': form})

@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from lesson.forms import LearningForm
+from lesson.models import Theme
 from memo.services import GoalService
 from lesson.services.model_service import SectionService, ThemeService, LessonService, QuestionService
 
@@ -42,11 +43,12 @@ class LessonPage(View):
         Control active-lesson by django-sessions with goal_id, active_lesson_id keys
         Check if active-lesson exists. If active-lesson not exist view will create it and save it's id in session
         """
-        goal = GoalService.get_goal_by_id(request.session['goal_id'])
         if 'active_lesson_id' in request.session:  # Todo decorator is_active_lesson
             lesson = LessonService.get_lesson_by_id(request.session['active_lesson_id'])
         else:
-            name = goal.lessons.count() + 1
+            goal = GoalService.get_goal_by_id(request.session['goal_id'])
+            section_name = Theme.objects.get(pk=request.session['theme_id']).section.name
+            name = f'{goal.name}-{section_name}-lesson-{goal.lessons.count() + 1}'  # Todo naming
             lesson = LessonService.create_lesson(name=name, goal=goal)
             request.session['active_lesson_id'] = lesson.id
 

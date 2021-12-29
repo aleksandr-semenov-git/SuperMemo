@@ -3,7 +3,7 @@ from account.models import Profile
 
 
 class Goal(models.Model):
-    name = models.CharField(max_length=50, null=True)
+    name = models.CharField(max_length=150, null=True)
     profile = models.ForeignKey(Profile, verbose_name='profile', related_name='goals', on_delete=models.CASCADE,
                                 null=True)
 

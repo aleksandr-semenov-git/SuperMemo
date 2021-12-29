@@ -14,6 +14,9 @@
     <button>Start lesson</button>
     {% csrf_token %}
 </form>
+<form class="container" action="{% url 'memo:my_goals' %}">
+    <button>Ups, I made mistake</button>
+</form>
 
 
 

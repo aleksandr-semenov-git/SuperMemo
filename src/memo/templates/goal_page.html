@@ -39,18 +39,16 @@
     <tr>
         <td>
             <form class="container" action="{% url 'lesson:add_theme' section.id%}">
-                <button>{{theme}}</button>
+                <button><a>add_theme</a></button>
             </form>
         </td>
     </tr>
 </table>
 {% endfor %}
 
-
-
-
-
-
+<form class="container" action="{% url 'lesson:add_section' %}">
+    <button>Add section</button>
+</form>
 
 <form class="container" action="{% url 'account:profile_basic' %}">
     <button>CHECK MY PROFILE</button>
