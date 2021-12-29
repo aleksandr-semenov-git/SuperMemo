@@ -46,7 +46,6 @@ class LessonPagesTest(SimpleTestCase):
 
         self.assertEqual(mock_request.session['goal_id'], test_goal_id)
         self.assertEqual(result, mock_render_result)
-        patch_get_goal.assert_called_once_with(test_goal_id)
         patch_get_lesson.assert_called_once_with(active_lesson_id)
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
@@ -54,22 +53,28 @@ class LessonPagesTest(SimpleTestCase):
     @patch('lesson.views.lesson.LessonService.create_lesson')
     @patch('lesson.views.lesson.GoalService.get_goal_by_id')
     @patch('lesson.views.lesson.LearningForm')
+    @patch('lesson.views.lesson.Theme.objects.get')
     def test_get_lesson_page_else(
-            self, patch_form, patch_get_goal, patch_create_lesson, patch_render):
+            self, patch_get_theme, patch_form, patch_get_goal, patch_create_lesson, patch_render):
         test_goal_id = 1
-        mock_request = MagicMock(session={'goal_id': test_goal_id})
+        test_theme_id = 2
+        test_section_name = 'test_section_name'
+        mock_request = MagicMock(session={'goal_id': test_goal_id, 'theme_id': test_theme_id})
         mock_render_result = MagicMock()
         mock_form = MagicMock()
         mock_goal = MagicMock()
         mock_lesson = MagicMock()
+        mock_theme = MagicMock()
+        mock_goal.name = 'test_goal_name'
 
+        mock_theme.section.name = test_section_name
         patch_get_goal.return_value = mock_goal
-        test_lesson_name = 1
-        mock_goal.lessons.return_value = test_lesson_name
-        mock_goal.lessons.count.return_value = test_lesson_name
+        test_lesson_name = f'test_goal_name-test_section_name-lesson-3'
+        mock_goal.lessons.count.return_value = 2
         patch_form.return_value = mock_form
         patch_render.return_value = mock_render_result
         patch_create_lesson.return_value = mock_lesson
+        patch_get_theme.return_value = mock_theme
 
         mock_goal.reset_mock()
         view = LessonPage(request=mock_request)
@@ -79,7 +84,7 @@ class LessonPagesTest(SimpleTestCase):
         patch_get_goal.assert_called_once_with(test_goal_id)
         self.assertEqual(mock_request.session['goal_id'], test_goal_id)
         mock_goal.lessons.count.assert_called_once()
-        patch_create_lesson.assert_called_once_with(name=test_lesson_name + 1, goal=mock_goal)
+        patch_create_lesson.assert_called_once_with(name=test_lesson_name, goal=mock_goal)
         self.assertEqual(mock_request.session['active_lesson_id'], mock_lesson.id)
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 
