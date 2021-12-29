@@ -55,7 +55,7 @@ class SectionPagesTest(TestCase):
         self.assertRedirects(result,
                              reverse('memo:goal_page', kwargs={'goal_id': goal.id}),
                              fetch_redirect_response=False)
-        self.assertTrue(Section.objects.get(name='Valid_name'))
+        self.assertTrue(Section.objects.filter(name='Valid_name').first())
 
     def test_post_add_section_invalid_form(self):
         session = self.client.session
