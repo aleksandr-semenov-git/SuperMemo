@@ -4,5 +4,5 @@ from .api_views import Goals, GoalDetails
 
 urlpatterns = [
     path('goals/', Goals.as_view(), name='goals'),
-    path('goal/<int:pk>/', GoalDetails.as_view(), name='goal_detail')
+    path('goal/<int:pk>/', GoalDetails.as_view(), name='goal_details')
 ]
