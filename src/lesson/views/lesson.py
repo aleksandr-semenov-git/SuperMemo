@@ -48,8 +48,10 @@ class LessonPage(View):
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             section_name = Theme.objects.get(pk=request.session['theme_id']).section.name
-            name = f'{goal.name}-{section_name}-lesson-{goal.lessons.count() + 1}'  # Todo naming
-            lesson = LessonService.create_lesson(name=name, goal=goal)
+            lesson = LessonService.create_lesson(name='', goal=goal)
+            name = f'{goal.name} {section_name} {lesson.start.strftime("%Y-%m-%d")}'
+            lesson.__setattr__('name', name)
+            lesson.save()
             request.session['active_lesson_id'] = lesson.id
 
         form = LearningForm()
