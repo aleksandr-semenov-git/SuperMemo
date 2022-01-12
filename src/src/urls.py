@@ -3,7 +3,12 @@ from django.urls import path
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.routers import DefaultRouter
 
+from lesson.api.api_views import APILessons
+
+router = DefaultRouter()
+router.register('new-lessons', APILessons)
 
 urlpatterns = [
 
@@ -14,6 +19,8 @@ urlpatterns = [
 
     path('api/', include(('memo.api.urls', 'goal_api'), namespace='goal_api')),
     path('api/', include(('account.api.urls', 'account_api'), namespace='account_api')),
+    path('api/', include(('lesson.api.urls', 'lesson_api'), namespace='lesson_api')),
+    path('api/', include(router.urls)),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
