@@ -48,8 +48,9 @@ class LessonPage(View):
         else:
             goal = GoalService.get_goal_by_id(request.session['goal_id'])
             section_name = Theme.objects.get(pk=request.session['theme_id']).section.name
+            theme_name = Theme.objects.get(pk=request.session['theme_id']).name
             lesson = LessonService.create_lesson(name='', goal=goal)
-            name = f'{goal.name} {section_name} {lesson.start.strftime("%Y-%m-%d")}'
+            name = f'{goal.name} {section_name} {theme_name} {lesson.start.strftime("%Y-%m-%d")}'
             lesson.__setattr__('name', name)
             lesson.save()
             request.session['active_lesson_id'] = lesson.id
