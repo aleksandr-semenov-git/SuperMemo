@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from django.test import SimpleTestCase
-from lesson.views import MyLessonsPage, SurePage, LessonPage, EndLessonPage
+from lesson.views import MyLessonsPage, SurePage, LessonLearnPage, EndLessonPage
 
 
 class LessonPagesTest(SimpleTestCase):
@@ -41,13 +41,13 @@ class LessonPagesTest(SimpleTestCase):
         patch_render.return_value = mock_render_result
         patch_get_lesson.return_value = mock_lesson
 
-        view = LessonPage(request=mock_request)
+        view = LessonLearnPage(request=mock_request)
         result = view.get(mock_request)
 
         self.assertEqual(mock_request.session['goal_id'], test_goal_id)
         self.assertEqual(result, mock_render_result)
         patch_get_lesson.assert_called_once_with(active_lesson_id)
-        patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
+        patch_render.assert_called_once_with(mock_request, 'lesson_learn.html', {'form': mock_form, 'lesson': mock_lesson})
 
     @patch('lesson.views.lesson.render')
     @patch('lesson.views.lesson.LessonService.create_lesson')
@@ -76,7 +76,7 @@ class LessonPagesTest(SimpleTestCase):
         patch_get_theme.return_value = mock_theme
 
         mock_goal.reset_mock()
-        view = LessonPage(request=mock_request)
+        view = LessonLearnPage(request=mock_request)
         result = view.get(mock_request)
 
         self.assertEqual(result, mock_render_result)
@@ -84,7 +84,7 @@ class LessonPagesTest(SimpleTestCase):
         self.assertEqual(mock_request.session['goal_id'], test_goal_id)
         patch_create_lesson.assert_called_once_with(name='', goal=mock_goal)
         self.assertEqual(mock_request.session['active_lesson_id'], mock_lesson.id)
-        patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
+        patch_render.assert_called_once_with(mock_request, 'lesson_learn.html', {'form': mock_form, 'lesson': mock_lesson})
 
     @patch('lesson.views.lesson.redirect')
     @patch('lesson.views.lesson.QuestionService.create_question')
@@ -110,7 +110,7 @@ class LessonPagesTest(SimpleTestCase):
         patch_redirect.return_value = mock_redirect_result
 
         patch_form.reset_mock()
-        view = LessonPage(request=mock_request)
+        view = LessonLearnPage(request=mock_request)
         result = view.post(mock_request)
 
         self.assertEqual(result, mock_redirect_result)
@@ -147,7 +147,7 @@ class LessonPagesTest(SimpleTestCase):
         patch_render.return_value = mock_render_result
 
         patch_form.reset_mock()
-        view = LessonPage(request=mock_request)
+        view = LessonLearnPage(request=mock_request)
         result = view.post(mock_request)
 
         self.assertEqual(result, mock_render_result)
@@ -157,7 +157,7 @@ class LessonPagesTest(SimpleTestCase):
 
         patch_get_theme.assert_called_once_with(test_theme_id)
         patch_get_lesson.assert_called_once_with(test_active_lesson_id)
-        patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
+        patch_render.assert_called_once_with(mock_request, 'lesson_learn.html', {'form': mock_form, 'lesson': mock_lesson})
         patch_form.assert_called_once_with(mock_request.POST)
 
     @patch('lesson.views.lesson.render')

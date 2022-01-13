@@ -64,7 +64,7 @@ class LessonPagesTest(TestCase):
         result = self.client.get(reverse('lesson:lesson_page', kwargs={}), data={})
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
         self.assertEqual(result.context['lesson'], lesson)
         self.assertTrue(isinstance(result.context['form'], LearningForm))
 
@@ -83,7 +83,7 @@ class LessonPagesTest(TestCase):
         actual_lesson_name = result.context['lesson'].name
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
         self.assertTrue(isinstance(result.context['lesson'], Lesson))
         self.assertEqual(actual_lesson_name, expected_lesson_name)
         self.assertTrue(isinstance(result.context['form'], LearningForm))
@@ -120,7 +120,7 @@ class LessonPagesTest(TestCase):
                                   data={'question': '', 'answer': ''})
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
 
         self.assertTrue(isinstance(result.context['form'], LearningForm))
         self.assertEqual(result.context['lesson'], lesson)

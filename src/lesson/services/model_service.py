@@ -51,5 +51,5 @@ class LessonService:
 
 class QuestionService:
     @staticmethod
-    def create_question(question: Question, answer: str, lesson: Lesson, theme: Theme) -> Question:
-        return Question.objects.create(question=question, answer=answer, lesson=lesson, theme=theme)
+    def create_question(question: Question, answer: str, lesson: Lesson) -> Question:
+        return Question.objects.create(question=question, answer=answer, lesson=lesson)
