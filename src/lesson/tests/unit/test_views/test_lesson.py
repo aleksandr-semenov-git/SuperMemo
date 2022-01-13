@@ -69,7 +69,6 @@ class LessonPagesTest(SimpleTestCase):
 
         mock_theme.section.name = test_section_name
         patch_get_goal.return_value = mock_goal
-        test_lesson_name = f'test_goal_name-test_section_name-lesson-3'
         mock_goal.lessons.count.return_value = 2
         patch_form.return_value = mock_form
         patch_render.return_value = mock_render_result
@@ -83,8 +82,7 @@ class LessonPagesTest(SimpleTestCase):
         self.assertEqual(result, mock_render_result)
         patch_get_goal.assert_called_once_with(test_goal_id)
         self.assertEqual(mock_request.session['goal_id'], test_goal_id)
-        mock_goal.lessons.count.assert_called_once()
-        patch_create_lesson.assert_called_once_with(name=test_lesson_name, goal=mock_goal)
+        patch_create_lesson.assert_called_once_with(name='', goal=mock_goal)
         self.assertEqual(mock_request.session['active_lesson_id'], mock_lesson.id)
         patch_render.assert_called_once_with(mock_request, 'lesson.html', {'form': mock_form, 'lesson': mock_lesson})
 

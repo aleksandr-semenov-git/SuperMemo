@@ -2,7 +2,7 @@ from django.test import TestCase
 from lesson.forms import LearningForm
 from lesson.models import Lesson, Question, Section, Theme
 from django.urls import reverse
-
+from datetime import datetime
 from memo.models import Goal
 
 
@@ -69,7 +69,7 @@ class LessonPagesTest(TestCase):
         self.assertTrue(isinstance(result.context['form'], LearningForm))
 
     def test_get_lesson_page_lesson_id_not_in_session(self):
-        expected_lesson_name = 'test_goal_01-test_section_011-lesson-2'
+        expected_lesson_name = f'test_goal_01 test_section_011 {datetime.now().strftime("%Y-%m-%d")}'
         expected_active_lesson_id = 5
         session = self.client.session
         session['goal_id'] = 7
