@@ -24,9 +24,8 @@ class Theme(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField(max_length=250, null=True)
-    start = models.DateTimeField(auto_now_add=True)
-    end = models.DateTimeField(auto_now=True)
     goal = models.ForeignKey(Goal, verbose_name='goal', related_name='lessons',  on_delete=models.CASCADE, null=True)
+    theme = models.OneToOneField(Theme, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.name)
@@ -37,8 +36,12 @@ class Question(models.Model):
     answer = models.CharField(max_length=500, null=True)
     lesson = models.ForeignKey(Lesson, verbose_name='lesson', related_name='questions', on_delete=models.CASCADE,
                                null=True)
-    theme = models.ForeignKey(Theme, verbose_name='theme', related_name='questions', on_delete=models.CASCADE,
-                              null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    score = models.IntegerField(null=True)
+    repeated_count = models.IntegerField(null=True)
+    repeated_count_in_last_cicle = models.IntegerField(null=True)
 
     def __str__(self):
         return self.question

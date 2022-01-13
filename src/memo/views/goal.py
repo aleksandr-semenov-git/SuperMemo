@@ -7,6 +7,14 @@ from memo.services import GoalService
 
 
 @method_decorator(login_required, name='dispatch')
+class MyGoalsPage(View):
+    def get(self, request, *args, **kwargs):
+        """"""
+        goals = GoalService.get_goals_by_profile(profile=request.user.profile)
+        return render(request, 'my_goals.html', {'goals': goals})
+
+
+@method_decorator(login_required, name='dispatch')
 class GoalPage(View):
     def get(self, request, goal_id, *args, **kwargs):
         """"""
@@ -30,11 +38,3 @@ class AddGoalPage(View):
             profile = request.user.profile
             GoalService.create_goal(cd['name'], profile)
         return redirect('memo:my_goals')
-
-
-@method_decorator(login_required, name='dispatch')
-class MyGoalsPage(View):
-    def get(self, request, *args, **kwargs):
-        """"""
-        goals = GoalService.get_goals_by_profile(profile=request.user.profile)
-        return render(request, 'my_goals.html', {'goals': goals})

@@ -44,8 +44,9 @@ class LessonService:
         return Lesson.objects.filter(goal__profile=profile)
 
     @staticmethod
-    def create_lesson(name: str, goal: Goal) -> Lesson:
-        return Lesson.objects.create(name=name, goal=goal)
+    def get_or_create_lesson(name: str, goal: Goal, theme: Theme) -> Lesson:
+        lesson, created = Lesson.objects.get_or_create(name=name, goal=goal, theme=theme)
+        return lesson
 
 
 class QuestionService:
