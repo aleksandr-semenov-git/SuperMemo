@@ -1,5 +1,5 @@
 from django.test import TestCase
-from lesson.forms import LearningForm, ChooseSectionForm, AddSectionForm, AddThemeForm
+from lesson.forms import AddEditQuestionForm, ChooseSectionForm, AddSectionForm, AddThemeForm
 from lesson.models import Lesson, Question, Section, Theme
 from django.urls import reverse
 from memo.models import Goal
