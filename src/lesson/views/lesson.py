@@ -63,3 +63,13 @@ class EditQuestionPage(View):
             return redirect('lesson:lesson_learn', theme_id=theme_id)
         else:
             return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
+
+
+@method_decorator(login_required, name='dispatch')
+class DeleteQuestionView(View):
+    def get(self, request, question_id, *args, **kwargs):
+        question = Question.objects.get(pk=question_id)
+        lesson = Question.objects.get(pk=question_id).lesson
+        theme_id = lesson.theme.id
+        question.delete()
+        return redirect('lesson:lesson_learn', theme_id=theme_id)
