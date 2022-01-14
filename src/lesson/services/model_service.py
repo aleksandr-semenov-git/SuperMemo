@@ -53,3 +53,10 @@ class QuestionService:
     @staticmethod
     def create_question(question: Question, answer: str, lesson: Lesson) -> Question:
         return Question.objects.create(question=question, answer=answer, lesson=lesson)
+
+    @staticmethod
+    def edit_question(question_id: int, question: str, answer: str):
+        question_obj = Question.objects.get(pk=question_id)
+        question_obj.__setattr__('question', question)
+        question_obj.__setattr__('answer', answer)
+        question_obj.save()

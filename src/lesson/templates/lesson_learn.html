@@ -35,7 +35,7 @@
     <td>{{question.question}}</td>
     <td>{{question.answer}}</td>
     <td>
-        <form class="container" action="#">
+        <form class="container" action="{% url 'lesson:edit_question' question.id %}">
             <button>edit</button>
         </form>
     </td>
@@ -50,9 +50,5 @@
 </table>
 
 {% endfor %}
-
-<form class="container" action="{% url 'memo:goal_page' lesson.goal.id %}">
-    <button>Back to goal page</button>
-</form>
 
 {% endblock %}
