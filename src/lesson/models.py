@@ -36,12 +36,12 @@ class Question(models.Model):
     answer = models.CharField(max_length=500, null=True)
     lesson = models.ForeignKey(Lesson, verbose_name='lesson', related_name='questions', on_delete=models.CASCADE,
                                null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now=True, auto_now_add=True)
 
-    score = models.IntegerField(null=True)
+    score = models.FloatField(null=True)
     repeated_count = models.IntegerField(null=True)
-    # repeated_count_in_last_cycle = models.IntegerField(null=True)
+    repeated_count_in_last_cycle = models.IntegerField(null=True)
 
     def __str__(self):
         return self.question

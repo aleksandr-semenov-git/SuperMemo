@@ -3,8 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from lesson.forms import AddEditQuestionForm
-from lesson.models import Theme, Lesson, Question
-from lesson.services.model_service import ThemeService, LessonService, QuestionService
+from lesson.services import LessonService, SectionService, ThemeService, QuestionService
 from memo.services import GoalService
 
 
@@ -14,12 +13,8 @@ class LessonLearnPage(View):
         """Render lesson-page and LearningForm"""
         request.session['theme_id'] = theme_id
         goal = GoalService.get_goal_by_id(request.session['goal_id'])
-        theme = Theme.objects.get(pk=theme_id)
-        section_name = theme.section.name
-        theme_name = theme.name
-
-        name = f'{goal.name} {section_name} {theme_name}'
-        lesson = LessonService.get_or_create_lesson(name=name, goal=goal, theme=theme)
+        theme = ThemeService.get_theme_by_id(theme_id)
+        lesson = LessonService.get_or_create_lesson(goal=goal, theme=theme)
         request.session[f'lesson{lesson.id}'] = []
 
         form = AddEditQuestionForm()
@@ -32,7 +27,7 @@ class LessonLearnPage(View):
         """
         form = AddEditQuestionForm(request.POST)
         theme = ThemeService.get_theme_by_id(theme_id)
-        lesson = Lesson.objects.get(theme__id=theme.id)
+        lesson = LessonService.get_lesson_by_theme_id(theme.id)
         if form.is_valid():
             cd = form.cleaned_data
             question = cd['question']
@@ -49,15 +44,15 @@ class LessonLearnPage(View):
 @method_decorator(login_required, name='dispatch')
 class EditQuestionPage(View):
     def get(self, request, question_id, *args, **kwargs):
-        question = Question.objects.get(pk=question_id)
+        question = QuestionService.get_question_by_id(question_id)
         form = AddEditQuestionForm(initial={'question': question.question,
                                             'answer': question.answer})
         return render(request, 'edit_question.html', {'form': form, 'question': question})
 
     def post(self, request, question_id):
-        question = Question.objects.get(pk=question_id)
+        question = QuestionService.get_question_by_id(question_id)
         form = AddEditQuestionForm(request.POST, instance=question)
-        lesson = Question.objects.get(pk=question_id).lesson
+        lesson = QuestionService.get_question_by_id(question_id).lesson
         theme_id = lesson.theme.id
         if form.is_valid():
             form.save(commit=True)
@@ -69,8 +64,8 @@ class EditQuestionPage(View):
 @method_decorator(login_required, name='dispatch')
 class DeleteQuestionView(View):
     def get(self, request, question_id, *args, **kwargs):
-        question = Question.objects.get(pk=question_id)
-        lesson = Question.objects.get(pk=question_id).lesson
+        question = QuestionService.get_question_by_id(question_id)
+        lesson = QuestionService.get_question_by_id(question_id).lesson
         theme_id = lesson.theme.id
         question.delete()
         return redirect('lesson:lesson_learn', theme_id=theme_id)
@@ -79,7 +74,7 @@ class DeleteQuestionView(View):
 @method_decorator(login_required, name='dispatch')
 class LessonRepeat(View):
     def get(self, request, theme_id, *args, **kwargs):
-        lesson = Theme.objects.get(pk=theme_id).lesson
+        lesson = ThemeService.get_theme_by_id(theme_id).lesson
         checked_questions = request.session[f'lesson{lesson.id}']
         if LessonService.check_repeat_lesson(theme_id, checked_questions):
             redirect('memo:profile')  # Todo: refactor
@@ -89,7 +84,7 @@ class LessonRepeat(View):
             return render(request, 'lesson_repeat.html', {'question': question, 'theme_id': theme_id})
 
     def post(self, request, question_id, *args, **kwargs):
-        question = Question.objects.get(pk=question_id)
+        question = QuestionService.get_question_by_id(question_id)
         lesson = question.lesson
         request.session[f'lesson{lesson.id}'].append(question)
         return redirect('lesson:lesson_repeat_check', question_id=question.id)
@@ -98,5 +93,5 @@ class LessonRepeat(View):
 @method_decorator(login_required, name='dispatch')
 class LessonRepeatCheck(View):
     def get(self, request, question_id, *args, **kwargs):
-        question = Question.objects.get(pk=question_id)
+        question = QuestionService.get_question_by_id(question_id)
         return render(request, 'lesson_repeat_check.html', {'question': question})

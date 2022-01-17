@@ -1,7 +1,8 @@
 from unittest.mock import patch, MagicMock
 from django.test import TestCase
 from lesson.models import Section
-from lesson.services.model_service import SectionService, ThemeService, LessonService, QuestionService
+from lesson.services.lesson_service import ThemeService, LessonService, QuestionService
+from lesson.services import SectionService
 from django.db.models import Q
 
 

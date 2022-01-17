@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from lesson.forms import ChooseThemeForm, AddThemeForm
 from memo.services import GoalService
-from lesson.services.model_service import SectionService, ThemeService
+from lesson.services.lesson_service import ThemeService
+from lesson.services import SectionService
 
 
 @method_decorator(login_required, name='dispatch')
