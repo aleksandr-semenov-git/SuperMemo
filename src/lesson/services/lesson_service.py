@@ -16,7 +16,7 @@ class LessonService:
 
     @staticmethod
     def get_lesson_by_theme_id(theme_id: int) -> Lesson:
-        return Lesson.objects.filter(theme__id=theme_id)
+        return Lesson.objects.get(theme__id=theme_id)
 
     @staticmethod
     def get_or_create_lesson(goal: Goal, theme: Theme) -> Lesson:

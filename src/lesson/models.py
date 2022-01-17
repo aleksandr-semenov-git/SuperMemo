@@ -37,7 +37,7 @@ class Question(models.Model):
     lesson = models.ForeignKey(Lesson, verbose_name='lesson', related_name='questions', on_delete=models.CASCADE,
                                null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    edited_at = models.DateTimeField(auto_now=True, auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now=True)
 
     score = models.FloatField(null=True)
     repeated_count = models.IntegerField(null=True)
