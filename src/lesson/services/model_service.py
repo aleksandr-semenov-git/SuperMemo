@@ -48,6 +48,17 @@ class LessonService:
         lesson, created = Lesson.objects.get_or_create(name=name, goal=goal, theme=theme)
         return lesson
 
+    @staticmethod
+    def check_repeat_lesson(theme_id: int, checked_questions: list) -> bool:
+        questions_num = Theme.objects.get(pk=theme_id).lesson.questions.count()
+        if len(checked_questions) < questions_num:
+            return False
+        elif len(checked_questions) == questions_num:
+            return True
+        else:
+            pass  # Todo: raise error
+
+
 
 class QuestionService:
     @staticmethod

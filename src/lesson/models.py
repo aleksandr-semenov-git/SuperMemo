@@ -41,7 +41,7 @@ class Question(models.Model):
 
     score = models.IntegerField(null=True)
     repeated_count = models.IntegerField(null=True)
-    repeated_count_in_last_cicle = models.IntegerField(null=True)
+    # repeated_count_in_last_cycle = models.IntegerField(null=True)
 
     def __str__(self):
         return self.question

@@ -17,7 +17,11 @@
     border: 1px solid black; /* Граница вокруг ячеек */
    }
   </style>
-<h1>Lesson {{lesson.name}}</h1>
+<h1>{{lesson.name}}</h1>
+
+<form class="container" action="{% url 'lesson:lesson_repeat' lesson.theme.id %}">
+    <button>Repeat mode</button>
+</form>
 
 
 <form class="container" method="POST">

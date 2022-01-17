@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
+from django.views import View
 from lesson.forms import AddEditQuestionForm
 from lesson.models import Theme, Lesson, Question
+from lesson.services.model_service import ThemeService, LessonService, QuestionService
 from memo.services import GoalService
-from lesson.services.model_service import SectionService, ThemeService, LessonService, QuestionService
 
 
 @method_decorator(login_required, name='dispatch')
@@ -20,6 +20,7 @@ class LessonLearnPage(View):
 
         name = f'{goal.name} {section_name} {theme_name}'
         lesson = LessonService.get_or_create_lesson(name=name, goal=goal, theme=theme)
+        request.session[f'lesson{lesson.id}'] = []
 
         form = AddEditQuestionForm()
         return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
@@ -73,3 +74,29 @@ class DeleteQuestionView(View):
         theme_id = lesson.theme.id
         question.delete()
         return redirect('lesson:lesson_learn', theme_id=theme_id)
+
+
+@method_decorator(login_required, name='dispatch')
+class LessonRepeat(View):
+    def get(self, request, theme_id, *args, **kwargs):
+        lesson = Theme.objects.get(pk=theme_id).lesson
+        checked_questions = request.session[f'lesson{lesson.id}']
+        if LessonService.check_repeat_lesson(theme_id, checked_questions):
+            redirect('memo:profile')  # Todo: refactor
+        else:
+            question = lesson.questions.exclude(pk__in=checked_questions).first()
+
+            return render(request, 'lesson_repeat.html', {'question': question, 'theme_id': theme_id})
+
+    def post(self, request, question_id, *args, **kwargs):
+        question = Question.objects.get(pk=question_id)
+        lesson = question.lesson
+        request.session[f'lesson{lesson.id}'].append(question)
+        return redirect('lesson:lesson_repeat_check', question_id=question.id)
+
+
+@method_decorator(login_required, name='dispatch')
+class LessonRepeatCheck(View):
+    def get(self, request, question_id, *args, **kwargs):
+        question = Question.objects.get(pk=question_id)
+        return render(request, 'lesson_repeat_check.html', {'question': question})

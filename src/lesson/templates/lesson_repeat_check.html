@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+<h1>{{question.question}}</h1>
+<h1>{{question.answer}}</h1>
+
+
+<form class="container" action="{% url 'lesson:lesson_repeat' question.lesson.theme.id %}" method="POST">
+    <button>Ставлю оценку - следующий вопрос, либо конец урока</button>
+</form>
+
+
+
+
+{% endblock %}
