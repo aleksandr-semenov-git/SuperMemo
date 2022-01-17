@@ -83,15 +83,17 @@ class LessonRepeat(View):
 
             return render(request, 'lesson_repeat.html', {'question': question, 'theme_id': theme_id})
 
-    def post(self, request, question_id, *args, **kwargs):
-        question = QuestionService.get_question_by_id(question_id)
-        lesson = question.lesson
-        request.session[f'lesson{lesson.id}'].append(question)
-        return redirect('lesson:lesson_repeat_check', question_id=question.id)
-
 
 @method_decorator(login_required, name='dispatch')
 class LessonRepeatCheck(View):
     def get(self, request, question_id, *args, **kwargs):
         question = QuestionService.get_question_by_id(question_id)
+        lesson = question.lesson
         return render(request, 'lesson_repeat_check.html', {'question': question})
+
+    def post(self, request, question_id, *args, **kwargs):
+        question = QuestionService.get_question_by_id(question_id)
+        lesson = question.lesson
+        theme_id = lesson.theme.id
+        request.session[f'lesson{lesson.id}'].append(question)
+        return redirect('lesson:lesson_repeat', theme_id=theme_id)

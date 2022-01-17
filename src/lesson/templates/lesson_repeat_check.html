@@ -8,11 +8,12 @@
 <h1>{{question.answer}}</h1>
 
 
-<form class="container" action="{% url 'lesson:lesson_repeat' question.lesson.theme.id %}" method="POST">
-    <button>Ставлю оценку - следующий вопрос, либо конец урока</button>
+<form class="container" method="POST">
+    <input type="submit" name="1" value="Ставлю оценку - следующий вопрос, либо конец урока" >
+    <input type="submit" name="2" value="2" >
+    <input type="submit" name="3" value="3">
+    {% csrf_token %}
 </form>
-
-
 
 
 {% endblock %}

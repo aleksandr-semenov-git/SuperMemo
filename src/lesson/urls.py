@@ -14,6 +14,6 @@ urlpatterns = [
     path('learning-page/edit_question/<int:question_id>', EditQuestionPage.as_view(), name='edit_question'),
     path('learning-page/delete_question/<int:question_id>', DeleteQuestionView.as_view(), name='delete_question'),
     path('learning-page/repeat/<int:theme_id>', LessonRepeat.as_view(), name='lesson_repeat'),
-    path('learning-page/repeat/check/<int:theme_id>', LessonRepeatCheck.as_view(), name='lesson_repeat_check'),
+    path('learning-page/repeat/check/<int:question_id>', LessonRepeatCheck.as_view(), name='lesson_repeat_check'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

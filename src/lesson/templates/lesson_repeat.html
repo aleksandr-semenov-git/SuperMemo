@@ -9,7 +9,7 @@
 <h1>{{question.question}}</h1>
 
 
-<form class="container" action="{% url 'lesson:lesson_repeat_check' question.id %}" method="POST">
+<form class="container" action="{% url 'lesson:lesson_repeat_check' question.id %}">
     <button>Проверить</button>
 </form>
 
