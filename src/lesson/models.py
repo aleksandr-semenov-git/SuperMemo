@@ -39,9 +39,13 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
 
-    score = models.FloatField(null=True)
-    repeated_count = models.IntegerField(null=True)
-    repeated_count_in_last_cycle = models.IntegerField(null=True)
+    cycle = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
+    prev_repeat_at = models.DateTimeField(null=True)
+    next_repeat_at = models.DateTimeField(null=True)
+
+    repeated_num = models.IntegerField(null=True, default=0)
+    memo_index = models.DecimalField(null=True, decimal_places=2, default=1.00, max_digits=4)
 
     def __str__(self):
         return self.question
