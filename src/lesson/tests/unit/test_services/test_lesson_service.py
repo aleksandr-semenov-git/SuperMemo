@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 from django.test import TestCase
-from lesson.services.model_service import LessonService
+from lesson.services.lesson_service import LessonService
 
 
 class ModelServiceTest(TestCase):

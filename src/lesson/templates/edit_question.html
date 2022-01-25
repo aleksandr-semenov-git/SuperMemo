@@ -1,16 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Lesson {{lesson.name}}</h1>
-
-
+<h1>{{question.question}} | {{question.answer}}</h1>
 <form class="container" method="POST">
 {{ form.as_p }}
     <input type="submit" value="Save question">
-    {% csrf_token %}
-</form>
-
-<form class="container" action="{% url 'lesson:end_lesson' %}">
-            <button>End lesson {{lesson_name}}</button>
     {% csrf_token %}
 </form>
 

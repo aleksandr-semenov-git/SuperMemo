@@ -30,7 +30,7 @@
     {% for theme in section.themes.all %}
     <tr>
         <td>
-            <form class="container" action="{% url 'lesson:sure' theme.id %}">
+            <form class="container" action="{% url 'lesson:lesson_learn' theme.id %}">
                 <button>{{theme}}</button>
             </form>
         </td>

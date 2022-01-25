@@ -1,5 +1,5 @@
 from django.test import TestCase
-from lesson.forms import LearningForm
+from lesson.forms import AddEditQuestionForm
 from lesson.models import Lesson, Question, Section, Theme
 from django.urls import reverse
 from datetime import datetime
@@ -64,9 +64,9 @@ class LessonPagesTest(TestCase):
         result = self.client.get(reverse('lesson:lesson_page', kwargs={}), data={})
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
         self.assertEqual(result.context['lesson'], lesson)
-        self.assertTrue(isinstance(result.context['form'], LearningForm))
+        self.assertTrue(isinstance(result.context['form'], AddEditQuestionForm))
 
     def test_get_lesson_page_lesson_id_not_in_session(self):
         expected_lesson_name = f'test_goal_01 test_section_011 {datetime.now().strftime("%Y-%m-%d")}'
@@ -83,10 +83,10 @@ class LessonPagesTest(TestCase):
         actual_lesson_name = result.context['lesson'].name
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
         self.assertTrue(isinstance(result.context['lesson'], Lesson))
         self.assertEqual(actual_lesson_name, expected_lesson_name)
-        self.assertTrue(isinstance(result.context['form'], LearningForm))
+        self.assertTrue(isinstance(result.context['form'], AddEditQuestionForm))
         self.assertEqual(expected_active_lesson_id, result.context['lesson'].id)
         self.assertNotEqual(lesson.id, result.context['lesson'].id)
 
@@ -120,9 +120,9 @@ class LessonPagesTest(TestCase):
                                   data={'question': '', 'answer': ''})
 
         self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'lesson.html')
+        self.assertTemplateUsed(result, 'lesson_learn.html')
 
-        self.assertTrue(isinstance(result.context['form'], LearningForm))
+        self.assertTrue(isinstance(result.context['form'], AddEditQuestionForm))
         self.assertEqual(result.context['lesson'], lesson)
 
     def test_get_end_lesson_page(self):
