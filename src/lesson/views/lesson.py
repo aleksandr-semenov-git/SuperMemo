@@ -69,31 +69,3 @@ class DeleteQuestionView(View):
         theme_id = lesson.theme.id
         question.delete()
         return redirect('lesson:lesson_learn', theme_id=theme_id)
-
-
-@method_decorator(login_required, name='dispatch')
-class LessonRepeat(View):
-    def get(self, request, theme_id, *args, **kwargs):
-        lesson = ThemeService.get_theme_by_id(theme_id).lesson
-        checked_questions = request.session[f'lesson{lesson.id}']
-        if LessonService.check_repeat_lesson(theme_id, checked_questions):
-            redirect('memo:profile')  # Todo: refactor
-        else:
-            question = lesson.questions.exclude(pk__in=checked_questions).first()
-
-            return render(request, 'lesson_repeat.html', {'question': question, 'theme_id': theme_id})
-
-
-@method_decorator(login_required, name='dispatch')
-class LessonRepeatCheck(View):
-    def get(self, request, question_id, *args, **kwargs):
-        question = QuestionService.get_question_by_id(question_id)
-        lesson = question.lesson
-        return render(request, 'lesson_repeat_check.html', {'question': question})
-
-    def post(self, request, question_id, *args, **kwargs):
-        question = QuestionService.get_question_by_id(question_id)
-        lesson = question.lesson
-        theme_id = lesson.theme.id
-        request.session[f'lesson{lesson.id}'].append(question)
-        return redirect('lesson:lesson_repeat', theme_id=theme_id)
