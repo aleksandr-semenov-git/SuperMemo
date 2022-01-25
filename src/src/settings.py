@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'account',
     'lesson',
     'fixture_magic',
+    'repeat',
 ]
 
 MIDDLEWARE = [

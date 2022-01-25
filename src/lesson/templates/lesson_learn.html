@@ -19,8 +19,8 @@
   </style>
 <h1>{{lesson.name}}</h1>
 
-<form class="container" action="{% url 'lesson:lesson_repeat' lesson.theme.id %}">
-    <button>Repeat mode</button>
+<form class="container" action="{% url 'repeat:repeat_theme' lesson.theme.id %}">
+    <button>Repeat theme</button>
 </form>
 
 
