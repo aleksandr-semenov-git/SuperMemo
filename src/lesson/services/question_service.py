@@ -1,13 +1,14 @@
+from datetime import date
+from datetime import timedelta, datetime
+
+from django.conf import settings
 from django.db.models import Q, QuerySet
 from django.shortcuts import get_object_or_404
 
 from account.models import Profile
 from lesson.models import Lesson, Question
-from datetime import timedelta, datetime
-
-from repeat.models import QState, RepetitionSession
+from repeat.models import RepetitionSession
 from repeat.services import RepSessionService, QStateService
-from datetime import date
 
 
 class QuestionService:
@@ -22,28 +23,27 @@ class QuestionService:
 
     @staticmethod
     def cycle_to_days(cycle):
-        days_dict = {0: 0, 1: 1, 2: 2, 3: 12, 4: 20, 5: 30, 6: 60, 7: 90, 8: 150, 9: 270, 10: 480, 11: 720, 12: 1440,
-                     13: 2160, 14: 3960, 15: 6480}
+        days_dict = settings.DAYS_DICT
         days = days_dict[cycle]
         return days
 
     @staticmethod
     def calculate_new_cycle(cycle: int, score: int) -> int:
+        new_cycle = cycle
         if cycle > 1:
             if score < 3:
-                return cycle + 1
+                new_cycle += 1
             elif 3 <= score <= 5:
-                return cycle - 1
+                new_cycle -= 1
             elif score > 5:
-                cycle = 1
-                return cycle
+                new_cycle = 1
         elif cycle == 1 and score < 3:
-            return cycle + 1
+            cycle += 1
         elif cycle == 1 and score >= 3:
-            return cycle
+            pass
         else:
-            cycle = 1
-            return cycle
+            new_cycle = 1
+        return new_cycle
 
     @staticmethod
     def next_repeat_handler(cycle, prev_repeat_at):
@@ -55,7 +55,7 @@ class QuestionService:
     def get_today_questions_by_profile(profile: Profile) -> QuerySet:
         today_date = date.today()
         QuestionService.renew_date_of_all_forgotten_questions(profile)
-        questions = Question.objects.filter(Q(lesson__theme__section__goal__profile=profile) &
+        questions = Question.objects.filter(Q(lesson__goal__profile=profile) &
                                             Q(next_repeat_at=today_date))
         return questions
 
@@ -72,7 +72,7 @@ class QuestionService:
     @staticmethod
     def renew_date_of_all_forgotten_questions(profile: Profile):
         today_date = datetime.now().today()
-        forgotten_questions = Question.objects.filter(Q(lesson__theme__section__goal__profile=profile) &
+        forgotten_questions = Question.objects.filter(Q(lesson__goal__profile=profile) &
                                                       Q(next_repeat_at__lte=today_date))
         for question in forgotten_questions:
             question.next_repeat_at = today_date

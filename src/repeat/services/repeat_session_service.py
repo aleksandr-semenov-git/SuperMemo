@@ -6,7 +6,7 @@ from account.models import Profile
 
 class RepSessionService:
     @staticmethod
-    def get_rep_session_by_id(rep_id: int):
+    def get_rep_session_by_id(rep_id: int) -> RepetitionSession:
         rep_session = RepetitionSession.objects.get(id=rep_id)
         return rep_session
 
@@ -18,15 +18,18 @@ class RepSessionService:
         return active_rep_session_query
 
     @staticmethod
-    def look_for_rep_session(active_rep_session_query: QuerySet):
+    def look_for_rep_session(active_rep_session_query: QuerySet) -> RepetitionSession or False or Exception:
         """Check profile for multiple and empty rep sessions
 
         raise exception for multiple rep sessions,
         delete empty rep session
 
-        return raise due to exception
-        return False if rep_session is not exist
-        return rep_session if all good
+        parameters:
+            active_rep_session_query -- queryset
+        return values:
+            return raise due to exception
+            return False if rep_session is not exist
+            return rep_session if all good
         """
 
         query_len = len(active_rep_session_query)
@@ -45,7 +48,7 @@ class RepSessionService:
             return False
 
     @staticmethod
-    def get_or_create_rep_session_mix(profile, questions, rep_mod='M'):
+    def get_or_create_rep_session_mix(profile, questions, rep_mod='M') -> (RepetitionSession, str):
         active_rep_session_query = RepSessionService.find_all_started_rep_sessions(profile)
         active_rep_session = RepSessionService.look_for_rep_session(active_rep_session_query)
 
