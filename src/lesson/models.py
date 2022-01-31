@@ -1,5 +1,7 @@
+from datetime import date
 from django.db import models
 from memo.models import Goal
+from django.utils import timezone
 
 
 class Section(models.Model):
@@ -33,14 +35,14 @@ class Lesson(models.Model):
 
 class Question(models.Model):
     question = models.CharField(max_length=500, null=True)
-    answer = models.CharField(max_length=500, null=True)
+    answer = models.CharField(max_length=500, null=True, blank=True)
     lesson = models.ForeignKey(Lesson, verbose_name='lesson', related_name='questions', on_delete=models.CASCADE,
                                null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
 
-    prev_repeat_at = models.DateTimeField(null=True)
-    next_repeat_at = models.DateTimeField(null=True)
+    prev_repeat_at = models.DateField(default=date.today)
+    next_repeat_at = models.DateField(default=date.today)
     cycle = models.PositiveIntegerField(default=0)
     memo_index = models.DecimalField(null=True, decimal_places=2, default=1.00, max_digits=4)
 

@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import Profile
+from datetime import date
 
 
 class QState(models.Model):
@@ -12,11 +13,23 @@ class QState(models.Model):
 
 
 class RepetitionSession(models.Model):
+    MIX = 'M'
+    GOAL = 'G'
+    SECTION = 'S'
+    THEME = 'T'
+    MOD_CHOICES = (
+        (MIX, 'Mix'),
+        (GOAL, 'Goal'),
+        (SECTION, 'Section'),
+        (THEME, 'Theme'),
+    )
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     questions = models.ManyToManyField('lesson.Question', through=QState, related_name='rep_sessions')
+    rep_mod = models.CharField(choices=MOD_CHOICES, max_length=7, null=True)
 
-    start_at = models.DateTimeField(null=True)
-    finish_at = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now=True)
+    finished_at = models.DateField(default=date.today)
     pause_started_at = models.DateTimeField(null=True)
     pause_stopped_at = models.DateTimeField(null=True)
 

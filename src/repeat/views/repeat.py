@@ -5,67 +5,75 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from lesson.models import Question
 from lesson.services import LessonService, SectionService, ThemeService, QuestionService
-from datetime import datetime
+from datetime import datetime, timedelta
+
+from repeat.models import RepetitionSession
+from repeat.services.repeat_session_service import RepSessionService
 
 
 @method_decorator(login_required, name='dispatch')
 class Repeat(View):
-    def get(self, request, theme_id, *args, **kwargs):
-        lesson = ThemeService.get_theme_by_id(theme_id).lesson
-        checked_questions = request.session[f'lesson{lesson.id}']
-        if LessonService.check_repeat_lesson(theme_id, checked_questions):
-            redirect('account:profile')  # Todo: refactor
-        else:
-            question = lesson.questions.exclude(pk__in=checked_questions).first()
+    def get(self, request, rep_id, *args, **kwargs):
+        rep_session = RepSessionService.get_rep_session_by_id(rep_id)
+        next_question = QuestionService.get_next_question_by_rep_session(rep_session)
 
-            return render(request, 'repeat.html', {'question': question, 'theme_id': theme_id})
+        return render(request, 'repeat.html', {'question': next_question})
 
 
 @method_decorator(login_required, name='dispatch')
 class RepeatCheck(View):
     def get(self, request, question_id, *args, **kwargs):
-        question = QuestionService.get_question_by_id(question_id)
-        lesson = question.lesson
-        return render(request, 'repeat_check.html', {'question': question})
+        current_question = QuestionService.get_question_by_id(question_id)
+        return render(request, 'repeat_check.html', {'question': current_question})
 
     def post(self, request, question_id, *args, **kwargs):
+        profile = request.user.profile
+        answer = request.POST.get('answer')
         question = QuestionService.get_question_by_id(question_id)
-        lesson = question.lesson
-        theme_id = lesson.theme.id
-        request.session[f'lesson{lesson.id}'].append(question.id)
-        # request.session.save()
-        del request.session[f'lesson{lesson.id}']
-        return redirect('lesson:lesson_repeat', theme_id=theme_id)
+        if answer == 'Remember perfectly':
+            QuestionService.remember_perfectly(question, profile)
+        else:
+            ...
+        return redirect('repeat:repeat')
 
 
 @method_decorator(login_required, name='dispatch')
 class RepeatMix(View):
     def get(self, request, *args, **kwargs):
+        rep_mod = 'M'
         profile = request.user.profile
-        rep_session = profile.rep_session
-        if len(rep_session.questions.all()) > 0:
-            return render(request, 'repeat.html', {'rep_session': rep_session})
+        questions_query = QuestionService.get_today_questions_by_profile(profile)
+        if len(questions_query) > 0:
+            rep_session, rep_mod = RepSessionService.get_or_create_rep_session_mix(profile,
+                                                                                   questions_query,
+                                                                                   rep_mod=rep_mod)
+            if rep_mod == 'active_rep_exists':
+                return redirect('repeat:repeat', rep_id=rep_session.id)
+                # Todo: message "You have active rep session. Please finish or close it"
+            else:
+                return redirect('repeat:repeat', rep_id=rep_session.id)
         else:
-            todays_date = datetime.now().strftime("%Y-%m-%d")
-            memory_pull = Question.objects.filter(Q(lesson__theme__section__goal__profile=profile)
-                                                  & Q(next_repeat_at=todays_date))
-            for question in memory_pull:
-                question.rep_session = rep_session
-            Question.objects.bulk_update(memory_pull, ['rep_session'])
-            return render(request, 'repeat.html', {'rep_session': rep_session})
+            active_rep_session_query = RepSessionService.find_all_started_rep_sessions(profile)
+            active_rep_session = RepSessionService.look_for_rep_session(active_rep_session_query)
+            if active_rep_session:
+                RepSessionService.finish_rep_session(active_rep_session)
+            return redirect('account:profile_basic')
+        # Todo: message "You have no questions to repeat today. It's time to learn"
 
 
 @method_decorator(login_required, name='dispatch')
 class RepeatSection(View):
-    pass
+    def get(self, request, *args, **kwargs):
+        return render(request, 'in_progress.html', {})
 
 
 @method_decorator(login_required, name='dispatch')
 class RepeatTheme(View):
-    pass
+    def get(self, request, *args, **kwargs):
+        return render(request, 'in_progress.html', {})
 
 
 @method_decorator(login_required, name='dispatch')
 class RepeatGoal(View):
-    pass
-
+    def get(self, request, *args, **kwargs):
+        return render(request, 'in_progress.html', {})
