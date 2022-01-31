@@ -43,6 +43,10 @@
         {% endif %}
     </table>
 
+<form class="container" action="{% url 'repeat:repeat_mix' %}">
+    <button>Repeat all questions for today</button>
+</form>
+
 <form class="container" action="{% url 'memo:my_goals' %}">
     <button>CHECK MY GOALS</button>
 </form>
