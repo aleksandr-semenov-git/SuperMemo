@@ -16,8 +16,10 @@ class Repeat(View):
     def get(self, request, rep_id, *args, **kwargs):
         rep_session = RepSessionService.get_rep_session_by_id(rep_id)
         next_question = QuestionService.get_next_question_by_rep_session(rep_session)
-
-        return render(request, 'repeat.html', {'question': next_question})
+        if next_question:
+            return render(request, 'repeat.html', {'question': next_question})
+        else:
+            RepSessionService.finish_rep_session(rep_session)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -31,7 +33,8 @@ class RepeatCheck(View):
         answer = request.POST.get('answer')
         question = QuestionService.get_question_by_id(question_id)
         if answer == 'Remember perfectly':
-            QuestionService.remember_perfectly(question, profile)
+            remembered_question_id, rep_session_id = QuestionService.save_remembered_perfectly(question, profile)
+            return redirect('repeat:repeat', rep_id=rep_session_id)
         else:
             ...
             # Todo: in progress

@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
-from datetime import datetime
 from repeat.models import RepetitionSession, QState
 from account.models import Profile
+from datetime import date
 
 
 class RepSessionService:
@@ -66,7 +66,7 @@ class RepSessionService:
     @staticmethod
     def finish_rep_session(rep_session):
         rep_session.is_ended = True
-        rep_session.finished_at = datetime.now().today()
+        rep_session.finished_at = date.today()
         rep_session.save()
 
     @staticmethod

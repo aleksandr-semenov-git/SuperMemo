@@ -61,17 +61,14 @@ class QuestionService:
 
     @staticmethod
     def get_next_question_by_rep_session(rep_session: RepetitionSession) -> Question:
-        today_date = datetime.now().today()
-        yesterday_date = today_date - timedelta(days=1)
-        tomorrow_date = today_date + timedelta(days=1)
+        today_date = date.today()
         next_question = \
-            rep_session.questions.filter(Q(next_repeat_at__lte=tomorrow_date) &
-                                         Q(next_repeat_at__gte=yesterday_date)).order_by('edited_at').first()
+            rep_session.questions.filter(next_repeat_at=today_date).order_by('edited_at').first()
         return next_question
 
     @staticmethod
     def renew_date_of_all_forgotten_questions(profile: Profile):
-        today_date = datetime.now().today()
+        today_date = date.today()
         forgotten_questions = Question.objects.filter(Q(lesson__goal__profile=profile) &
                                                       Q(next_repeat_at__lte=today_date))
         for question in forgotten_questions:
@@ -80,20 +77,27 @@ class QuestionService:
         return updated_questions_num
 
     @staticmethod
-    def remember_perfectly(question: Question, profile: Profile):
+    def save_remembered_perfectly(question: Question, profile: Profile):
         rep_session, rep_mod = RepSessionService.get_or_create_rep_session_mix(profile=profile, questions=QuerySet())
         if rep_mod == 'active_rep_exists':
             score = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question.id,
                                                                 rep_session_id=rep_session.id).score
             cycle = question.cycle
             new_cycle = QuestionService.calculate_new_cycle(cycle, score)
+
             # success. question's previous repeat date is today
             question.repeated_num += score
             question.prev_repeat_at = question.next_repeat_at
             prev_repeat_at = question.prev_repeat_at
             next_repeat_at = QuestionService.next_repeat_handler(new_cycle, prev_repeat_at)
-            a = 1
-            # Todo: in progress
+            question.next_repeat_at = next_repeat_at
+
+            # question remembered perfectly for today. save() will change question.edited_at() attribute
+            question.save()
+
+            rep_session_id = rep_session.id
+            question_id = question.id
+            return question_id, rep_session_id
         else:
             print('ERROR REMEMBER PERFECTLY')
             # Todo: Exception
