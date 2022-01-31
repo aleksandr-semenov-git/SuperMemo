@@ -34,6 +34,7 @@ class RepeatCheck(View):
             QuestionService.remember_perfectly(question, profile)
         else:
             ...
+            # Todo: in progress
         return redirect('repeat:repeat')
 
 
