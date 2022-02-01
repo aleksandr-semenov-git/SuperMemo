@@ -4,7 +4,7 @@ from memo.models import Goal
 
 class AddGoalForm(forms.ModelForm):
     """
-        This is forms.ModelForm class. Class which name new goals by user.
+    This is forms.ModelForm class. Class which name new goals by user.
 
     Class attributes
     ----------------
