@@ -22,10 +22,7 @@ class LessonLearnPage(View):
         return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
 
     def post(self, request, theme_id, *args, **kwargs):
-        """Gather and check data from learning-form. Render lesson-page again
-
-        Control active-lesson by django-sessions with theme_id, active_lesson_id keys
-        """
+        """Check data from learning-form. Render lesson-page again"""
         form = AddEditQuestionForm(request.POST)
         theme = ThemeService.get_theme_by_id(theme_id)
         lesson = LessonService.get_lesson_by_theme_id(theme.id)
