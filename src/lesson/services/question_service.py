@@ -70,7 +70,7 @@ class QuestionService:
 
     @staticmethod
     def get_today_questions_by_profile(profile: Profile) -> QuerySet:
-        """Get queryset of questions which should be repeated today"""
+        """Get queryset of questions which should be repeated today and also forgotten questions"""
         today_date = date.today()
         QuestionService.renew_date_of_all_forgotten_questions(profile)
         questions = Question.objects.filter(Q(lesson__goal__profile=profile) &
