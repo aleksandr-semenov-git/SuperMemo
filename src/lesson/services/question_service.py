@@ -69,8 +69,9 @@ class QuestionService:
     @staticmethod
     def renew_date_of_all_forgotten_questions(profile: Profile):
         today_date = date.today()
+        yesterday_date = today_date - timedelta(days=1)
         forgotten_questions = Question.objects.filter(Q(lesson__goal__profile=profile) &
-                                                      Q(next_repeat_at__lte=today_date))
+                                                      Q(next_repeat_at__lte=yesterday_date))
         for question in forgotten_questions:
             question.next_repeat_at = today_date
         updated_questions_num = Question.objects.bulk_update(forgotten_questions, ['next_repeat_at'])
@@ -109,6 +110,9 @@ class QuestionService:
                                                                  rep_session_id=rep_session.id)
             qstate.score += 1
             qstate.save()
+
+            # call save() to change question.edited_at attribute
+            question.save()
 
             rep_session_id = rep_session.id
             return rep_session_id
