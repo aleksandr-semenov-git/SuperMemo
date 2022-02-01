@@ -1,8 +1,16 @@
 from django import forms
+
 from lesson.models import Section
 
 
 class AddSectionForm(forms.ModelForm):
+    """
+    This is forms.ModelForm class. Class which provides naming for the new sections.
+
+    Class attributes
+    ----------------
+    name : str
+    """
     name = forms.CharField(required=True, min_length=3, max_length=150, label='Name your section')
 
     class Meta:
@@ -11,6 +19,18 @@ class AddSectionForm(forms.ModelForm):
 
 
 class ChooseSectionForm(forms.Form):
+    """
+    This is forms.Form class. Class which construct dropdown menu where user will chose one section
+
+    Class attributes
+    ----------------
+    name : ModelChoiceField
+
+    Methods
+    -------
+    __init__(self, *args, **kwargs)
+        this method takes parameter goal_id from the kwargs and provide required queryset as choices
+    """
     name = forms.ModelChoiceField(queryset=Section.objects.none(),
                                   empty_label='Choose section')
 
