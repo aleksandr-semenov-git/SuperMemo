@@ -10,7 +10,7 @@ class QState(models.Model):
     This is a through model. A class to save statistics of user's answers during learning process.
 
     Class attributes
-    ----------
+    ----------------
     score : int
         major attribute that means how many tries user has got with the question
     rep_session : RepetitionSession
