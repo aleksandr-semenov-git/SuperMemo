@@ -96,8 +96,22 @@ class QuestionService:
             question.save()
 
             rep_session_id = rep_session.id
-            question_id = question.id
-            return question_id, rep_session_id
+            return rep_session_id
         else:
             print('ERROR REMEMBER PERFECTLY')
+            # Todo: Exception
+
+    @staticmethod
+    def question_not_remembered(question, profile):
+        rep_session, rep_mod = RepSessionService.get_or_create_rep_session_mix(profile=profile, questions=QuerySet())
+        if rep_mod == 'active_rep_exists':
+            qstate = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question.id,
+                                                                 rep_session_id=rep_session.id)
+            qstate.score += 1
+            qstate.save()
+
+            rep_session_id = rep_session.id
+            return rep_session_id
+        else:
+            print('ERROR NOT REMEMBER ')
             # Todo: Exception

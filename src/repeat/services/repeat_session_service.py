@@ -70,6 +70,7 @@ class RepSessionService:
         rep_session.is_ended = True
         rep_session.finished_at = date.today()
         rep_session.save()
+        return rep_session
 
     @staticmethod
     def get_or_create_rep_session_goal():

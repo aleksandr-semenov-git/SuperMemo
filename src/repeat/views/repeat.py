@@ -16,6 +16,8 @@ class Repeat(View):
             return render(request, 'repeat.html', {'question': next_question})
         else:
             RepSessionService.finish_rep_session(rep_session)
+            return redirect('account:profile_basic')
+        # Todo in v2.0: add time_spent_for_learning
 
 
 @method_decorator(login_required, name='dispatch')
@@ -29,12 +31,10 @@ class RepeatCheck(View):
         answer = request.POST.get('answer')
         question = QuestionService.get_question_by_id(question_id)
         if answer == 'Remember perfectly':
-            remembered_question_id, rep_session_id = QuestionService.save_remembered_perfectly(question, profile)
-            return redirect('repeat:repeat', rep_id=rep_session_id)
+            rep_session_id = QuestionService.save_remembered_perfectly(question, profile)
         else:
-            ...
-            # Todo: in progress
-        return redirect('repeat:repeat')
+            rep_session_id = QuestionService.question_not_remembered(question, profile)
+        return redirect('repeat:repeat', rep_id=rep_session_id)
 
 
 @method_decorator(login_required, name='dispatch')

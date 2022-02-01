@@ -38,4 +38,3 @@ class RepetitionSession(models.Model):
     is_started = models.BooleanField(default=False)
     is_ended = models.BooleanField(default=False)
     is_paused = models.BooleanField(default=False)
-
