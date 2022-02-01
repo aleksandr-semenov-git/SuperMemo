@@ -1,7 +1,8 @@
 from datetime import date
+
 from django.db import models
+
 from memo.models import Goal
-from django.utils import timezone
 
 
 class Section(models.Model):

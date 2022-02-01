@@ -1,13 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
-from lesson.models import Question
-from lesson.services import LessonService, SectionService, ThemeService, QuestionService
-from datetime import datetime, timedelta
 
-from repeat.models import RepetitionSession
+from lesson.services import QuestionService
 from repeat.services.repeat_session_service import RepSessionService
 
 

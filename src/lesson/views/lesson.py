@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
+
 from lesson.forms import AddEditQuestionForm
-from lesson.services import LessonService, SectionService, ThemeService, QuestionService
+from lesson.services import LessonService, ThemeService, QuestionService
 from memo.services import GoalService
 
 

@@ -1,5 +1,5 @@
 from datetime import date
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.db.models import Q, QuerySet

@@ -1,6 +1,8 @@
-from django.db import models
-from account.models import Profile
 from datetime import date
+
+from django.db import models
+
+from account.models import Profile
 
 
 class QState(models.Model):

@@ -1,8 +1,8 @@
 from django.db.models import QuerySet
+
 from account.models import Profile
 from lesson.models import Theme, Lesson
 from memo.models import Goal
-from django.shortcuts import get_object_or_404
 
 
 class LessonService:

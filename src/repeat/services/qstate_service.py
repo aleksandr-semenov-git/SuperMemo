@@ -1,7 +1,4 @@
-from django.db.models import QuerySet
-from datetime import datetime
-from repeat.models import RepetitionSession, QState
-from account.models import Profile
+from repeat.models import QState
 
 
 class QStateService:
