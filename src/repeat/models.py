@@ -6,6 +6,16 @@ from account.models import Profile
 
 
 class QState(models.Model):
+    """
+    This is a through model. A class to save statistics of user's answers during learning process.
+
+    Class attributes
+    ----------
+    score : int
+        major attribute that means how many tries user has got with the question
+    rep_session : RepetitionSession
+    question : Question
+    """
     score = models.IntegerField(default=1)
     rep_session = models.ForeignKey('repeat.RepetitionSession',
                                     related_name='qstats',
@@ -15,6 +25,32 @@ class QState(models.Model):
 
 
 class RepetitionSession(models.Model):
+    """
+    A class to store questions which were chosen to repeat by user
+
+    Class attributes
+    ----------
+    profile : Profile
+    questions : models.ManyToManyField
+    rep_mod : str
+        this attribute shows which way of repeat user has preferred. Mix - all questions, Goal - all goal's questions...
+    created_at : datetime
+        control when session was started
+    edited_at : datetime
+        control when session was edited
+    finished_at : date
+        control when session was finished
+    pause_started_at : date
+        control when pause was started
+    pause_stopped_at : date
+        control when pause was finished
+    is_started : bool
+        control is session was started
+    is_ended : bool
+        control is session was ended
+    is_paused : bool
+        control is session was paused
+    """
     MIX = 'M'
     GOAL = 'G'
     SECTION = 'S'
