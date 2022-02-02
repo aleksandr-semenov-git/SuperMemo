@@ -23,7 +23,7 @@ class LessonLearnPage(View):
         return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
 
     def post(self, request, theme_id, *args, **kwargs):
-        """Check data from LearningForm. Render lesson-page again. Show form errors if needed"""
+        """Check data from LearningForm. Render lesson-page again or show form errors"""
         form = AddEditQuestionForm(request.POST)
         theme = ThemeService.get_theme_by_id(theme_id)
         theme_id = theme.id
@@ -51,7 +51,7 @@ class EditQuestionPage(View):
         return render(request, 'edit_question.html', {'form': form, 'question': question})
 
     def post(self, request, question_id):
-        """Check data from AddEditQuestionForm. Render lesson-page. Show form errors if needed."""
+        """Check data from AddEditQuestionForm. Render lesson-page or show form errors."""
         question = QuestionService.get_question_by_id(question_id)
         form = AddEditQuestionForm(request.POST, instance=question)
         lesson = question.lesson

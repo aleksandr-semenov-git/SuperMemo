@@ -16,7 +16,7 @@ class AddThemePage(View):
         return render(request, 'add_theme.html', {'form': form})
 
     def post(self, request, section_id, *args, **kwargs):
-        """Check data from AddThemeForm and redirect to the goal-page. Show form errors if needed"""
+        """Check data from AddThemeForm and redirect to the goal-page or show form errors"""
         form = AddThemeForm(request.POST)
         section = SectionService.get_section_by_id(section_id)
         goal_id = request.session['goal_id']

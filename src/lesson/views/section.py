@@ -16,7 +16,7 @@ class AddSectionPage(View):
         return render(request, 'add_section.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        """Check data from AddSectionForm and redirect to the goal-page. Show form errors if needed"""
+        """Check data from AddSectionForm and redirect to the goal-page or show form errors"""
         form = AddSectionForm(request.POST)
         goal_id = request.session['goal_id']
         if form.is_valid():

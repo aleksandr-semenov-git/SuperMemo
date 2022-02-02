@@ -7,12 +7,12 @@ from account.forms import LoginForm, RegistrationForm
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
-        """Render login-form"""
+        """Render page. User see LoginForm"""
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        """Check user's post data for errors and login user"""
+        """Check data from LearningForm, log user in or show errors"""
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
@@ -38,12 +38,12 @@ class LogoutView(View):
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
-        """Render registration-form"""
+        """Render page. User see RegistrationForm"""
         form = RegistrationForm()
         return render(request, 'registration/registration.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        """Check user's post data for errors and create new user. Redirect to profile-page"""
+        """Check data from RegistrationForm and create new user. Redirect to profile-page or show errors"""
         form = RegistrationForm(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)

@@ -10,9 +10,10 @@ from account.services.profile_service import ProfileService
 
 class ProfilePage(View):
     def get(self, request, username, *args, **kwargs) -> HttpResponse:
-        """Get or create user's profile
-        get profile's goals
-        display profile's attributes and goals
+        """Render page. User see information about his account.
+
+        Also user see logout, edit, check-my-goals, repeat-all-questions-for-today buttons.
+        User see list of his goals and add-goal button.
         """
         user = request.user
         profile = ProfileService.get_or_create_profile(user)
@@ -35,7 +36,10 @@ class ProfilePageBasic(View):
 @method_decorator(login_required, name='dispatch')
 class EditPage(View):
     def get(self, request, *args, **kwargs) -> HttpResponse:
-        """Prepare and display the form with user's data"""
+        """Render page. User see PersonalDataEditForm filled in with his information and submit button.
+
+        Also user see edit-password button.
+        """
         user = request.user
         form = PersonalDataEditForm(initial={'username': user.username,
                                              'email': user.email,
@@ -45,7 +49,7 @@ class EditPage(View):
         return render(request, 'edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
-        """Redirect to profile-page if the form is valid or refresh edit-page and show errors message"""
+        """Check data from PersonalDataEditForm. Redirect to the profile-page or show errors"""
         form = PersonalDataEditForm(request.POST, instance=request.user)
         if form.is_valid():
             cd = form.cleaned_data
