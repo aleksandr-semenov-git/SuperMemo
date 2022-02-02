@@ -4,7 +4,7 @@ from account.models import Profile
 
 class Goal(models.Model):
     """
-    This is models.Model class. Class which used for determine user's purposes.
+    This is models.Model class. Class which used for determining user's purposes.
 
     Class attributes
     ----------------
