@@ -1,3 +1,3 @@
 from .model_service import GoalService
-from account.services.model_service import ProfileService
+from account.services.profile_service import ProfileService
 

@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from account.forms.profile_forms import PersonalDataEditForm
 from memo.services import GoalService
-from account.services.model_service import ProfileService
+from account.services.profile_service import ProfileService
 
 
 class ProfilePage(View):
