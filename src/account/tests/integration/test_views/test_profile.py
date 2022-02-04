@@ -24,7 +24,7 @@ class ProfilePagesTest(TestCase):
         login = self.client.login(username='test_user0', password='121212test')
         profile = self.profile
         username = self.user.username
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(5):
             result = self.client.get(reverse('account:profile', kwargs={'username': username}), data={})
         expected_goals_query = Goal.objects.filter(profile=profile)
         self.assertEqual(result.status_code, 200)
@@ -37,7 +37,7 @@ class ProfilePagesTest(TestCase):
         self.assertEqual(result.context['username'], username)
 
         Goal.objects.create(name='goal3', profile=self.profile)
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(5):
             result = self.client.get(reverse('account:profile', kwargs={'username': username}), data={})
         self.assertEqual(result.context['goals'].count(), 3)
 
@@ -142,7 +142,7 @@ class ProfilePagesTest(TestCase):
         login = self.client.login(username='test_user0', password='121212test')
         with self.assertNumQueries(4):
             result = self.client.post(reverse('account:add_goal'), data={'name': 'test_goal_name'})
-        self.assertRedirects(result, reverse('memo:my_goals'))
+        self.assertRedirects(result, reverse('account:profile_basic'), fetch_redirect_response=False)
         self.assertTrue(Goal.objects.get(name='test_goal_name'))
 
     def test_user_post_addgoal_page_not_valid_form(self):
@@ -150,7 +150,7 @@ class ProfilePagesTest(TestCase):
         login = self.client.login(username='test_user0', password='121212test')
         with self.assertNumQueries(2):
             result = self.client.post(reverse('account:add_goal'), data={'name': fail_goal_name})
-        self.assertRedirects(result, reverse('account:my_goals'))
+        self.assertRedirects(result, reverse('account:profile_basic'), fetch_redirect_response=False)
         none_goal = Goal.objects.filter(name=fail_goal_name).first()
         self.assertIsNone(none_goal)
 

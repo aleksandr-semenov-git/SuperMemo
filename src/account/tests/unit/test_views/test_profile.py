@@ -161,7 +161,7 @@ class ProfilePagesTest(SimpleTestCase):
         mock_form.is_valid.assert_called_once()
         patch_form.assert_called_once_with(mock_request.POST)
         patch_create_goal.assert_called_once_with('testname', mock_profile)
-        patch_redirect.assert_called_once_with('memo:my_goals')
+        patch_redirect.assert_called_once_with('account:profile_basic')
 
     @patch('account.views.profile.redirect')
     @patch('account.views.profile.AddGoalForm')
@@ -179,5 +179,5 @@ class ProfilePagesTest(SimpleTestCase):
 
         self.assertEqual(result, mock_redirect_result)
         mock_form.is_valid.assert_called_once()
-        patch_redirect.assert_called_once_with('memo:my_goals')
+        patch_redirect.assert_called_once_with('account:profile_basic')
 
