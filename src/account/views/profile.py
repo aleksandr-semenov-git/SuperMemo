@@ -1,11 +1,13 @@
-from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
+
 from account.forms.profile_forms import PersonalDataEditForm
-from memo.services import GoalService
 from account.services.profile_service import ProfileService
+from memo.forms import AddGoalForm
+from memo.services import GoalService
 
 
 class ProfilePage(View):
@@ -22,6 +24,23 @@ class ProfilePage(View):
         return render(request, 'profile_page.html', {'profile': profile,
                                                      'goals': goals,
                                                      'username': username})
+
+
+@method_decorator(login_required, name='dispatch')
+class AddGoalPage(View):
+    def get(self, request, *args, **kwargs):
+        """Render page. User see AddGoalForm and fill it in"""
+        form = AddGoalForm()
+        return render(request, 'add_goal.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        """Redirect user to the my_goals page. Validate the form"""
+        form = AddGoalForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            profile = request.user.profile
+            GoalService.create_goal(cd['name'], profile)
+        return redirect('account:profile_basic')
 
 
 class ProfilePageBasic(View):

@@ -47,9 +47,35 @@
     <button>Repeat all questions for today</button>
 </form>
 
-<form class="container" action="{% url 'memo:my_goals' %}">
-    <button>CHECK MY GOALS</button>
+<h1>My Goals</h1>
+    {% if goals %}
+
+<form class="container" action="{% url 'account:profile_basic' %}">
+    <button>CHECK MY PROFILE</button>
 </form>
+
+<table class="goals" >
+    {% for goal in goals %}
+    <tr>
+
+        <td>
+            <form class="container" action="{% url 'memo:goal_page' goal.id %}">
+                <button>{{goal}}</button>
+            </form>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+
+    {% endif %}
+    <tr><td>
+            <form class="container" action="{% url 'account:add_goal' %}">
+                <button>Add Goal</button>
+            </form>
+    </td></tr>
+    </table>
 
 
 {% endif %}
