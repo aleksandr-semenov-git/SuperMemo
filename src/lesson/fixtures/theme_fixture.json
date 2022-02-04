@@ -1,84 +1,102 @@
 [
 {
     "model": "auth.user",
-    "pk": 7,
+    "pk": 3,
     "fields": {
-        "password": "pbkdf2_sha256$216000$QudK8MfAjYK5$3lZYFnqPLe8XlJQH8I0LldYYb9rkeIVFCKB+UP/vZag=",
-        "last_login": null,
+        "password": "pbkdf2_sha256$216000$WIwfEOcdTbDO$QoPOYmC3nwg9o8rJALXnIgK8fgsDtIpyYBTt6OhwoiM=",
+        "last_login": "2022-01-27T17:10:20.084Z",
         "is_superuser": false,
-        "username": "test_user0",
-        "first_name": "",
-        "last_name": "",
-        "email": "test0@test.email",
+        "username": "TESTUSER",
+        "first_name": "test",
+        "last_name": "test",
+        "email": "test@test.test",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2021-12-24T13:11:55Z",
+        "date_joined": "2022-01-26T15:03:19Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$c6PLStipSI2c$wXPzPAGYwj4TPsXrMg/HA2g3hZqL4qqjZ9PQjGebEpA=",
+        "last_login": "2022-01-27T17:09:15.476Z",
+        "is_superuser": false,
+        "username": "jianyang3",
+        "first_name": "Aleksandr",
+        "last_name": "Semenov",
+        "email": "jianyang3@ya.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-01-24T16:29:31.584Z",
         "groups": [],
         "user_permissions": []
     }
 },
 {
     "model": "account.profile",
-    "pk": 6,
+    "pk": 2,
     "fields": {
-        "user": 7,
+        "user": 3,
+        "photo": "user_images/default.jpg"
+    }
+},
+{
+    "model": "account.profile",
+    "pk": 1,
+    "fields": {
+        "user": 1,
         "photo": "user_images/default.jpg"
     }
 },
 {
     "model": "memo.goal",
-    "pk": 9,
+    "pk": 4,
     "fields": {
-        "name": "test_goal_03",
-        "profile": 6
+        "name": "TEST2",
+        "profile": 2
     }
 },
 {
     "model": "memo.goal",
-    "pk": 8,
+    "pk": 3,
     "fields": {
-        "name": "test_goal_02",
-        "profile": 6
+        "name": "TEST1",
+        "profile": 2
     }
 },
 {
     "model": "memo.goal",
-    "pk": 7,
+    "pk": 2,
     "fields": {
-        "name": "test_goal_01",
-        "profile": 6
+        "name": "Python для сложных задач",
+        "profile": 1
     }
 },
 {
     "model": "lesson.section",
-    "pk": 9,
+    "pk": 5,
     "fields": {
-        "name": "test_section_031",
-        "goal": 9
+        "name": "TEST2S",
+        "goal": 4
     }
 },
 {
     "model": "lesson.section",
-    "pk": 8,
+    "pk": 4,
     "fields": {
-        "name": "test_section_022",
-        "goal": 8
+        "name": "TEST1",
+        "goal": 3
     }
 },
 {
     "model": "lesson.section",
-    "pk": 7,
+    "pk": 3,
     "fields": {
-        "name": "test_section_021",
-        "goal": 8
-    }
-},
-{
-    "model": "lesson.section",
-    "pk": 6,
-    "fields": {
-        "name": "test_section_013",
-        "goal": 7
+        "name": "NumPy",
+        "goal": 2
     }
 }
 ]
