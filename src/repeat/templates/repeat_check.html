@@ -8,14 +8,13 @@
 <h1>{{question.answer}}</h1>
 
 
-<form class="container" method="POST">
-    <input type="submit" name="answer" value="Don't remember clear`">
-    <input type="submit" name="answer" value="Remember perfectly">
-<!--    <input type="submit" name="answer" value="1">-->
-<!--    <input type="submit" name="answer" value="2">-->
-<!--    <input type="submit" name="answer" value="3">-->
-<!--    <input type="submit" name="answer" value="4">-->
-<!--    <input type="submit" name="answer" value="5">-->
+<form class="container" action="{% url 'repeat:remember' question.id %}" method="POST">
+    <button>Remember</button>
+    {% csrf_token %}
+</form>
+
+<form class="container" action="{% url 'repeat:not_remember' question.id %}" method="POST">
+    <button>Not remember</button>
     {% csrf_token %}
 </form>
 

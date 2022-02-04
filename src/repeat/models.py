@@ -29,7 +29,7 @@ class RepetitionSession(models.Model):
     A class to store questions which were chosen to repeat by user
 
     Class attributes
-    ----------
+    ----------------
     profile : Profile
     questions : models.ManyToManyField
     rep_mod : str
@@ -51,26 +51,32 @@ class RepetitionSession(models.Model):
     is_paused : bool
         control is session was paused
     """
-    MIX = 'M'
-    GOAL = 'G'
-    SECTION = 'S'
-    THEME = 'T'
+    MIX_MOD = 'M'
+    GOAL_MOD = 'G'
+    SECTION_MOD = 'S'
+    THEME_MOD = 'T'
     MOD_CHOICES = (
-        (MIX, 'Mix'),
-        (GOAL, 'Goal'),
-        (SECTION, 'Section'),
-        (THEME, 'Theme'),
+        (MIX_MOD, 'Mix'),
+        (GOAL_MOD, 'Goal'),
+        (SECTION_MOD, 'Section'),
+        (THEME_MOD, 'Theme'),
+    )
+
+    IN_PROGRESS = 'IP'
+    FINISHED = 'F'
+    PAUSED = 'P'
+    STATUS_CHOICES = (
+        (IN_PROGRESS, 'in progress'),
+        (FINISHED, 'fin'),
+        (PAUSED, 'paused'),
     )
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     questions = models.ManyToManyField('lesson.Question', through=QState, related_name='rep_sessions')
-    rep_mod = models.CharField(choices=MOD_CHOICES, max_length=7, null=True)
+    rep_mod = models.CharField(choices=MOD_CHOICES, max_length=7, default=MIX_MOD)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=11, default=IN_PROGRESS)
 
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
     finished_at = models.DateField(default=date.today)
     pause_started_at = models.DateTimeField(null=True)
     pause_stopped_at = models.DateTimeField(null=True)
-
-    is_started = models.BooleanField(default=False)
-    is_ended = models.BooleanField(default=False)
-    is_paused = models.BooleanField(default=False)

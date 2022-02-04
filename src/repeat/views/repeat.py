@@ -4,6 +4,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from lesson.services import QuestionService
+from repeat.models import RepetitionSession
+from repeat.services import QStateService
 from repeat.services.repeat_session_service import RepSessionService
 
 
@@ -32,15 +34,37 @@ class RepeatCheck(View):
         current_question = QuestionService.get_question_by_id(question_id)
         return render(request, 'repeat_check.html', {'question': current_question})
 
+
+@method_decorator(login_required, name='dispatch')
+class Remember(View):
     def post(self, request, question_id, *args, **kwargs):
         """Processing user's answer and redirect to the repeat page"""
         profile = request.user.profile
-        answer = request.POST.get('answer')
         question = QuestionService.get_question_by_id(question_id)
-        if answer == 'Remember perfectly':
-            rep_session_id = QuestionService.save_remembered_perfectly(question, profile)
-        else:
-            rep_session_id = QuestionService.question_not_remembered(question, profile)
+        rep_session = RepSessionService.get_rep_session_in_progress(profile)
+        rep_session_id = rep_session.id
+        question_id = question.id
+
+        score = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question_id, rep_id=rep_session_id).score
+        QuestionService.save_remembered_question(question, score)
+        return redirect('repeat:repeat', rep_id=rep_session_id)
+
+
+@method_decorator(login_required, name='dispatch')
+class NotRemember(View):
+    def post(self, request, question_id, *args, **kwargs):
+        """Processing user's answer and redirect to the repeat page"""
+        profile = request.user.profile
+        question = QuestionService.get_question_by_id(question_id)
+        rep_session = RepSessionService.get_rep_session_in_progress(profile)
+        rep_session_id = rep_session.id
+        question_id = question.id
+
+        qstate = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question_id, rep_id=rep_session_id)
+        qstate.score += 1
+        qstate.save()
+
+        question.save()
         return redirect('repeat:repeat', rep_id=rep_session_id)
 
 
@@ -52,25 +76,18 @@ class RepeatMix(View):
         If user have no questions to repeat on today, view check profile for started rep_sessions and finish them.
         After that view redirects user to the profile.
         """
-        rep_mod = 'M'
+        # ------------------------------------------decorator?----------------------------------------------------------
         profile = request.user.profile
-        questions_query = QuestionService.get_today_questions_by_profile(profile)
-        if len(questions_query) > 0:
-            rep_session, rep_mod = RepSessionService.get_or_create_rep_session_mix(profile,
-                                                                                   questions_query,
-                                                                                   rep_mod=rep_mod)
-            if rep_mod == 'active_rep_exists':
-                return redirect('repeat:repeat', rep_id=rep_session.id)
-                # Todo: message "You have active rep session. Please finish or close it"
-            else:
-                return redirect('repeat:repeat', rep_id=rep_session.id)
+        active_rep_session = RepSessionService.get_rep_session_in_progress(profile)
+        if active_rep_session:
+            return redirect('repeat:repeat', rep_id=active_rep_session.id)
+        # --------------------------------------------------------------------------------------------------------------
+        # Todo: message "You have active rep session. Please it first"
         else:
-            active_rep_session_query = RepSessionService.find_all_started_rep_sessions(profile)
-            active_rep_session = RepSessionService.look_for_rep_session(active_rep_session_query)
-            if active_rep_session:
-                RepSessionService.finish_rep_session(active_rep_session)
-            return redirect('account:profile_basic')
-        # Todo: message "You have no questions to repeat today. It's time to learn"
+            rep_mod = RepetitionSession.MIX_MOD
+            questions_query = QuestionService.get_today_questions_by_profile(profile)
+            rep_session = RepSessionService.create_rep_session(profile, rep_mod, questions_query)
+            return redirect('repeat:repeat', rep_id=rep_session.id)
 
 
 @method_decorator(login_required, name='dispatch')

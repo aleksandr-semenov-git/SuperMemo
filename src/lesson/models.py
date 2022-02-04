@@ -82,9 +82,7 @@ class Question(models.Model):
     Class attributes
     ----------------
     question : str
-        short question
     answer : str
-        short answer
     lesson : models.ForeignKey
     created_at : datetime
         time when question was created
@@ -92,6 +90,8 @@ class Question(models.Model):
         time when question was edited
     prev_repeat_at : date
         previous repetition date of the question
+    next_repeat_at : date
+        next repetition date of the question
     cycle : int
         parameter which determine number of days user can not repeat the question
     memo_index : decimal
