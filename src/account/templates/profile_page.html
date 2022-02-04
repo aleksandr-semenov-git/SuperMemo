@@ -50,10 +50,6 @@
 <h1>My Goals</h1>
     {% if goals %}
 
-<form class="container" action="{% url 'account:profile_basic' %}">
-    <button>CHECK MY PROFILE</button>
-</form>
-
 <table class="goals" >
     {% for goal in goals %}
     <tr>
@@ -61,6 +57,18 @@
         <td>
             <form class="container" action="{% url 'memo:goal_page' goal.id %}">
                 <button>{{goal}}</button>
+            </form>
+        </td>
+
+        <td>
+        <form class="container" action="#">
+            <button>edit</button>
+        </form>
+        </td>
+
+        <td>
+            <form class="container" action="#">
+                <button>delete</button>
             </form>
         </td>
 

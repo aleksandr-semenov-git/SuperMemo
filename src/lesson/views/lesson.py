@@ -25,8 +25,6 @@ class LessonLearnPage(View):
     def post(self, request, theme_id, *args, **kwargs):
         """Check data from LearningForm. Render lesson-page again or show form errors"""
         form = AddEditQuestionForm(request.POST)
-        theme = ThemeService.get_theme_by_id(theme_id)
-        theme_id = theme.id
         lesson = LessonService.get_lesson_by_theme_id(theme_id)
         if form.is_valid():
             cd = form.cleaned_data
