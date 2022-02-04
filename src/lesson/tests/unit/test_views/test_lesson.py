@@ -45,7 +45,7 @@ class LessonViewsLessonTest(SimpleTestCase):
     @patch('lesson.views.lesson.LessonService.get_lesson_by_theme_id')
     @patch('lesson.views.lesson.AddEditQuestionForm')
     @patch('lesson.views.lesson.ThemeService.get_theme_by_id')
-    def test_post_lesson_learn_page_valid_form(
+    def test_post_lesson_learn_page_invalid_form(
             self, patch_get_theme, patch_form, patch_get_lesson, patch_create_question, patch_redirect):
         test_theme_id = 1
         mock_request = MagicMock(session={'theme_id': test_theme_id})
