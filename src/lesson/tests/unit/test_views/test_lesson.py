@@ -70,7 +70,6 @@ class LessonViewsLessonTest(SimpleTestCase):
         self.assertEqual(mock_request.session['theme_id'], test_theme_id)
         mock_form.is_valid.assert_called_once()
         patch_form.assert_called_once_with(mock_request.POST)
-        patch_get_theme.assert_called_once_with(test_theme_id)
         patch_create_question.assert_called_once_with(
             question='testquestion', answer='testanswer', lesson=mock_lesson)
         patch_redirect.assert_called_once_with('lesson:lesson_learn', theme_id=test_theme_id)
@@ -101,8 +100,6 @@ class LessonViewsLessonTest(SimpleTestCase):
         self.assertEqual(result, mock_http_result)
         self.assertEqual(mock_request.session['theme_id'], test_theme_id)
         patch_form.assert_called_once_with(mock_request.POST)
-        patch_get_theme.assert_called_once_with(test_theme_id)
-        patch_get_lesson.assert_called_once_with(test_theme_id)
         mock_form.is_valid.assert_called_once()
         patch_render.assert_called_once_with(
             mock_request, 'lesson_learn.html', {'form': mock_form, 'lesson': mock_lesson})
