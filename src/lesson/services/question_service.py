@@ -1,5 +1,4 @@
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 
 from django.conf import settings
 from django.db.models import QuerySet
@@ -57,7 +56,7 @@ class QuestionService:
             elif score > 5:
                 new_cycle = 1
         elif cycle == 1 and score < 3:
-            cycle += 1
+            new_cycle += 1
         elif cycle == 1 and score >= 3:
             pass
         else:
@@ -65,7 +64,7 @@ class QuestionService:
         return new_cycle
 
     @staticmethod
-    def next_repeat_handler(cycle: int, prev_repeat_at: date):
+    def next_repeat_at_handler(cycle: int, prev_repeat_at: date):
         """Calculate the day question should be repeated next time"""
         days = QuestionService.cycle_to_days(cycle)
         next_repeat_at = prev_repeat_at + timedelta(days=days)
@@ -139,10 +138,9 @@ class QuestionService:
         cycle = question.cycle
         new_cycle = QuestionService.calculate_new_cycle(cycle, score)
 
-        # success. question's previous repeat date became today's date
-        question.prev_repeat_at = question.next_repeat_at
-        prev_repeat_at = question.prev_repeat_at
-        next_repeat_at = QuestionService.next_repeat_handler(new_cycle, prev_repeat_at)
+        # success. question's previous repeat date becomes today's date
+        prev_repeat_at = question.prev_repeat_at = question.next_repeat_at
+        next_repeat_at = QuestionService.next_repeat_at_handler(new_cycle, prev_repeat_at)
         question.next_repeat_at = next_repeat_at
         question.repeated_num += score
 
