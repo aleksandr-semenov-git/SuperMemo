@@ -1,0 +1,481 @@
+[
+    {
+        "fields": {
+            "date_joined": "2022-01-26T15:03:19Z",
+            "email": "test@test.test",
+            "first_name": "test",
+            "groups": [],
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "last_login": "2022-01-27T17:10:20.084Z",
+            "last_name": "test",
+            "password": "pbkdf2_sha256$216000$WIwfEOcdTbDO$QoPOYmC3nwg9o8rJALXnIgK8fgsDtIpyYBTt6OhwoiM=",
+            "user_permissions": [],
+            "username": "TESTUSER"
+        },
+        "model": "auth.user",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "date_joined": "2022-01-24T16:29:31.584Z",
+            "email": "jianyang3@ya.ru",
+            "first_name": "Aleksandr",
+            "groups": [],
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "last_login": "2022-01-27T17:09:15.476Z",
+            "last_name": "Semenov",
+            "password": "pbkdf2_sha256$216000$c6PLStipSI2c$wXPzPAGYwj4TPsXrMg/HA2g3hZqL4qqjZ9PQjGebEpA=",
+            "user_permissions": [],
+            "username": "jianyang3"
+        },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "photo": "user_images/default.jpg",
+            "user": 3
+        },
+        "model": "account.profile",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "photo": "user_images/default.jpg",
+            "user": 1
+        },
+        "model": "account.profile",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "name": "TEST1",
+            "profile": 2
+        },
+        "model": "memo.goal",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "name": "Python \u0434\u043b\u044f \u0441\u043b\u043e\u0436\u043d\u044b\u0445 \u0437\u0430\u0434\u0430\u0447",
+            "profile": 1
+        },
+        "model": "memo.goal",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "goal": 3,
+            "name": "TEST1"
+        },
+        "model": "lesson.section",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "goal": 2,
+            "name": "NumPy"
+        },
+        "model": "lesson.section",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "goal": 4,
+            "name": "TEST2S"
+        },
+        "model": "lesson.section",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "name": "TEST2ST2",
+            "section": 5
+        },
+        "model": "lesson.theme",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "name": "TEST2",
+            "profile": 2
+        },
+        "model": "memo.goal",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "name": "TEST2",
+            "section": 4
+        },
+        "model": "lesson.theme",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "name": "TEST1",
+            "section": 4
+        },
+        "model": "lesson.theme",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "goal": 4,
+            "name": "TEST2 TEST2S TEST2ST2",
+            "theme": 5
+        },
+        "model": "lesson.lesson",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "goal": 3,
+            "name": "TEST1 TEST1 TEST2",
+            "theme": 4
+        },
+        "model": "lesson.lesson",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "goal": 3,
+            "name": "TEST1 TEST1 TEST1",
+            "theme": 3
+        },
+        "model": "lesson.lesson",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "answer": "14",
+            "created_at": "2022-02-03T18:34:04.244Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:15.019Z",
+            "lesson": 5,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "14",
+            "repeated_num": 5
+        },
+        "model": "lesson.question",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "answer": "13",
+            "created_at": "2022-02-03T18:33:58.475Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:28.682Z",
+            "lesson": 5,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "13",
+            "repeated_num": 8
+        },
+        "model": "lesson.question",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "answer": "12",
+            "created_at": "2022-02-03T18:33:55.902Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:27.249Z",
+            "lesson": 5,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "12",
+            "repeated_num": 7
+        },
+        "model": "lesson.question",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "answer": "11",
+            "created_at": "2022-02-03T18:33:53.085Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:12.540Z",
+            "lesson": 5,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "11",
+            "repeated_num": 5
+        },
+        "model": "lesson.question",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "answer": "3",
+            "created_at": "2022-02-03T18:13:19.828Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:24.725Z",
+            "lesson": 3,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "3",
+            "repeated_num": 9
+        },
+        "model": "lesson.question",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "answer": "2",
+            "created_at": "2022-02-03T18:13:17.548Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:22.445Z",
+            "lesson": 3,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "2",
+            "repeated_num": 4
+        },
+        "model": "lesson.question",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "answer": "1",
+            "created_at": "2022-02-03T18:13:13.981Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:20.953Z",
+            "lesson": 3,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "1",
+            "repeated_num": 4
+        },
+        "model": "lesson.question",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "answer": "4",
+            "created_at": "2022-02-01T09:14:16.809Z",
+            "cycle": 0,
+            "edited_at": "2022-02-04T08:45:11.295Z",
+            "lesson": 4,
+            "memo_index": "1.00",
+            "next_repeat_at": "2022-02-05",
+            "prev_repeat_at": "2022-02-04",
+            "question": "4",
+            "repeated_num": 13
+        },
+        "model": "lesson.question",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "created_at": "2022-02-04T08:44:17.961Z",
+            "edited_at": "2022-02-04T08:45:28.689Z",
+            "finished_at": "2022-02-04",
+            "pause_started_at": null,
+            "pause_stopped_at": null,
+            "profile": 2,
+            "rep_mod": "M",
+            "status": "F"
+        },
+        "model": "repeat.repetitionsession",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "created_at": "2022-02-03T18:39:43.785Z",
+            "edited_at": "2022-02-03T18:41:03.108Z",
+            "finished_at": "2022-02-03",
+            "pause_started_at": null,
+            "pause_stopped_at": null,
+            "profile": 2,
+            "rep_mod": "M",
+            "status": "F"
+        },
+        "model": "repeat.repetitionsession",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "created_at": "2022-02-03T18:19:44.681Z",
+            "edited_at": "2022-02-03T18:36:56.598Z",
+            "finished_at": "2022-02-03",
+            "pause_started_at": null,
+            "pause_stopped_at": null,
+            "profile": 2,
+            "rep_mod": "M",
+            "status": "F"
+        },
+        "model": "repeat.repetitionsession",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "question": 23,
+            "rep_session": 18,
+            "score": 2
+        },
+        "model": "repeat.qstate",
+        "pk": 42
+    },
+    {
+        "fields": {
+            "question": 22,
+            "rep_session": 18,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 41
+    },
+    {
+        "fields": {
+            "question": 21,
+            "rep_session": 18,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 40
+    },
+    {
+        "fields": {
+            "question": 20,
+            "rep_session": 18,
+            "score": 2
+        },
+        "model": "repeat.qstate",
+        "pk": 39
+    },
+    {
+        "fields": {
+            "question": 13,
+            "rep_session": 18,
+            "score": 2
+        },
+        "model": "repeat.qstate",
+        "pk": 37
+    },
+    {
+        "fields": {
+            "question": 18,
+            "rep_session": 18,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 36
+    },
+    {
+        "fields": {
+            "question": 17,
+            "rep_session": 18,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 35
+    },
+    {
+        "fields": {
+            "question": 16,
+            "rep_session": 18,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 34
+    },
+    {
+        "fields": {
+            "question": 23,
+            "rep_session": 17,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 33
+    },
+    {
+        "fields": {
+            "question": 22,
+            "rep_session": 17,
+            "score": 5
+        },
+        "model": "repeat.qstate",
+        "pk": 32
+    },
+    {
+        "fields": {
+            "question": 21,
+            "rep_session": 17,
+            "score": 4
+        },
+        "model": "repeat.qstate",
+        "pk": 31
+    },
+    {
+        "fields": {
+            "question": 20,
+            "rep_session": 17,
+            "score": 3
+        },
+        "model": "repeat.qstate",
+        "pk": 30
+    },
+    {
+        "fields": {
+            "question": 13,
+            "rep_session": 16,
+            "score": 7
+        },
+        "model": "repeat.qstate",
+        "pk": 28
+    },
+    {
+        "fields": {
+            "question": 18,
+            "rep_session": 16,
+            "score": 6
+        },
+        "model": "repeat.qstate",
+        "pk": 27
+    },
+    {
+        "fields": {
+            "question": 17,
+            "rep_session": 16,
+            "score": 1
+        },
+        "model": "repeat.qstate",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "question": 16,
+            "rep_session": 16,
+            "score": 1
+        },
+        "model": "repeat.qstate",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "created_at": "2022-02-04T09:18:53.357Z",
+            "edited_at": "2022-02-04T09:18:53.367Z",
+            "finished_at": "2022-02-04",
+            "pause_started_at": null,
+            "pause_stopped_at": null,
+            "profile": 2,
+            "rep_mod": "M",
+            "status": "F"
+        },
+        "model": "repeat.repetitionsession",
+        "pk": 19
+    }
+]

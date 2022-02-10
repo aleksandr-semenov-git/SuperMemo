@@ -6,7 +6,7 @@ from lesson.models import Lesson, Question
 
 
 class LessonPagesTest(TestCase):
-    fixtures = ['all_fixtures.json']
+    fixtures = ['lesson_fixtures.json']
 
     def test_get_lesson_learn_page(self):
         session = self.client.session

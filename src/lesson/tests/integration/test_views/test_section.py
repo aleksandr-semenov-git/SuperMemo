@@ -7,7 +7,7 @@ from memo.models import Goal
 
 
 class SectionPagesTest(TestCase):
-    fixtures = ['all_fixtures.json']
+    fixtures = ['lesson_fixtures.json']
 
     def test_get_add_section_page(self):
         login = self.client.login(username='TESTUSER', password='121212ab')
