@@ -7,7 +7,7 @@ from memo.models import Goal
 
 
 class ThemePagesTest(TestCase):
-    fixtures = ['lesson_fixtures.json']
+    fixtures = ['lesson_repeat_fixtures.json']
 
     def test_get_add_theme_page(self):
         section_id = 5

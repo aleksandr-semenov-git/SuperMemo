@@ -11,7 +11,7 @@ from repeat.services import RepSessionService
 class RepeatPagesTest(TestCase):
     fixtures = ['lesson_repeat_fixtures.json']
 
-    def test_get_repeat_view(self):
+    def test_get_repeat_view_next_question_exists(self):
         test_rep_id = 19
         expected_rep_session = RepSessionService.get_rep_session_by_id(test_rep_id)
         expected_next_question = QuestionService.get_next_question_by_rep_session(expected_rep_session)
