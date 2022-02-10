@@ -18,24 +18,6 @@
     }
 },
 {
-    "model": "auth.user",
-    "pk": 1,
-    "fields": {
-        "password": "pbkdf2_sha256$216000$c6PLStipSI2c$wXPzPAGYwj4TPsXrMg/HA2g3hZqL4qqjZ9PQjGebEpA=",
-        "last_login": "2022-01-27T17:09:15.476Z",
-        "is_superuser": false,
-        "username": "jianyang3",
-        "first_name": "Aleksandr",
-        "last_name": "Semenov",
-        "email": "jianyang3@ya.ru",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2022-01-24T16:29:31.584Z",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
     "model": "account.profile",
     "pk": 2,
     "fields": {
@@ -44,11 +26,11 @@
     }
 },
 {
-    "model": "account.profile",
-    "pk": 1,
+    "model": "memo.goal",
+    "pk": 4,
     "fields": {
-        "user": 1,
-        "photo": "user_images/default.jpg"
+        "name": "TEST2",
+        "profile": 2
     }
 },
 {
@@ -60,11 +42,11 @@
     }
 },
 {
-    "model": "memo.goal",
-    "pk": 2,
+    "model": "lesson.section",
+    "pk": 5,
     "fields": {
-        "name": "Python для сложных задач",
-        "profile": 1
+        "name": "TEST2S",
+        "goal": 4
     }
 },
 {
@@ -73,14 +55,6 @@
     "fields": {
         "name": "TEST1",
         "goal": 3
-    }
-},
-{
-    "model": "lesson.section",
-    "pk": 3,
-    "fields": {
-        "name": "NumPy",
-        "goal": 2
     }
 }
 ]

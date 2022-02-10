@@ -19,53 +19,11 @@
     },
     {
         "fields": {
-            "date_joined": "2022-01-24T16:29:31.584Z",
-            "email": "jianyang3@ya.ru",
-            "first_name": "Aleksandr",
-            "groups": [],
-            "is_active": true,
-            "is_staff": false,
-            "is_superuser": false,
-            "last_login": "2022-01-27T17:09:15.476Z",
-            "last_name": "Semenov",
-            "password": "pbkdf2_sha256$216000$c6PLStipSI2c$wXPzPAGYwj4TPsXrMg/HA2g3hZqL4qqjZ9PQjGebEpA=",
-            "user_permissions": [],
-            "username": "jianyang3"
+            "goal": 4,
+            "name": "TEST2S"
         },
-        "model": "auth.user",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "photo": "user_images/default.jpg",
-            "user": 3
-        },
-        "model": "account.profile",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "photo": "user_images/default.jpg",
-            "user": 1
-        },
-        "model": "account.profile",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "name": "TEST1",
-            "profile": 2
-        },
-        "model": "memo.goal",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "name": "Python \u0434\u043b\u044f \u0441\u043b\u043e\u0436\u043d\u044b\u0445 \u0437\u0430\u0434\u0430\u0447",
-            "profile": 1
-        },
-        "model": "memo.goal",
-        "pk": 2
+        "model": "lesson.section",
+        "pk": 5
     },
     {
         "fields": {
@@ -77,19 +35,11 @@
     },
     {
         "fields": {
-            "goal": 2,
-            "name": "NumPy"
+            "photo": "user_images/default.jpg",
+            "user": 3
         },
-        "model": "lesson.section",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "goal": 4,
-            "name": "TEST2S"
-        },
-        "model": "lesson.section",
-        "pk": 5
+        "model": "account.profile",
+        "pk": 2
     },
     {
         "fields": {
@@ -121,6 +71,14 @@
             "section": 4
         },
         "model": "lesson.theme",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "name": "TEST1",
+            "profile": 2
+        },
+        "model": "memo.goal",
         "pk": 3
     },
     {
