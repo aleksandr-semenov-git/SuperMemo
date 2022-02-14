@@ -20,24 +20,20 @@ class RepSessionService:
 
     @staticmethod
     def get_rep_session_in_progress(profile):
-        try:
-            active_rep_session = RepetitionSession.objects.get(profile=profile, status=RepetitionSession.IN_PROGRESS)
-            return active_rep_session
-        except:
-            active_rep_session_query = RepetitionSession.objects.filter(profile=profile,
-                                                                        status=RepetitionSession.IN_PROGRESS)
-            for session in active_rep_session_query:
-                RepSessionService.finish_rep_session(session)
-            return None
+        active_rep_session = RepetitionSession.objects.filter(
+            profile=profile, status=RepetitionSession.IN_PROGRESS).first()
+        return active_rep_session
 
     @staticmethod
-    def create_rep_session(profile, rep_mod, questions) -> RepetitionSession:
+    def create_mix_rep_session_in_progress(profile, rep_mod, questions) -> RepetitionSession:
         """"""
-        rep_session, created = RepetitionSession.objects.get_or_create(profile=profile,
-                                                                       rep_mod=rep_mod,
-                                                                       status=RepetitionSession.IN_PROGRESS)
+        rep_session = RepetitionSession.objects.create(profile=profile,
+                                                       rep_mod=rep_mod,
+                                                       status=RepetitionSession.IN_PROGRESS)
+        qstate_list = []
         for question in questions:
-            QState.objects.get_or_create(rep_session=rep_session, question=question)
+            qstate_list.append(QState(rep_session=rep_session, question=question))
+        QState.objects.bulk_create(qstate_list)
         return rep_session
 
     @staticmethod

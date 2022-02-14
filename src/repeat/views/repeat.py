@@ -86,7 +86,7 @@ class RepeatMix(View):
         else:
             rep_mod = RepetitionSession.MIX_MOD
             questions_query = QuestionService.get_today_questions_by_profile(profile)
-            rep_session = RepSessionService.create_rep_session(profile, rep_mod, questions_query)
+            rep_session = RepSessionService.create_rep_session_in_progress(profile, rep_mod, questions_query)
             return redirect('repeat:repeat', rep_id=rep_session.id)
 
 
