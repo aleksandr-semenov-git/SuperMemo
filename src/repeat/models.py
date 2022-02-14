@@ -7,7 +7,7 @@ from account.models import Profile
 
 class QState(models.Model):
     """
-    This is a through model. A class to save statistics of user's answers during learning process.
+    A class to save statistics of user's answers during learning process.
 
     Class attributes
     ----------------
