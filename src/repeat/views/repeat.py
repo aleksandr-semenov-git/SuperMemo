@@ -43,7 +43,6 @@ class Remember(View):
         question = QuestionService.get_question_by_id(question_id)
         rep_session = RepSessionService.get_rep_session_in_progress(profile)
         rep_session_id = rep_session.id
-        question_id = question.id
 
         score = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question_id, rep_id=rep_session_id).score
         QuestionService.save_remembered_question(question, score)
@@ -58,7 +57,6 @@ class NotRemember(View):
         question = QuestionService.get_question_by_id(question_id)
         rep_session = RepSessionService.get_rep_session_in_progress(profile)
         rep_session_id = rep_session.id
-        question_id = question.id
 
         qstate = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question_id, rep_id=rep_session_id)
         qstate.score += 1
@@ -86,7 +84,7 @@ class RepeatMix(View):
         else:
             rep_mod = RepetitionSession.MIX_MOD
             questions_query = QuestionService.get_today_questions_by_profile(profile)
-            rep_session = RepSessionService.create_rep_session_in_progress(profile, rep_mod, questions_query)
+            rep_session = RepSessionService.create_mix_rep_session_in_progress(profile, rep_mod, questions_query)
             return redirect('repeat:repeat', rep_id=rep_session.id)
 
 

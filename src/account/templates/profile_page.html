@@ -22,6 +22,7 @@
     border: 1px solid black; /* Граница вокруг ячеек */
    }
   </style>
+<h1>Profile</h1>
     <table class="profile" >
 
         <tr><td ><img src="{{ post.profile.image.url }}" alt="img"></td></tr>
@@ -42,7 +43,6 @@
             {% endif %}
         {% endif %}
     </table>
-
 <form class="container" action="{% url 'repeat:repeat_mix' %}">
     <button>Repeat all questions for today</button>
 </form>
