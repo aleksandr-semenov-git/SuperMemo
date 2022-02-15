@@ -1,9 +1,9 @@
 from datetime import date
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, call
 
 from django.test import SimpleTestCase
 
-from repeat.models import RepetitionSession, QState
+from repeat.models import RepetitionSession
 from repeat.services import RepSessionService
 
 
@@ -43,16 +43,20 @@ class RepSessionServiceTest(SimpleTestCase):
         test_questions = [test_q1, test_q2]
         test_status = RepetitionSession.IN_PROGRESS
         test_mod = 'MIX'
+        mock_qstate1 = MagicMock()
+        mock_qstate2 = MagicMock()
 
+        patch_qstate_model.side_effect = [mock_qstate1, mock_qstate2]
         patch_qstate_model.return_value = test_qstate
         patch_create_rep_session.return_value = test_rep_session
 
         result = RepSessionService.create_mix_rep_session_in_progress(test_profile, test_mod, test_questions)
 
         patch_create_rep_session.assert_called_once_with(profile=test_profile, rep_mod=test_mod, status=test_status)
-        # patch_qstate_model.assert_called_once_with(rep_session=test_rep_session, question=test_q1)
+        patch_qstate_model.assert_has_calls([call(rep_session=test_rep_session, question=test_q1),
+                                      call(rep_session=test_rep_session, question=test_q2)])
 
-        patch_bulk_create.assert_called_once()
+        patch_bulk_create.assert_called_once_with([mock_qstate1, mock_qstate2])
         self.assertEqual(result, test_rep_session)
 
     def test_finish_rep_session(self):
