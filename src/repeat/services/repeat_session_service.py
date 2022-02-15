@@ -15,7 +15,7 @@ class RepSessionService:
         -------
         rep_session : RepetitionSession
         """
-        rep_session = RepetitionSession.objects.get(id=rep_id)
+        rep_session = RepetitionSession.objects.get(pk=rep_id)
         return rep_session
 
     @staticmethod
