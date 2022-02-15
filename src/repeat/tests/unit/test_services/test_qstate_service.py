@@ -18,3 +18,12 @@ class QStateServiceTest(SimpleTestCase):
         patch_qstate_get.assert_called_once_with(question__id=test_q_id, rep_session__id=test_rep_id)
         self.assertEqual(qstate, result)
 
+    def test_save_qstate_and_question(self):
+        expected_score = 2
+        mock_qstate = MagicMock(score=1)
+        mock_question = MagicMock()
+
+        result = QStateService.save_qstate_and_question(mock_qstate, mock_question)
+        mock_qstate.save.assert_called_once()
+        mock_question.save.assert_called_once()
+        self.assertEqual(mock_qstate.score, expected_score)

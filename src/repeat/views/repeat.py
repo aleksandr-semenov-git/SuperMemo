@@ -59,10 +59,7 @@ class NotRemember(View):
         rep_session_id = rep_session.id
 
         qstate = QStateService.get_qstate_by_q_id_and_rep_id(question_id=question_id, rep_id=rep_session_id)
-        qstate.score += 1
-        qstate.save()
-
-        question.save()
+        QStateService.save_qstate_and_question(qstate=qstate, question=question)
         return redirect('repeat:repeat', rep_id=rep_session_id)
 
 
