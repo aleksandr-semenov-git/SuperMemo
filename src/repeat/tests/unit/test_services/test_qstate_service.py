@@ -25,5 +25,4 @@ class QStateServiceTest(SimpleTestCase):
 
         result = QStateService.save_qstate_and_question(mock_qstate, mock_question)
         mock_qstate.save.assert_called_once()
-        mock_question.save.assert_called_once()
         self.assertEqual(mock_qstate.score, expected_score)
