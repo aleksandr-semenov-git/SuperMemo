@@ -13,4 +13,3 @@ class QStateService:
     def save_qstate_and_question(qstate: QState, question: Question):
         qstate.score += 1
         qstate.save()
-        question.save()

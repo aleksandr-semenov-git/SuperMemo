@@ -77,12 +77,16 @@ class RepeatMix(View):
         if active_rep_session:
             return redirect('repeat:repeat', rep_id=active_rep_session.id)
         # --------------------------------------------------------------------------------------------------------------
-        # Todo: message "You have active rep session. Please it first"
+        # Todo: message "You have active rep session. Please finish it first"
         else:
             rep_mod = RepetitionSession.MIX_MOD
             questions_query = QuestionService.get_today_questions_by_profile(profile)
-            rep_session = RepSessionService.create_mix_rep_session_in_progress(profile, rep_mod, questions_query)
-            return redirect('repeat:repeat', rep_id=rep_session.id)
+            if questions_query:
+                rep_session = RepSessionService.create_mix_rep_session_in_progress(profile, rep_mod, questions_query)
+                return redirect('repeat:repeat', rep_id=rep_session.id)
+            else:
+                return redirect('account:profile_basic')
+                # Todo: message "You have no questions for today. Its time to learn"
 
 
 @method_decorator(login_required, name='dispatch')

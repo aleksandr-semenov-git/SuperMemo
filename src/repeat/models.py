@@ -23,6 +23,10 @@ class QState(models.Model):
                                     null=True)
     question = models.ForeignKey('lesson.Question', related_name='qstats', on_delete=models.SET_NULL, null=True)
 
+    def save(self, *args, **kwargs):
+        self.question.save()
+        super().save(*args, **kwargs)
+
 
 class RepetitionSession(models.Model):
     """
