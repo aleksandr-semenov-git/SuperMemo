@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import django_heroku
-from django.urls import reverse_lazy
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -9,8 +8,7 @@ EMAIL_HOST_USER = 'jian9ang@gmail.com'
 EMAIL_HOST_PASSWORD = 'xoxhuxyteekzhsez'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# TLS даёт возможность клиент-серверным приложениям осуществлять связь в сети таким образом,
-# что нельзя производить прослушивание пакетов и осуществить несанкционированный доступ.
+
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -126,10 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/staticfiles/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_DIRS = [
-#     os.path.join('BASE_DIR', 'staticfiles'),
-# ]
 
 LESSON_SESSION_ID = 'lesson'
 
