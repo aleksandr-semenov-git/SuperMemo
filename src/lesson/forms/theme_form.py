@@ -5,7 +5,7 @@ from lesson.models import Theme
 
 class AddThemeForm(forms.ModelForm):
     """
-    This is forms.ModelForm class. Class which provides naming for the new themes.
+    Class which provides naming for the new themes.
 
     Class attributes
     ----------------

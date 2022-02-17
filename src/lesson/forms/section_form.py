@@ -5,7 +5,7 @@ from lesson.models import Section
 
 class AddSectionForm(forms.ModelForm):
     """
-    This is forms.ModelForm class. Class which provides naming for the new sections.
+    Class which provides naming for the new sections.
 
     Class attributes
     ----------------

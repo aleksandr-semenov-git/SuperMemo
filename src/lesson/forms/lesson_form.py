@@ -5,7 +5,7 @@ from lesson.models import Question
 
 class AddEditQuestionForm(forms.ModelForm):
     """
-    This is forms.ModelForm class. Class which is used for add or edit questions and answers.
+    Class which is used for add or edit questions and answers.
 
     Class attributes
     ----------------

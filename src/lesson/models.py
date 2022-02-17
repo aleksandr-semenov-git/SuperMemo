@@ -7,7 +7,7 @@ from memo.models import Goal
 
 class Section(models.Model):
     """
-    This is models.Model class. Class which used for separating user's goals on sections.
+    Class which used for separating user's goals on sections.
 
     Class attributes
     ----------------
@@ -28,7 +28,7 @@ class Section(models.Model):
 
 class Theme(models.Model):
     """
-    This is models.Model class. Class which used for separating user's sections on themes.
+    Class which used for separating user's sections on themes.
 
     Class attributes
     ----------------
@@ -53,7 +53,7 @@ class Theme(models.Model):
 
 class Lesson(models.Model):
     """
-    This is models.Model class. Class which used for storing user's questions in sorted way.
+    Class which used for storing user's questions in sorted way.
 
     Class attributes
     ----------------
@@ -77,7 +77,7 @@ class Lesson(models.Model):
 
 class Question(models.Model):
     """
-    This is models.Model class. Class which used for storing information about user's questions.
+    moClass which used for storing information about user's questions.
 
     Class attributes
     ----------------

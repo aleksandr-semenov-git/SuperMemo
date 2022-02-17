@@ -4,7 +4,7 @@ from django.db import models
 
 class Profile(models.Model):
     """
-    This is models.Model class. Class which used for storing user's photo and mind map
+    Class which used for storing user's photo and mind map
 
     Class attributes
     ----------------
