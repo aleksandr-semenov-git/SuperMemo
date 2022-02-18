@@ -1,4 +1,3 @@
-from datetime import date
 from unittest.mock import patch, MagicMock, call
 
 from django.test import SimpleTestCase
@@ -59,10 +58,13 @@ class RepSessionServiceTest(SimpleTestCase):
         patch_bulk_create.assert_called_once_with([mock_qstate1, mock_qstate2])
         self.assertEqual(result, test_rep_session)
 
-    def test_finish_rep_session(self):
+    @patch(f'{FILE_PATH}.date')
+    def test_finish_rep_session(self, patch_date):
+        mock_date = MagicMock()
+        patch_date.return_value = mock_date
+        mock_date.today.return_value = mock_date
         test_rep_session = MagicMock()
-        today_date = date.today()
         result = RepSessionService.finish_rep_session(test_rep_session)
         self.assertEqual(result, test_rep_session)
-        self.assertEqual(result.finished_at, today_date)
+        self.assertEqual(result.finished_at, mock_date)
         self.assertEqual(result.status, 'F')
