@@ -1,10 +1,7 @@
-from datetime import date, timedelta
-from random import randint
 from unittest.mock import patch, MagicMock
 
 from django.test import SimpleTestCase
 
-from lesson.services import QuestionService
 from repeat.views import Repeat, RepeatCheck, Remember, NotRemember, RepeatMix
 
 

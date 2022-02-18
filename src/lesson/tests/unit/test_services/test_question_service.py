@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-from random import randint
 from unittest.mock import patch, MagicMock
 
 from django.test import SimpleTestCase
@@ -11,43 +10,43 @@ class QuestionServicesTest(SimpleTestCase):
     FILE_PATH = 'lesson.services.question_service'
 
     def test_calculate_new_cycle_more_then_1_score_less_then_3(self):
-        cycle = randint(2, 1000)
-        score = randint(1, 2)
+        cycle = 2
+        score = 2
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = cycle + 1
         self.assertEqual(result, expected_new_cycle)
 
     def test_calculate_new_cycle_more_then_1_score_between_3_5(self):
-        cycle = randint(2, 1000)
-        score = randint(3, 5)
+        cycle = 3
+        score = 3
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = cycle - 1
         self.assertEqual(result, expected_new_cycle)
 
     def test_calculate_new_cycle_more_then_1_score_greater_then_5(self):
-        cycle = randint(2, 1000)
-        score = randint(6, 1000)
+        cycle = 2
+        score = 7
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = 1
         self.assertEqual(result, expected_new_cycle)
 
     def test_calculate_new_cycle_equal_to_1_score_less_then_3(self):
         cycle = 1
-        score = randint(1, 2)
+        score = 2
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = cycle + 1
         self.assertEqual(result, expected_new_cycle)
 
     def test_calculate_new_cycle_equal_to_1_score_greater_then_2(self):
         cycle = 1
-        score = randint(3, 1000)
+        score = 3
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = cycle
         self.assertEqual(result, expected_new_cycle)
 
     def test_calculate_new_cycle_equal_to_0_score_greater_then_0(self):
         cycle = 0
-        score = randint(1, 1000)
+        score = 1
         result = QuestionService.calculate_new_cycle(cycle, score)
         expected_new_cycle = 1
         self.assertEqual(result, expected_new_cycle)
