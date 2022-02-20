@@ -52,16 +52,17 @@ class QuestionServicesTest(SimpleTestCase):
         self.assertEqual(result, expected_new_cycle)
 
     @patch(f'{FILE_PATH}.QuestionService.cycle_to_days')
-    def test_next_repeat_at_handler(self, patch_cycle_to_days):
+    @patch(f'{FILE_PATH}.date')
+    def test_next_repeat_at_handler(self,  patch_date, patch_cycle_to_days):
         test_days = 3
         test_cycle = 2
-        test_prev_repeat_at = date.today()
-
+        mock_prev_repeat_date = MagicMock()
+        patch_date.return_value = mock_prev_repeat_date
+        mock_prev_repeat_date.__add__.return_value = mock_prev_repeat_date
+        mock_prev_repeat_date.today.return_value = mock_prev_repeat_date
         patch_cycle_to_days.return_value = test_days
-        expected_result = test_prev_repeat_at + timedelta(days=test_days)
-
-        result = QuestionService.next_repeat_at_handler(test_cycle, test_prev_repeat_at)
-        self.assertEqual(result, expected_result)
+        result = QuestionService.next_repeat_at_handler(test_cycle, mock_prev_repeat_date)
+        self.assertEqual(result, mock_prev_repeat_date)
 
     @patch(f'{FILE_PATH}.QuestionService.renew_date_of_all_forgotten_questions')
     @patch(f'{FILE_PATH}.Question.objects.filter')

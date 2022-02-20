@@ -53,7 +53,7 @@ class RepSessionServiceTest(SimpleTestCase):
 
         patch_create_rep_session.assert_called_once_with(profile=test_profile, rep_mod=test_mod, status=test_status)
         patch_qstate_model.assert_has_calls([call(rep_session=test_rep_session, question=test_q1),
-                                      call(rep_session=test_rep_session, question=test_q2)])
+                                             call(rep_session=test_rep_session, question=test_q2)])
 
         patch_bulk_create.assert_called_once_with([mock_qstate1, mock_qstate2])
         self.assertEqual(result, test_rep_session)
@@ -61,10 +61,13 @@ class RepSessionServiceTest(SimpleTestCase):
     @patch(f'{FILE_PATH}.date')
     def test_finish_rep_session(self, patch_date):
         mock_date = MagicMock()
-        patch_date.return_value = mock_date
-        mock_date.today.return_value = mock_date
+        patch_date.today.return_value = mock_date
         test_rep_session = MagicMock()
+        test_rep_session.finished_at = None
+
         result = RepSessionService.finish_rep_session(test_rep_session)
+
         self.assertEqual(result, test_rep_session)
+        self.assertNotEqual(result.finished_at, None)
         self.assertEqual(result.finished_at, mock_date)
         self.assertEqual(result.status, 'F')
