@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import django_heroku
-from django.urls import reverse_lazy
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -9,8 +8,7 @@ EMAIL_HOST_USER = 'jian9ang@gmail.com'
 EMAIL_HOST_PASSWORD = 'xoxhuxyteekzhsez'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# TLS даёт возможность клиент-серверным приложениям осуществлять связь в сети таким образом,
-# что нельзя производить прослушивание пакетов и осуществить несанкционированный доступ.
+
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,9 +40,15 @@ INSTALLED_APPS = [
     'lesson',
     'fixture_magic',
     'repeat',
+    'debug_toolbar',
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,7 +64,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates', 'account/templates', 'memo/templates', 'lesson/templates'],
+        'DIRS': ['templates', 'account/templates', 'memo/templates', 'lesson/templates', 'repeat/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,10 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join('BASE_DIR', 'staticfiles'),
-]
 
 LESSON_SESSION_ID = 'lesson'
 
@@ -136,3 +136,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 django_heroku.settings(locals())
+
+DAYS_DICT = {0: 0, 1: 1, 2: 2, 3: 12, 4: 20, 5: 30, 6: 60, 7: 90, 8: 150, 9: 270, 10: 480, 11: 720, 12: 1440,
+             13: 2160, 14: 3960, 15: 6480}

@@ -24,6 +24,10 @@
   </style>
 <h1>{{goal.name}}</h1>
 
+<form class="container" action="{% url 'repeat:repeat_goal' goal.id %}">
+    <button>Repeat goal's questions</button>
+</form>
+
 {% for section in goal.sections.all %}
 <table>
 <tr><td>{{section}}</td></tr>
@@ -47,15 +51,13 @@
 {% endfor %}
 
 <form class="container" action="{% url 'lesson:add_section' %}">
-    <button>Add section</button>
+    <button>ADD SECTION</button>
 </form>
 
 <form class="container" action="{% url 'account:profile_basic' %}">
-    <button>CHECK MY PROFILE</button>
+    <button>Back to profile</button>
 </form>
 
-<form class="container" action="{% url 'memo:my_goals' %}">
-    <button>CHECK MY GOALS</button>
-</form>
+
 
 {% endblock %}

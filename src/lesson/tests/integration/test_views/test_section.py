@@ -1,43 +1,16 @@
 from django.test import TestCase
-from lesson.forms import AddEditQuestionForm, ChooseSectionForm, AddSectionForm
-from lesson.models import Lesson, Question, Section, Theme
 from django.urls import reverse
+
+from lesson.forms import AddSectionForm
+from lesson.models import Section
 from memo.models import Goal
 
 
 class SectionPagesTest(TestCase):
-    fixtures = ['all_fixtures.json']
-
-    def test_get_choose_section_page(self):
-        session = self.client.session
-        session['goal_id'] = 7
-        session.save()
-        goal = Goal.objects.get(pk=7)
-
-        login = self.client.login(username='test_user0', password='121212ab')
-        result = self.client.get(reverse('lesson:choose_section', kwargs={}), data={})
-
-        self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'choose_section.html')
-        self.assertEqual(result.context['goal'], goal)
-        self.assertTrue(isinstance(result.context['form'], ChooseSectionForm))
-
-    def test_post_choose_section_page_invalid_form(self):
-        session = self.client.session
-        session['goal_id'] = 7
-        session.save()
-        goal = Goal.objects.get(pk=7)
-
-        login = self.client.login(username='test_user0', password='121212ab')
-        result = self.client.post(reverse('lesson:choose_section', kwargs={}), data={})
-
-        self.assertEqual(result.status_code, 200)
-        self.assertTemplateUsed(result, 'choose_section.html')
-        self.assertEqual(result.context['goal'], goal)
-        self.assertTrue(isinstance(result.context['form'], ChooseSectionForm))
+    fixtures = ['lesson_repeat_fixtures.json']
 
     def test_get_add_section_page(self):
-        login = self.client.login(username='test_user0', password='121212ab')
+        login = self.client.login(username='TESTUSER', password='121212ab')
         result = self.client.get(reverse('lesson:add_section', kwargs={}), data={})
         self.assertEqual(result.status_code, 200)
         self.assertTemplateUsed(result, 'add_section.html')
@@ -45,11 +18,11 @@ class SectionPagesTest(TestCase):
 
     def test_post_add_section_valid_form(self):
         session = self.client.session
-        session['goal_id'] = 7
+        session['goal_id'] = 4
         session.save()
-        goal = Goal.objects.get(pk=7)
+        goal = Goal.objects.get(pk=4)
 
-        login = self.client.login(username='test_user0', password='121212ab')
+        login = self.client.login(username='TESTUSER', password='121212ab')
         result = self.client.post(reverse('lesson:add_section', kwargs={}), data={'name': 'Valid_name'})
 
         self.assertRedirects(result,
@@ -59,11 +32,11 @@ class SectionPagesTest(TestCase):
 
     def test_post_add_section_invalid_form(self):
         session = self.client.session
-        session['goal_id'] = 7
+        session['goal_id'] = 4
         session.save()
-        goal = Goal.objects.get(pk=7)
+        goal = Goal.objects.get(pk=4)
 
-        login = self.client.login(username='test_user0', password='121212ab')
+        login = self.client.login(username='TESTUSER', password='121212ab')
         result = self.client.post(reverse('lesson:add_section', kwargs={}), data={})
 
         self.assertEqual(result.status_code, 200)

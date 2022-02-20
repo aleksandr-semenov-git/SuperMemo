@@ -2,32 +2,30 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
+
 from lesson.forms import AddEditQuestionForm
-from lesson.services import LessonService, SectionService, ThemeService, QuestionService
+from lesson.services import LessonService, ThemeService, QuestionService
 from memo.services import GoalService
 
 
 @method_decorator(login_required, name='dispatch')
 class LessonLearnPage(View):
     def get(self, request, theme_id, *args, **kwargs):
-        """Render lesson-page and LearningForm"""
-        request.session['theme_id'] = theme_id
+        """Render page. User see LearningForm and table with questions and answers.
+
+        User can edit or delete questions. User see logout, repeat-theme, back-to-<goal>, back-to-profile,
+        back-to-my-goals buttons.
+        """
         goal = GoalService.get_goal_by_id(request.session['goal_id'])
         theme = ThemeService.get_theme_by_id(theme_id)
         lesson = LessonService.get_or_create_lesson(goal=goal, theme=theme)
-        request.session[f'lesson{lesson.id}'] = []
-
         form = AddEditQuestionForm()
         return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
 
     def post(self, request, theme_id, *args, **kwargs):
-        """Gather and check data from learning-form. Render lesson-page again
-
-        Control active-lesson by django-sessions with theme_id, active_lesson_id keys
-        """
+        """Check data from LearningForm. Render lesson-page again or show form errors"""
         form = AddEditQuestionForm(request.POST)
-        theme = ThemeService.get_theme_by_id(theme_id)
-        lesson = LessonService.get_lesson_by_theme_id(theme.id)
+        lesson = LessonService.get_lesson_by_theme_id(theme_id)
         if form.is_valid():
             cd = form.cleaned_data
             question = cd['question']
@@ -43,6 +41,7 @@ class LessonLearnPage(View):
 
 @method_decorator(login_required, name='dispatch')
 class EditQuestionPage(View):
+    """Render page. User see question, answer, AddEditQuestionForm, logout and save-question buttons"""
     def get(self, request, question_id, *args, **kwargs):
         question = QuestionService.get_question_by_id(question_id)
         form = AddEditQuestionForm(initial={'question': question.question,
@@ -50,9 +49,10 @@ class EditQuestionPage(View):
         return render(request, 'edit_question.html', {'form': form, 'question': question})
 
     def post(self, request, question_id):
+        """Check data from AddEditQuestionForm. Render lesson-page or show form errors."""
         question = QuestionService.get_question_by_id(question_id)
         form = AddEditQuestionForm(request.POST, instance=question)
-        lesson = QuestionService.get_question_by_id(question_id).lesson
+        lesson = question.lesson
         theme_id = lesson.theme.id
         if form.is_valid():
             form.save(commit=True)
@@ -64,8 +64,9 @@ class EditQuestionPage(View):
 @method_decorator(login_required, name='dispatch')
 class DeleteQuestionView(View):
     def get(self, request, question_id, *args, **kwargs):
+        """Delete chosen Question object by id. Render lesson-page again"""
         question = QuestionService.get_question_by_id(question_id)
-        lesson = QuestionService.get_question_by_id(question_id).lesson
+        lesson = question.lesson
         theme_id = lesson.theme.id
         question.delete()
         return redirect('lesson:lesson_learn', theme_id=theme_id)

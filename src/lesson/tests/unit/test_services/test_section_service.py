@@ -1,13 +1,14 @@
 from unittest.mock import patch, MagicMock
-from django.test import TestCase
-from lesson.models import Section
-from lesson.services.lesson_service import ThemeService, LessonService, QuestionService
-from lesson.services import SectionService
+
 from django.db.models import Q
+from django.test import TestCase
+
+from lesson.models import Section
+from lesson.services import SectionService
 
 
 class ModelServiceTest(TestCase):
-    FILE_PATH = 'lesson.services.model_service'
+    FILE_PATH = 'lesson.services.section_service'
 
     @patch(f'{FILE_PATH}.get_object_or_404')
     def test_get_section_by_id(self, patch_get_404):

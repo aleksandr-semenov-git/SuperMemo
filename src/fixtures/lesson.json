@@ -1,0 +1,111 @@
+[
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$WIwfEOcdTbDO$QoPOYmC3nwg9o8rJALXnIgK8fgsDtIpyYBTt6OhwoiM=",
+        "last_login": "2022-01-27T17:10:20.084Z",
+        "is_superuser": false,
+        "username": "TESTUSER",
+        "first_name": "test",
+        "last_name": "test",
+        "email": "test@test.test",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-01-26T15:03:19Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "lesson.section",
+    "pk": 5,
+    "fields": {
+        "name": "TEST2S",
+        "goal": 4
+    }
+},
+{
+    "model": "lesson.section",
+    "pk": 4,
+    "fields": {
+        "name": "TEST1",
+        "goal": 3
+    }
+},
+{
+    "model": "account.profile",
+    "pk": 2,
+    "fields": {
+        "user": 3,
+        "photo": "user_images/default.jpg"
+    }
+},
+{
+    "model": "lesson.theme",
+    "pk": 5,
+    "fields": {
+        "name": "TEST2ST2",
+        "section": 5
+    }
+},
+{
+    "model": "memo.goal",
+    "pk": 4,
+    "fields": {
+        "name": "TEST2",
+        "profile": 2
+    }
+},
+{
+    "model": "lesson.theme",
+    "pk": 4,
+    "fields": {
+        "name": "TEST2",
+        "section": 4
+    }
+},
+{
+    "model": "lesson.theme",
+    "pk": 3,
+    "fields": {
+        "name": "TEST1",
+        "section": 4
+    }
+},
+{
+    "model": "memo.goal",
+    "pk": 3,
+    "fields": {
+        "name": "TEST1",
+        "profile": 2
+    }
+},
+{
+    "model": "lesson.lesson",
+    "pk": 5,
+    "fields": {
+        "name": "TEST2 TEST2S TEST2ST2",
+        "goal": 4,
+        "theme": 5
+    }
+},
+{
+    "model": "lesson.lesson",
+    "pk": 4,
+    "fields": {
+        "name": "TEST1 TEST1 TEST2",
+        "goal": 3,
+        "theme": 4
+    }
+},
+{
+    "model": "lesson.lesson",
+    "pk": 3,
+    "fields": {
+        "name": "TEST1 TEST1 TEST1",
+        "goal": 3,
+        "theme": 3
+    }
+}
+]

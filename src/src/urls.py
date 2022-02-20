@@ -21,5 +21,7 @@ urlpatterns = [
     path('api/', include(('account.api.urls', 'account_api'), namespace='account_api')),
     path('api/', include(('lesson.api.urls', 'lesson_api'), namespace='lesson_api')),
     path('api/', include(router.urls)),
+    path('__debug__/', include('debug_toolbar.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

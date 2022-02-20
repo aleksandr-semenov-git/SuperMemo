@@ -1,9 +1,9 @@
-from django.urls import path
-from .views import LoginView, RegistrationView, LogoutView, ProfilePage, EditPage, ProfilePageBasic
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.urls import path
 
+from .views import LoginView, RegistrationView, LogoutView, ProfilePage, EditPage, ProfilePageBasic, AddGoalPage
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
@@ -50,4 +50,6 @@ urlpatterns = [
          auth_views.PasswordChangeDoneView.as_view(
              template_name='registration/password_change_done.html'),
          name='password_change_done'),
+
+    path('add-goal/', AddGoalPage.as_view(), name='add_goal'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

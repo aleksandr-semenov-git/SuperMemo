@@ -139,3 +139,4 @@ cython_debug/
 .idea/
 media/user_images/
 notes.txt
+staticfiles/

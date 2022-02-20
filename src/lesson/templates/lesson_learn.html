@@ -55,4 +55,14 @@
 
 {% endfor %}
 
+<form class="container" action="{% url 'memo:goal_page' lesson.theme.section.goal.id %}">
+    <button>Back to {{lesson.theme.section.goal.name}}</button>
+</form>
+
+<form class="container" action="{% url 'account:profile_basic' %}">
+    <button>Back to profile</button>
+</form>
+
+
+
 {% endblock %}

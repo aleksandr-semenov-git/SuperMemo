@@ -1,3 +1,5 @@
 from django.contrib import admin
+from repeat.models import RepetitionSession, QState
 
-# Register your models here.
+admin.site.register(RepetitionSession)
+admin.site.register(QState)

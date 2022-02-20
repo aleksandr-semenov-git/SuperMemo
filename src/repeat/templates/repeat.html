@@ -2,14 +2,14 @@
 {% block content %}
 
 
-<form class="container" action="{% url 'lesson:lesson_learn' question.lesson.theme.id %}">
-    <button>Learn mode</button>
+<form class="container" action="#">
+    <button>Завершить повторение вопросов - В разработке</button>
 </form>
 
 <h1>{{question.question}}</h1>
 
 
-<form class="container" action="{% url 'lesson:lesson_repeat_check' question.id %}">
+<form class="container" action="{% url 'repeat:repeat_check' question.id %}">
     <button>Проверить</button>
 </form>
 
