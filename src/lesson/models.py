@@ -19,7 +19,7 @@ class Section(models.Model):
     __str__(self):
         return Section's name
     """
-    name = models.CharField(max_length=50, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
     goal = models.ForeignKey(Goal, verbose_name='goal', related_name='sections', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Theme(models.Model):
     __str__(self):
         return Theme's name
     """
-    name = models.CharField(max_length=200, db_index=True, null=True)
+    name = models.CharField(max_length=200, blank=True, db_index=True, null=True)
     section = models.ForeignKey(Section,
                                 verbose_name='section',
                                 related_name='themes',
@@ -67,7 +67,7 @@ class Lesson(models.Model):
     __str__(self):
         return Lesson's name
     """
-    name = models.CharField(max_length=250, null=True)
+    name = models.CharField(max_length=250, blank=True, null=True)
     goal = models.ForeignKey(Goal, verbose_name='goal', related_name='lessons',  on_delete=models.CASCADE, null=True)
     theme = models.OneToOneField(Theme, on_delete=models.CASCADE, null=True)
 
@@ -104,7 +104,7 @@ class Question(models.Model):
     __str__(self):
         return Question's question
     """
-    question = models.CharField(max_length=500, null=True)
+    question = models.CharField(max_length=500)
     answer = models.CharField(max_length=500, null=True, blank=True)
     lesson = models.ForeignKey(Lesson, verbose_name='lesson', related_name='questions', on_delete=models.CASCADE,
                                null=True)

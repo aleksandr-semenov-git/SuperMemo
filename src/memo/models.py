@@ -16,7 +16,7 @@ class Goal(models.Model):
     __str__(self):
         return Goal's name
     """
-    name = models.CharField(max_length=150, null=True)
+    name = models.CharField(max_length=150, blank=True, null=True)
     profile = models.ForeignKey(Profile, verbose_name='profile', related_name='goals', on_delete=models.CASCADE,
                                 null=True)
 
