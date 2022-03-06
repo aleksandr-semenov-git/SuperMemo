@@ -22,8 +22,9 @@ urlpatterns = [
     path('api/', include(('lesson.api.urls', 'lesson_api'), namespace='lesson_api')),
     path('api/', include(router.urls)),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('auth/', include('djoser.urls')), 
-    path('auth_token/', include('djoser.urls.auth_token')), 
+    path('api/base-auth/', include('rest_framework.urls')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth-token/', include('djoser.urls.authtoken')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
