@@ -1,7 +1,11 @@
 from rest_framework import generics
+from rest_framework.authentication import TokenAuthentication
 from memo.models import Goal
-from .serializers import ProfileDetailsSerializer
+from .serializers import ProfileDetailsSerializer, UserProfileDetailsSerializer
 from django.contrib.auth.models import User
+from .permissions import IsOwnerOrReadOnly, ProfileIsOwnerOrReadOnly
+from account.models import Profile
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
 # class Goals(generics.ListAPIView):
@@ -9,6 +13,13 @@ from django.contrib.auth.models import User
 #     queryset = Goal.objects.all()
 
 
+class UserProfileDetails(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserProfileDetailsSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsOwnerOrReadOnly, )
+
+
 class ProfileDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileDetailsSerializer
-    queryset = User.objects.all()
+    queryset = Profile.objects.all()
+    permission_classes = (ProfileIsOwnerOrReadOnly, IsAuthenticated)
