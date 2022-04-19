@@ -1,4 +1,5 @@
 from django.urls import path
+from .api_views import ProfileDetails
 from django.conf import settings
 from .api_views import ProfileDetails, UserProfileDetails
 from django.conf.urls import include

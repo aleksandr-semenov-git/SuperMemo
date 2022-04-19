@@ -8,6 +8,7 @@ from account.models import Profile
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
+
 class UserProfileDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileDetailsSerializer
     queryset = User.objects.all()
@@ -18,3 +19,4 @@ class ProfileDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileDetailsSerializer
     queryset = Profile.objects.all()
     permission_classes = (ProfileIsOwnerOrReadOnly, IsAuthenticated)
+    
