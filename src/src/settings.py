@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'repeat',
     'debug_toolbar',
     'djoser',
+    'rest_framework_simplejwt',
 ]
 
 INTERNAL_IPS = [
@@ -74,10 +75,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
 ROOT_URLCONF = 'src.urls'
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
 
 TEMPLATES = [
     {
