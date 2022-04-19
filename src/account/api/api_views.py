@@ -8,11 +8,6 @@ from account.models import Profile
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
-# class Goals(generics.ListAPIView):
-#     serializer_class = GoalSerializer
-#     queryset = Goal.objects.all()
-
-
 class UserProfileDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileDetailsSerializer
     queryset = User.objects.all()
