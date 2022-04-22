@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'fixture_magic',
     'repeat',
     'debug_toolbar',
+    'support',
 ]
 
 INTERNAL_IPS = [
