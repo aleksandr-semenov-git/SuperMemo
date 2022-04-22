@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-IN_PROGRESS = 'INPR'
+OPEN = 'OPN'
 CLOSED = 'CLSD'
 FREEZE = 'FRZ'
 STATUS_CHOICES = (
-    (IN_PROGRESS, 'in_progress'),
+    (OPEN, 'open'),
     (CLOSED, 'closed'),
     (FREEZE, 'freeze'),
 )
@@ -13,7 +13,7 @@ STATUS_CHOICES = (
 
 class Ticket(models.Model):
     users = models.ManyToManyField(User, related_name='tickets')
-    status = models.CharField(choices=STATUS_CHOICES, max_length=11, default=IN_PROGRESS)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=6, default=OPEN)
 
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
