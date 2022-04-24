@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'fixture_magic',
     'repeat',
     'debug_toolbar',
+    'support',
     'djoser',
     'rest_framework_simplejwt',
 ]
