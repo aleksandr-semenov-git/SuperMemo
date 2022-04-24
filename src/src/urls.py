@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/auth-token/', include('djoser.urls.authtoken')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/support/', include(('support.api.urls', 'support_api'), namespace='support_api')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
