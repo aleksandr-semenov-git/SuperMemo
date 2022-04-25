@@ -24,8 +24,8 @@ ISSUE_CHOICES = (
 
 class Ticket(models.Model):
     users = models.ManyToManyField(User, related_name='tickets')
-    status = models.CharField(choices=STATUS_CHOICES, max_length=6, default=OPEN)
-    issue = models.CharField(choices=ISSUE_CHOICES, max_length=100, default=OTHER)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=4, default=OPEN)
+    issue = models.CharField(choices=ISSUE_CHOICES, max_length=4, default=OTHER)
     description = models.TextField(null=False, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
