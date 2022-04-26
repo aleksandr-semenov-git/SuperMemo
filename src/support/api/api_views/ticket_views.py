@@ -1,6 +1,8 @@
+from django.http import HttpResponseRedirect
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from support.api.permissions import IsOwnerOrReadOnly
 from support.api.serializers import TicketSerializer
@@ -17,8 +19,9 @@ class TicketViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = TicketSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            new_ticket = serializer.save()
+            ticket_id = new_ticket.id
+            return HttpResponseRedirect(reverse('support_api:user_messages', kwargs={'ticket_id': ticket_id}))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_permissions(self):
