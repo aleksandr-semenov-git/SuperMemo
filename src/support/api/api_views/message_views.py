@@ -12,7 +12,7 @@ class MessageViewSet(viewsets.ViewSet):
         serializer = MessageSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request):
+    def create(self, request, ticket_id):
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
             new_message = serializer.save()
