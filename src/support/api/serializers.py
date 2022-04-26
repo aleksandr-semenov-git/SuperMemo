@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from support.models import Ticket
+from support.services.ticket_service import TicketService
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -14,7 +15,7 @@ class TicketSerializer(serializers.ModelSerializer):
         validated_data.pop("users")
         # We get JSON where field `users` contain only 1 user
         user = users[0]
-        support = SupportService.find_support()
+        support = TicketService.find_support()
         new_ticket = Ticket.objects.create(**validated_data)
         new_ticket.users.set((user.id, support.id))
         return new_ticket
