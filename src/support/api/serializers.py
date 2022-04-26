@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from support.models import Ticket
+from support.models import Ticket, Message
 from support.services.ticket_service import TicketService
 
 
@@ -23,5 +23,5 @@ class TicketSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ticket
+        model = Message
         fields = '__all__'
