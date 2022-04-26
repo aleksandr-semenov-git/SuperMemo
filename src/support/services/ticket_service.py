@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 
+from support.models import Ticket
+
 
 class TicketService:
     @staticmethod
@@ -15,3 +17,8 @@ class TicketService:
         support_id = staff_dict[sorted_ticket_count_list[0]]
         support = User.objects.get(pk=support_id)
         return support
+
+    @staticmethod
+    def create_ticket(validated_data) -> Ticket:
+        new_ticket = Ticket.objects.create(**validated_data)
+        return new_ticket

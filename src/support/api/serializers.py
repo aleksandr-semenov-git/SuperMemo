@@ -16,7 +16,7 @@ class TicketSerializer(serializers.ModelSerializer):
         # We get JSON where field `users` contain only 1 user
         user = users[0]
         support = TicketService.find_support()
-        new_ticket = Ticket.objects.create(**validated_data)
+        new_ticket = TicketService.create_ticket(validated_data)
         new_ticket.users.set((user.id, support.id))
         return new_ticket
 
