@@ -20,3 +20,8 @@ class TicketSerializer(serializers.ModelSerializer):
         new_ticket.users.set((user.id, support.id))
         return new_ticket
 
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'

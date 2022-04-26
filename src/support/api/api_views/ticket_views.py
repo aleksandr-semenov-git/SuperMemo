@@ -12,7 +12,7 @@ class TicketViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Ticket.objects.filter(users=request.user.id)
         serializer = TicketSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         serializer = TicketSerializer(data=request.data)
