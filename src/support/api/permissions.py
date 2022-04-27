@@ -6,3 +6,10 @@ class IsTicketOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user in obj.users.all()
+
+
+class IsThreadParticipant(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user in obj.ticket.users.all()
