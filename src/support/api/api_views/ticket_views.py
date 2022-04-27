@@ -17,7 +17,7 @@ class TicketViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        serializer = TicketSerializer(data=request.data)
+        serializer = TicketSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             new_ticket = serializer.save()
             ticket_id = new_ticket.id
