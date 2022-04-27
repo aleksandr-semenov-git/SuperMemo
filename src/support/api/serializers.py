@@ -11,8 +11,7 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        users = validated_data.get("users", None)
-        validated_data.pop("users")
+        users = validated_data.pop('users', None)
         # We get JSON where field `users` contain only 1 user
         user = users[0]
         support = TicketService.find_support()
