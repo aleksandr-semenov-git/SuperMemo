@@ -1,10 +1,10 @@
 from django.http import HttpResponseRedirect
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from support.api.permissions import IsOwnerOrReadOnly
+from support.api.permissions import IsTicketOwnerOrReadOnly
 from support.api.serializers import TicketSerializer
 from support.models import Ticket
 
@@ -26,7 +26,7 @@ class TicketViewSet(viewsets.ViewSet):
 
     def get_permissions(self):
         if self.action in ('list', 'create'):
-            permission_classes = [IsOwnerOrReadOnly]
+            permission_classes = [IsAuthenticated, IsTicketOwnerOrReadOnly]
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
