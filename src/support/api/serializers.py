@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from support.models import Ticket, Message
@@ -11,12 +10,9 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        users = validated_data.pop('users', None)
-        # We get JSON where field `users` contain only 1 user
-        user = users[0]
         support = TicketService.find_support()
         new_ticket = TicketService.create_ticket(validated_data)
-        new_ticket.users.set((user.id, support.id))
+        new_ticket.users.set(support.id)
         return new_ticket
 
 
@@ -24,3 +20,11 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
+
+    def validate(self, data):
+        context = self.context
+        if context['ticket_id'] != data['ticket'].id or context['user_id'] != data['user'].id:
+            raise serializers.ValidationError('Only participant of thread can create a message on this page.')
+
+        return super().validate(data)
+
