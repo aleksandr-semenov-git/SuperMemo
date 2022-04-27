@@ -25,7 +25,7 @@ class TicketViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_permissions(self):
-        if self.action == 'list' or 'create':
+        if self.action in ('list', 'create'):
             permission_classes = [IsOwnerOrReadOnly]
         else:
             permission_classes = [IsAdminUser]
