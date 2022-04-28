@@ -17,7 +17,7 @@ class TicketAdmin(admin.ModelAdmin):
     save_on_top = True
     fieldsets = (
         (None, {
-            "fields": (('users', 'status', 'issue'), )
+            "fields": (('user', 'support', 'status', 'issue'), )
         }),
         (None, {
             "fields": ('description',)
@@ -31,7 +31,7 @@ class TicketAdmin(admin.ModelAdmin):
         username, email = user.username, user.email
         ticket_id = obj.id
         if 'status' in data:
-            status = data['status']
+            status = form.cleaned_data['status']
             send_mail(subject=f'Status of your ticket №{ticket_id} was changed',
                       message=f'Hello, dear {username}.'
                               f'We want you to know that {support} have changed status of your ticket to {status}.'
@@ -39,7 +39,7 @@ class TicketAdmin(admin.ModelAdmin):
                       from_email=None,
                       recipient_list=[email])
 
-        super().save_model(self, request, obj, form)
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Message)
