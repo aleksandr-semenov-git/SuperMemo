@@ -32,10 +32,10 @@ class TicketAdmin(admin.ModelAdmin):
         ticket_id = obj.id
         if 'status' in data:
             status = form.cleaned_data['status']
-            send_mail(subject=f'Status of your ticket №{ticket_id} was changed',
-                      message=f'Hello, dear {username}.'
-                              f'We want you to know that {support} have changed status of your ticket to {status}.'
-                              f'Best regards, CEO of GlobeMemo inc. Aleksandr Semenov',
+            send_mail(subject=f'Status of your ticket №{ticket_id} was changed. ',
+                      message=f'Hello, dear {username}. '
+                              f'We want you to know that {support} have changed status of your ticket to {status}. '
+                              f'Best regards, CEO of GlobeMemo inc. Aleksandr Semenov. ',
                       from_email=None,
                       recipient_list=[email])
 
