@@ -1,5 +1,6 @@
 from django.contrib import admin
 from support.models import Ticket, Message
+from django.core.mail import send_mail
 
 
 class MessageInline(admin.TabularInline):
@@ -16,12 +17,29 @@ class TicketAdmin(admin.ModelAdmin):
     save_on_top = True
     fieldsets = (
         (None, {
-            "fields": (('users', 'status', 'issue'), )
+            "fields": (('user', 'support', 'status', 'issue'), )
         }),
         (None, {
             "fields": ('description',)
         })
     )
+
+    def save_model(self, request, obj, form, change):
+        data = form.changed_data
+        user = obj.user
+        support = obj.support
+        username, email = user.username, user.email
+        ticket_id = obj.id
+        if 'status' in data:
+            status = form.cleaned_data['status']
+            send_mail(subject=f'Status of your ticket №{ticket_id} was changed. ',
+                      message=f'Hello, dear {username}. '
+                              f'We want you to know that {support} have changed status of your ticket to {status}. '
+                              f'Best regards, CEO of GlobeMemo inc. Aleksandr Semenov. ',
+                      from_email=None,
+                      recipient_list=[email])
+
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Message)
