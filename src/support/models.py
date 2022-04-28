@@ -23,7 +23,8 @@ ISSUE_CHOICES = (
 
 
 class Ticket(models.Model):
-    users = models.ManyToManyField(User, related_name='tickets')
+    user = models.ForeignKey(User, related_name='u_tickets', on_delete=models.CASCADE)
+    support = models.ForeignKey(User, related_name='s_tickets', on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=4, default=OPEN)
     issue = models.CharField(choices=ISSUE_CHOICES, max_length=4, default=OTHER)
     description = models.TextField(null=False, blank=False)

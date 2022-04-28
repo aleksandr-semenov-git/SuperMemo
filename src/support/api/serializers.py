@@ -11,9 +11,8 @@ class TicketSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict) -> Ticket:
         """Redefine create method to automatically find the most free support and add him to the ticket"""
-        support = TicketService.find_support()
-        new_ticket = TicketService.create_ticket(validated_data)
-        new_ticket.users.set(support.id)
+        support = self.context['support']
+        new_ticket = TicketService.create_ticket(validated_data, support)
         return new_ticket
 
 
