@@ -7,21 +7,23 @@ from rest_framework.reverse import reverse
 from support.api.permissions import IsTicketOwnerOrReadOnly
 from support.api.serializers import TicketSerializer
 from support.models import Ticket
+from support.services import TicketService
 
 
 class TicketViewSet(viewsets.ViewSet):
     def list(self, request) -> HttpResponse:
         """Common viewset list method"""
-        queryset = Ticket.objects.filter(users=request.user.id)
+        queryset = Ticket.objects.filter(user__id=request.user.id)
         serializer = TicketSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request) -> HttpResponse:
         """
-        Redirect user to ticket's messages or show errors after validation.
-        Toss ticket_id into the serializer to give extra validation options.
+        Find the most free support and toss his id to the serializer.
+        Create new ticket and redirect user to ticket's messages or show errors after validation.
         """
-        serializer = TicketSerializer(data=request.data, context={'request': request})
+        support = TicketService.find_support()
+        serializer = TicketSerializer(data=request.data, context={'support': support})
         if serializer.is_valid():
             new_ticket = serializer.save()
             ticket_id = new_ticket.id
