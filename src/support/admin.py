@@ -18,6 +18,9 @@ class TicketAdmin(admin.ModelAdmin):
         (None, {
             "fields": (('users', 'status', 'issue'), )
         }),
+        (None, {
+            "fields": ('description',)
+        })
     )
 
 
