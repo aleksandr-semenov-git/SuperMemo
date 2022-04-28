@@ -26,10 +26,10 @@ class TicketAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         data = form.changed_data
-        user = obj.users.filter(is_staff=False).first()
+        user = obj.user
+        support = obj.support
         username, email = user.username, user.email
         ticket_id = obj.id
-        support = request.user.username
         if 'status' in data:
             status = data['status']
             send_mail(subject=f'Status of your ticket №{ticket_id} was changed',
