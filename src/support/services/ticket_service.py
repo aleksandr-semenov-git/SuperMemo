@@ -14,10 +14,12 @@ class TicketService:
 
     @staticmethod
     def create_ticket(validated_data) -> Ticket:
+        """Create new ticket"""
         new_ticket = Ticket.objects.create(**validated_data)
         return new_ticket
 
     @staticmethod
     def get_ticket_by_id(ticket_id) -> Ticket:
+        """Get ticket by it's id"""
         ticket = Ticket.objects.get(pk=ticket_id)
         return ticket

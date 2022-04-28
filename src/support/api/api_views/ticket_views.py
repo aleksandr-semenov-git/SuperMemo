@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
@@ -10,13 +10,17 @@ from support.models import Ticket
 
 
 class TicketViewSet(viewsets.ViewSet):
-    """"""
-    def list(self, request):
+    def list(self, request) -> HttpResponse:
+        """Common viewset list method"""
         queryset = Ticket.objects.filter(users=request.user.id)
         serializer = TicketSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request):
+    def create(self, request) -> HttpResponse:
+        """
+        Redirect user to ticket's messages or show errors after validation.
+        Toss ticket_id into the serializer to give extra validation options.
+        """
         serializer = TicketSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             new_ticket = serializer.save()
@@ -25,6 +29,7 @@ class TicketViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_permissions(self):
+        """Check user's permissions"""
         if self.action in ('list', 'create'):
             permission_classes = [IsAuthenticated, IsTicketOwnerOrReadOnly]
         else:

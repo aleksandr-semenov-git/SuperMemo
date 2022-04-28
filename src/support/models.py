@@ -30,13 +30,9 @@ class Ticket(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
-    # frozen_at = models.DateField(default=, null=True)
-    # freeze_issue = models.CharField(choices=FREEZE_CHOICES)
-    # closed_at = models.DateField(default=, null=True)
 
 
 class Message(models.Model):
     text = models.TextField(null=False, blank=False)
     user = models.ForeignKey(User, related_name='messages', verbose_name='user', on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, related_name='messages', verbose_name='ticket', on_delete=models.CASCADE)
-
