@@ -8,7 +8,7 @@ class IsTicketOwnerOrReadOnly(permissions.BasePermission):
         """Check if request user is belong to the ticket. Check if request in SAFE_METHODS"""
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.users.filter(id=request.user.id).exists()
+        return obj.user.filter(id=request.user.id).exists()
 
 
 class IsThreadParticipant(permissions.BasePermission):
@@ -16,4 +16,4 @@ class IsThreadParticipant(permissions.BasePermission):
         """Check if request user is belong to the ticket. Check if request in SAFE_METHODS"""
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.ticket.users.filter(id=request.user.id).exists()
+        return obj.ticket.user.filter(id=request.user.id).exists()

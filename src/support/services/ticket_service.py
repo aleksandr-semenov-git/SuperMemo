@@ -8,14 +8,14 @@ class TicketService:
     @staticmethod
     def find_support() -> User:
         """Find staff-user who have minimum tickets"""
-        all_staff = User.objects.filter(is_staff=True).annotate(Count('tickets', distinct=True))
-        support = all_staff.order_by('tickets__count').first()
+        all_staff = User.objects.filter(is_staff=True).annotate(Count('s_tickets', distinct=True))
+        support = all_staff.order_by('s_tickets__count').first()
         return support
 
     @staticmethod
-    def create_ticket(validated_data) -> Ticket:
+    def create_ticket(validated_data, support) -> Ticket:
         """Create new ticket"""
-        new_ticket = Ticket.objects.create(**validated_data)
+        new_ticket = Ticket.objects.create(support=support, **validated_data)
         return new_ticket
 
     @staticmethod
