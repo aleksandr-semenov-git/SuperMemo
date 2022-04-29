@@ -1,6 +1,6 @@
 from django.contrib import admin
 from support.models import Ticket, Message
-from django.core.mail import send_mail
+from support.services.ticket_admin_service import TicketAdminService
 
 
 class MessageInline(admin.TabularInline):
@@ -32,12 +32,7 @@ class TicketAdmin(admin.ModelAdmin):
         ticket_id = obj.id
         if 'status' in data:
             status = form.cleaned_data['status']
-            send_mail(subject=f'Status of your ticket №{ticket_id} was changed. ',
-                      message=f'Hello, dear {username}. '
-                              f'We want you to know that {support} have changed status of your ticket to {status}. '
-                              f'Best regards, CEO of GlobeMemo inc. Aleksandr Semenov. ',
-                      from_email=None,
-                      recipient_list=[email])
+            TicketAdminService.send_mail_change_status(ticket_id, username, support, status, email)
 
         super().save_model(request, obj, form, change)
 
