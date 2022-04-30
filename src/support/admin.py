@@ -1,6 +1,6 @@
 from django.contrib import admin
 from support.models import Ticket, Message
-from support.services.ticket_admin_service import TicketAdminService
+from src.tasks import celery_send_email_change_status
 
 
 class MessageInline(admin.TabularInline):
@@ -27,12 +27,13 @@ class TicketAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         data = form.changed_data
         user = obj.user
-        support = obj.support
+        support_name = obj.support.username
         username, email = user.username, user.email
         ticket_id = obj.id
+
         if 'status' in data:
             status = form.cleaned_data['status']
-            TicketAdminService.send_mail_change_status(ticket_id, username, support, status, email)
+            celery_send_email_change_status.delay(ticket_id, username, support_name, status, email)
 
         super().save_model(request, obj, form, change)
 
