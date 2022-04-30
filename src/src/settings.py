@@ -2,6 +2,9 @@ from datetime import timedelta
 from pathlib import Path
 import os
 import django_heroku
+from dotenv import load_dotenv
+
+load_dotenv()
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -193,3 +196,12 @@ django_heroku.settings(locals())
 
 DAYS_DICT = {0: 0, 1: 1, 2: 2, 3: 12, 4: 20, 5: 30, 6: 60, 7: 90, 8: 150, 9: 270, 10: 480, 11: 720, 12: 1440,
              13: 2160, 14: 3960, 15: 6480}
+
+REDIS_HOST = '0.0.0.0'
+REDIS_PORT = '6380'
+CELERY_BROKER_URL = 'redis://{}:{}/0'.format(REDIS_HOST, REDIS_PORT)
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://{}:{}/0'.format(REDIS_HOST, REDIS_PORT)
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
