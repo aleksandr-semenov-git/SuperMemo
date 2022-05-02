@@ -17,6 +17,7 @@ Jinja2==3.0.3
 Pillow
 psycopg2
 pytest==7.1.2
+pytest_factoryboy==2.1.0
 redis==4.2.2
 redis-server==6.0.9
 simplejwt==2.0.1
