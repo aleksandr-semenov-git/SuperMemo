@@ -4,9 +4,8 @@ from rest_framework.reverse import reverse
 
 
 @pytest.mark.django_db
-def test_tickets_list(user, client, ticket):
-    login = client.post(reverse('account:login'), data={'username': user.username, 'password': '121212ab'})
-    result = client.get(reverse('support_api:user_tickets'))
+def test_tickets_list(auth_client, ticket):
+    result = auth_client.get(reverse('support_api:user_tickets'))
     data = dict(result.data[0])
 
     assert result.status_code, 200

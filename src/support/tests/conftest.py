@@ -1,4 +1,5 @@
 import pytest
+from rest_framework.reverse import reverse
 
 from support.tests.factories import SupportFactory, MessageFactory, TicketFactory
 from memo.tests.factories import UserFactory
@@ -49,3 +50,9 @@ def s_message(support, ticket):
 @pytest.fixture
 def client():
     return APIClient()
+
+
+@pytest.fixture
+def auth_client(user, client):
+    login = client.post(reverse('account:login'), data={'username': user.username, 'password': '121212ab'})
+    return client
