@@ -12,7 +12,6 @@ TEST_USER_ID = 11
 
 
 def mocktracker(func):
-    """Mr. MockTracker"""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         wrapper.has_been_called = True
@@ -52,16 +51,16 @@ def test_tickets_list(monkeypatch):
         return MockTicketServices.filter_tickets_by_user_id()
 
     @mocktracker
-    def mock_new_ticket(*args, **kwargs):
+    def mock_create_ticket_serializer_obj(*args, **kwargs):
         return MockTicketSerializer.new()
 
     @mocktracker
-    def mock_new_response(*args, **kwargs):
+    def mock_create_response_obj(*args, **kwargs):
         return MockResponse.new(*args, **kwargs)
 
     monkeypatch.setattr(TicketService, 'filter_tickets_by_user_id', mock_filter)
-    monkeypatch.setattr(TicketSerializer, '__new__', mock_new_ticket)
-    monkeypatch.setattr(Response, '__new__', mock_new_response)
+    monkeypatch.setattr(TicketSerializer, '__new__', mock_create_ticket_serializer_obj)
+    monkeypatch.setattr(Response, '__new__', mock_create_response_obj)
 
     mock_request = MagicMock(user=MagicMock(id=TEST_USER_ID))
     view = TicketViewSet(request=mock_request)
@@ -71,10 +70,10 @@ def test_tickets_list(monkeypatch):
     assert mock_filter.has_been_called
     assert mock_filter.call_args_list == (TEST_USER_ID,)
     assert mock_filter.call_kwargs_list == {}
-    assert mock_new_ticket.has_been_called
+    assert mock_create_ticket_serializer_obj.has_been_called
     # The only good way to test line 75 I found is to catch the Mock inside @mocktracker
-    assert mock_new_ticket.call_args_list == (TicketSerializer, mock_filter.mock_obj)
-    assert mock_new_ticket.call_kwargs_list == {'many': True}
-    assert mock_new_response.has_been_called
-    assert mock_new_response.call_args_list == (Response, TEST_TICKET_SERIALIZER_DATA, )
-    assert mock_new_response.call_kwargs_list == {'status': 200}
+    assert mock_create_ticket_serializer_obj.call_args_list == (TicketSerializer, mock_filter.mock_obj)
+    assert mock_create_ticket_serializer_obj.call_kwargs_list == {'many': True}
+    assert mock_create_response_obj.has_been_called
+    assert mock_create_response_obj.call_args_list == (Response, TEST_TICKET_SERIALIZER_DATA, )
+    assert mock_create_response_obj.call_kwargs_list == {'status': 200}
