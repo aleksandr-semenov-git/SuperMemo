@@ -6,30 +6,10 @@ from support.api.api_views import TicketViewSet
 from support.api.serializers import TicketSerializer
 from support.services import TicketService
 from support.tests.decorators import mocktracker
+from support.tests.mocks import MockTicketServices, MockTicketSerializer, MockResponse
 
 TEST_TICKET_SERIALIZER_DATA = {'id': 1, 'user': 1, 'support': 1}
 TEST_USER_ID = 11
-
-
-class MockTicketServices:
-    @staticmethod
-    def filter_tickets_by_user_id():
-        return MagicMock()
-
-
-class MockTicketSerializer:
-    @staticmethod
-    def new():
-        test_data = TEST_TICKET_SERIALIZER_DATA
-        mock_ticket = MagicMock(data=test_data)
-        return mock_ticket
-
-
-class MockResponse:
-    @staticmethod
-    def new(*args, **kwargs):
-        status = kwargs.pop('status', None)
-        return MagicMock(status=status)
 
 
 def test_tickets_list(monkeypatch):
