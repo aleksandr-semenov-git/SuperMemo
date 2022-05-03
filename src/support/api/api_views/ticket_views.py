@@ -6,7 +6,6 @@ from rest_framework.reverse import reverse
 
 from support.api.permissions import IsTicketOwnerOrReadOnly
 from support.api.serializers import TicketSerializer
-from support.models import Ticket
 from support.services import TicketService
 
 
