@@ -1,4 +1,3 @@
-import functools
 from unittest.mock import MagicMock
 
 from rest_framework.response import Response
@@ -6,22 +5,10 @@ from rest_framework.response import Response
 from support.api.api_views import TicketViewSet
 from support.api.serializers import TicketSerializer
 from support.services import TicketService
+from support.tests.decorators import mocktracker
 
 TEST_TICKET_SERIALIZER_DATA = {'id': 1, 'user': 1, 'support': 1}
 TEST_USER_ID = 11
-
-
-def mocktracker(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        wrapper.has_been_called = True
-        wrapper.call_args_list = args
-        wrapper.call_kwargs_list = kwargs
-        catch_mock = func(*args, **kwargs)
-        wrapper.mock_obj = catch_mock
-        return catch_mock
-    wrapper.has_been_called = False
-    return wrapper
 
 
 class MockTicketServices:
