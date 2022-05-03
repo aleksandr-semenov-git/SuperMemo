@@ -8,12 +8,13 @@ from support.api.permissions import IsThreadParticipant
 from support.api.serializers import MessageSerializer
 from support.models import Message
 from support.services import TicketService
+from support.services.message_service import MessageService
 
 
 class MessageViewSet(viewsets.ViewSet):
     def list(self, request, ticket_id: int) -> HttpResponse:
         """Common viewset list method"""
-        queryset = Message.objects.filter(ticket__id=ticket_id)
+        queryset = MessageService.filter_messages_by_ticket_id(ticket_id)
         serializer = MessageSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

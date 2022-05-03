@@ -6,14 +6,13 @@ from rest_framework.reverse import reverse
 
 from support.api.permissions import IsTicketOwnerOrReadOnly
 from support.api.serializers import TicketSerializer
-from support.models import Ticket
 from support.services import TicketService
 
 
 class TicketViewSet(viewsets.ViewSet):
     def list(self, request) -> HttpResponse:
         """Common viewset list method"""
-        queryset = Ticket.objects.filter(user__id=request.user.id)
+        queryset = TicketService.filter_tickets_by_user_id(request.user.id)
         serializer = TicketSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

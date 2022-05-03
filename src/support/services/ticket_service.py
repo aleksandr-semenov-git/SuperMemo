@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, QuerySet
 
 from support.models import Ticket
 
@@ -13,13 +13,19 @@ class TicketService:
         return support
 
     @staticmethod
-    def create_ticket(validated_data, support) -> Ticket:
+    def create_ticket(validated_data: dict, support: User) -> Ticket:
         """Create new ticket"""
         new_ticket = Ticket.objects.create(support=support, **validated_data)
         return new_ticket
 
     @staticmethod
-    def get_ticket_by_id(ticket_id) -> Ticket:
+    def get_ticket_by_id(ticket_id: int) -> Ticket:
         """Get ticket by it's id"""
         ticket = Ticket.objects.get(pk=ticket_id)
         return ticket
+
+    @staticmethod
+    def filter_tickets_by_user_id(user_id: int) -> QuerySet:
+        """Filter tickets by user's id"""
+        queryset = Ticket.objects.filter(user__id=user_id)
+        return queryset
