@@ -38,7 +38,8 @@ def test_tickets_list(monkeypatch):
     assert mock_filter.call_args_list == (TEST_USER_ID,)
     assert mock_filter.call_kwargs_list == {}
     assert mock_create_ticket_serializer_obj.has_been_called
-    # The only good way to test line 75 I found is to catch the Mock inside @mocktracker
+
+    # The only good way I found to test this line is to catch the Mock inside @mocktracker
     assert mock_create_ticket_serializer_obj.call_args_list == (TicketSerializer, mock_filter.mock_obj)
     assert mock_create_ticket_serializer_obj.call_kwargs_list == {'many': True}
     assert mock_create_response_obj.has_been_called
