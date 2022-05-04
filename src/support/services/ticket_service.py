@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import Count, QuerySet
+from django.db.models import Count, QuerySet, Q
 
 from support.models import Ticket
 
@@ -8,7 +8,8 @@ class TicketService:
     @staticmethod
     def find_support() -> User:
         """Find staff-user who have minimum tickets"""
-        all_staff = User.objects.filter(is_staff=True).annotate(Count('s_tickets', distinct=True))
+        all_staff = User.objects.filter(is_staff=True).annotate(
+            num_apn_tickets=Count('s_tickets', filter=Q(s_tickets__status=True)))
         support = all_staff.order_by('s_tickets__count').first()
         return support
 
