@@ -9,7 +9,7 @@ class TicketService:
     def find_support() -> User:
         """Find staff-user who have minimum open tickets"""
         all_staff = User.objects.filter(is_staff=True).annotate(
-            num_apn_tickets=Count('s_tickets', filter=Q(s_tickets__status=True)))
+            num_opn_tickets=Count('s_tickets', filter=Q(s_tickets__status=True)))
         support = all_staff.order_by('s_tickets__count').first()
         return support
 

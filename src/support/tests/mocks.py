@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from support.tests.pytest.unit.pytest_unit_api_views import TEST_TICKET_SERIALIZER_DATA
+TEST_TICKET_SERIALIZER_DATA = {'id': 1, 'user': 1, 'support': 1}
 
 
 class MockTicketServices:
@@ -13,8 +13,8 @@ class MockTicketSerializer:
     @staticmethod
     def new():
         test_data = TEST_TICKET_SERIALIZER_DATA
-        mock_ticket = MagicMock(data=test_data)
-        return mock_ticket
+        mock_ticket_serializer = MagicMock(data=test_data)
+        return mock_ticket_serializer
 
 
 class MockResponse:
