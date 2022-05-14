@@ -2,6 +2,13 @@ import functools
 
 
 def mocktracker(func):
+    """Decorator which track some information about the testing func:
+
+     if func was called
+     save args
+     save kwargs
+     save result of the func (Mock obj)
+     """
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         wrapper.has_been_called = True
