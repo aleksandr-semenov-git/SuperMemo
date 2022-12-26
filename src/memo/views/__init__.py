@@ -1,2 +1,2 @@
-from .goal import AddGoalPage, GoalPage
-from .profile import ProfilePage, EditPage, ProfilePageBasic, HomePage
+from .home import HomePage
+from .goal import GoalPage

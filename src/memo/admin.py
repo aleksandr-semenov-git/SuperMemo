@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from lesson.models import Section, Theme, Lesson, Question
 from .models import *
 
 admin.site.register(Profile)

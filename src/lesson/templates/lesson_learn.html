@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+   table {
+    width: 20%; /* Ширина таблицы */
+    border: 4px double black; /* Рамка вокруг таблицы */
+    border-collapse: collapse; /* Отображать только одинарные линии */
+   }
+   th {
+    text-align: left; /* Выравнивание по левому краю */
+    background: #ccc; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+   }
+   td {
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+   }
+  </style>
+<h1>{{lesson.name}}</h1>
+
+<form class="container" action="{% url 'repeat:repeat_theme' lesson.theme.id %}">
+    <button>Repeat theme</button>
+</form>
+
+
+<form class="container" method="POST">
+{{ form.as_p }}
+    <input type="submit" value="Save question">
+    {% csrf_token %}
+</form>
+
+
+
+{% for question in lesson.questions.all %}
+<table>
+
+<tr>
+    <td>{{question.question}}</td>
+    <td>{{question.answer}}</td>
+    <td>
+        <form class="container" action="{% url 'lesson:edit_question' question.id %}">
+            <button>edit</button>
+        </form>
+    </td>
+    <td>
+        <form class="container" action="{% url 'lesson:delete_question' question.id %}">
+            <button>delete</button>
+        </form>
+    </td>
+
+</tr>
+
+</table>
+
+{% endfor %}
+
+<form class="container" action="{% url 'memo:goal_page' lesson.theme.section.goal.id %}">
+    <button>Back to {{lesson.theme.section.goal.name}}</button>
+</form>
+
+<form class="container" action="{% url 'account:profile_basic' %}">
+    <button>Back to profile</button>
+</form>
+
+
+
+{% endblock %}

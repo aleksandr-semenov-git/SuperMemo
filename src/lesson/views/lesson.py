@@ -1,75 +1,72 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
-from django.views.decorators.http import require_POST
-from memo.models import Lesson, Question, Goal, Theme, Section
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
-from lesson.forms import ChooseSectionForm, ChooseThemeForm, LearningForm
+from django.views import View
+
+from lesson.forms import AddEditQuestionForm
+from lesson.services import LessonService, ThemeService, QuestionService
+from memo.services import GoalService
 
 
 @method_decorator(login_required, name='dispatch')
-class SurePage(View):
-    def get(self, request, *args, **kwargs):
-        section = Section.objects.get(pk=request.session['lesson_section_id'])
-        theme = Theme.objects.get(pk=request.session['lesson_theme_id'])
-        goal = Goal.objects.get(pk=request.session['goal_id'])
-        return render(request, 'sure_page.html', {'goal': goal, 'section': section, 'theme': theme})
+class LessonLearnPage(View):
+    def get(self, request, theme_id, *args, **kwargs):
+        """Render page. User see LearningForm and table with questions and answers.
 
-    def post(self, request, *args, **kwargs):
-        return redirect('lesson:lesson_page')
+        User can edit or delete questions. User see logout, repeat-theme, back-to-<goal>, back-to-profile,
+        back-to-my-goals buttons.
+        """
+        goal = GoalService.get_goal_by_id(request.session['goal_id'])
+        theme = ThemeService.get_theme_by_id(theme_id)
+        lesson = LessonService.get_or_create_lesson(goal=goal, theme=theme)
+        form = AddEditQuestionForm()
+        return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
 
-
-@method_decorator(login_required, name='dispatch')
-class LessonPage(View):
-    def get(self, request, *args, **kwargs):
-
-        profile = request.user.profile
-        goal = Goal.objects.get(pk=request.session['goal_id'])
-        if 'active_lesson_id' in request.session:  # Todo Пока нет декоратора active-lesson будет так
-            lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
-        else:
-            name = goal.lessons.count() + 1  # Todo Подумать над именем урока
-            lesson = Lesson.objects.create(name=name, goal=goal, profile=profile)
-            request.session['active_lesson_id'] = lesson.id
-
-        form = LearningForm()
-        return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
-
-    def post(self, request, *args, **kwargs):
-        form = LearningForm(request.POST)
-        goal = Goal.objects.get(pk=request.session['goal_id'])
-        section = Section.objects.get(pk=request.session['lesson_section_id'])
-        theme = Theme.objects.get(pk=request.session['lesson_theme_id'])
-        lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
+    def post(self, request, theme_id, *args, **kwargs):
+        """Check data from LearningForm. Render lesson-page again or show form errors"""
+        form = AddEditQuestionForm(request.POST)
+        lesson = LessonService.get_lesson_by_theme_id(theme_id)
         if form.is_valid():
             cd = form.cleaned_data
             question = cd['question']
             answer = cd['answer']
-            new_question = Question.objects.create(question=question,
-                                                   answer=answer,
-                                                   lesson=lesson,
-                                                   goal=goal,
-                                                   section=section,
-                                                   theme=theme)
-            form = LearningForm()
-            return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
+            QuestionService.create_question(question=question,
+                                            answer=answer,
+                                            lesson=lesson,
+                                            )
+            return redirect('lesson:lesson_learn', theme_id=theme_id)
         else:
-            return render(request, 'lesson.html', {'form': form, 'lesson': lesson})
+            return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
 
 
 @method_decorator(login_required, name='dispatch')
-class EndLessonPage(View):
-    def get(self, request, *args, **kwargs):
-        lesson = Lesson.objects.get(pk=request.session['active_lesson_id'])
-        return render(request, 'end_lesson.html', {'lesson': lesson})
+class EditQuestionPage(View):
+    """Render page. User see question, answer, AddEditQuestionForm, logout and save-question buttons"""
+    def get(self, request, question_id, *args, **kwargs):
+        question = QuestionService.get_question_by_id(question_id)
+        form = AddEditQuestionForm(initial={'question': question.question,
+                                            'answer': question.answer})
+        return render(request, 'edit_question.html', {'form': form, 'question': question})
 
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('end') == 'End lesson':
-            goal = Goal.objects.get(pk=request.session['goal_id'])
-            request.session['active_lesson_id'] = False
-            request.session['lesson_section_id'] = False
-            request.session['lesson_theme_id'] = False
-            return redirect('memo:goal_page', goal_id=goal.id)
+    def post(self, request, question_id):
+        """Check data from AddEditQuestionForm. Render lesson-page or show form errors."""
+        question = QuestionService.get_question_by_id(question_id)
+        form = AddEditQuestionForm(request.POST, instance=question)
+        lesson = question.lesson
+        theme_id = lesson.theme.id
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('lesson:lesson_learn', theme_id=theme_id)
         else:
-            return redirect('lesson:lesson_page')
+            return render(request, 'lesson_learn.html', {'form': form, 'lesson': lesson})
+
+
+@method_decorator(login_required, name='dispatch')
+class DeleteQuestionView(View):
+    def get(self, request, question_id, *args, **kwargs):
+        """Delete chosen Question object by id. Render lesson-page again"""
+        question = QuestionService.get_question_by_id(question_id)
+        lesson = question.lesson
+        theme_id = lesson.theme.id
+        question.delete()
+        return redirect('lesson:lesson_learn', theme_id=theme_id)

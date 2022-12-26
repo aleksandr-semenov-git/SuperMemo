@@ -137,3 +137,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 .idea/
+media/user_images/
+notes.txt
+staticfiles/

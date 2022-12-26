@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+<h1>{{question.question}}</h1>
+<h1>{{question.answer}}</h1>
+
+
+<form class="container" action="{% url 'repeat:remember' question.id %}" method="POST">
+    <button>Remember</button>
+    {% csrf_token %}
+</form>
+
+<form class="container" action="{% url 'repeat:not_remember' question.id %}" method="POST">
+    <button>Not remember</button>
+    {% csrf_token %}
+</form>
+
+
+{% endblock %}

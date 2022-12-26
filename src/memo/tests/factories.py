@@ -1,17 +1,21 @@
 import factory.fuzzy
+
+import account.models
+import lesson.models
 from memo import models
+from django.contrib.auth.models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.User
-    username = factory.Sequence(lambda n: f'test_user{n}')
-    email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.test')
+        model = User
+    username = 'test_user0'
+    email = 'test@test.email'
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Profile
+        model = account.models.Profile
 
     user = factory.SubFactory(UserFactory)
 
@@ -26,23 +30,23 @@ class GoalFactory(factory.django.DjangoModelFactory):
 
 class SectionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Section
+        model = lesson.models.Section
 
-    name = factory.Sequence(lambda n: 'section%d' % n)
+    name = 'test_section_name'
     goal = factory.SubFactory(GoalFactory)
 
 
 class ThemeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Theme
+        model = lesson.models.Theme
 
-    name = factory.Sequence(lambda n: 'theme%d' % n)
+    name = 'test_theme_name'
     section = factory.SubFactory(SectionFactory)
 
 
 class LessonFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Lesson
+        model = lesson.models.Lesson
 
     name = factory.Sequence(lambda n: '%d' % n)
     profile = factory.SubFactory(ProfileFactory)
@@ -51,7 +55,7 @@ class LessonFactory(factory.django.DjangoModelFactory):
 
 class QuestionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Question
+        model = lesson.models.Question
 
     question = factory.Sequence(lambda n: 'question%d' % n)
     answer = factory.Sequence(lambda n: 'answer%d' % n)

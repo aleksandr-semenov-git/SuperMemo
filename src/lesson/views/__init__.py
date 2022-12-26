@@ -1,3 +1,3 @@
-from .lesson import LessonPage, EndLessonPage, SurePage
-from .section import AddSectionPage, ChooseSectionPage
-from .theme import AddThemePage, ChooseThemePage
+from .lesson import LessonLearnPage, EditQuestionPage, DeleteQuestionView
+from .section import AddSectionPage
+from .theme import AddThemePage

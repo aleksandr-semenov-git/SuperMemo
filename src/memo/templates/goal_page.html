@@ -23,16 +23,41 @@
    }
   </style>
 <h1>{{goal.name}}</h1>
+
+<form class="container" action="{% url 'repeat:repeat_goal' goal.id %}">
+    <button>Repeat goal's questions</button>
+</form>
+
+{% for section in goal.sections.all %}
+<table>
+<tr><td>{{section}}</td></tr>
+    {% for theme in section.themes.all %}
     <tr>
         <td>
-            <form class="container" action="{% url 'lesson:choose_section' %}">
-                <button>Begin new lesson</button>
+            <form class="container" action="{% url 'lesson:lesson_learn' theme.id %}">
+                <button>{{theme}}</button>
             </form>
         </td>
+    </tr>
+    {% endfor %}
     <tr>
-<form class="container" action="{% url 'memo:profile_basic' %}">
-    <button>Profile</button>
+        <td>
+            <form class="container" action="{% url 'lesson:add_theme' section.id%}">
+                <button><a>add_theme</a></button>
+            </form>
+        </td>
+    </tr>
+</table>
+{% endfor %}
+
+<form class="container" action="{% url 'lesson:add_section' %}">
+    <button>ADD SECTION</button>
 </form>
+
+<form class="container" action="{% url 'account:profile_basic' %}">
+    <button>Back to profile</button>
+</form>
+
 
 
 {% endblock %}
