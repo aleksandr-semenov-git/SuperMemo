@@ -148,8 +148,8 @@ Canonical for **SuperMemo platform** (product / algorithm / schema decisions).
 
 | ID | Blocks? | Summary | Detail |
 |----|---------|---------|--------|
-| **OQ-MIG-001** | TBD | Target Django major for Py 3.14 | [project-work/python-314-migration.md](./project-work/python-314-migration.md) |
-| **OQ-MIG-002** | TBD | Keep Heroku/deploy path vs local-only | [project-work/python-314-migration.md](./project-work/python-314-migration.md) |
+| **OQ-MIG-001** | ✅ Resolved | **Django 5.2 LTS** (Phase A); Django 6 deferred | [project-work/python-314-migration.md](./project-work/python-314-migration.md) § Decisions · § Django 5.2 vs 6.0 |
+| **OQ-MIG-002** | ✅ Resolved | **Heroku removed**; Docker Compose deploy | [project-work/python-314-migration.md](./project-work/python-314-migration.md) § Heroku removal checklist |
 
 Checkboxes: [SUPER_MEMO_TODO.md](./SUPER_MEMO_TODO.md).
 
@@ -165,3 +165,4 @@ When the system changes materially (new app, new API surface, repetition algorit
 |------|--------|
 | 2026-05-31 | Initial master index (pattern from rgo-2.0 `understand_RGO/MASTER_INDEX.md`) |
 | 2026-05-31 | Added dev-environment + python-314-migration docs |
+| 2026-05-31 | OQ-MIG-001/002 resolved: Django 5.2 LTS Phase A, Heroku removal |
