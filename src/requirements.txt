@@ -22,4 +22,5 @@ redis==4.2.2
 redis-server==6.0.9
 simplejwt==2.0.1
 whitenoise
+test
 
