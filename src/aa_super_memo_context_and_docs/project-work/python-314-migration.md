@@ -2,7 +2,7 @@
 
 **Project work track** — upgrading SuperMemo from its original stack (~Python 3.8/3.9 era, ~2022) to **Python 3.14** and modern dependency versions so the app can run again locally and in deploy.
 
-> **Not in AGENT_CORE** — this is implementation work, not agent routing rules.  
+> **Implementation track** — Dev agent executes via [DEV_AGENT_CORE.md](../DEV_AGENT_CORE.md); Lead maintains plan via [LEAD_AGENT_CORE.md](../LEAD_AGENT_CORE.md).  
 > **Open work checkboxes:** [SUPER_MEMO_TODO.md](../SUPER_MEMO_TODO.md) § Python 3.14 migration  
 > **Local environment:** [dev-environment/pycharm-wsl-venv-setup.md](../dev-environment/pycharm-wsl-venv-setup.md)
 
@@ -108,41 +108,41 @@ Heroku footprint is minimal — no `Procfile` in repo.
 
 ### Phase 1 — Baseline install & requirements cleanup
 
-- [ ] Remove bad lines from `requirements.txt`: `django-heroku`, `simplejwt`, `redis-server`, `django-dotenv`
-- [ ] Add `python-dotenv`; pin Django 5.2.x + coupled auth stack (see target table)
-- [ ] From `src/` with venv active: `pip install -r requirements.txt`
-- [ ] Record and fix any remaining install failures
+- [x] Remove bad lines from `requirements.txt`: `django-heroku`, `simplejwt`, `redis-server`, `django-dotenv`
+- [x] Add `python-dotenv`; pin Django 5.2.x + coupled auth stack (see target table)
+- [x] From `src/` with venv active: `pip install -r requirements.txt`
+- [x] Record and fix any remaining install failures (`psycopg2` → `psycopg2-binary` for Py 3.14)
 
 ### Phase 2 — Heroku removal + settings
 
-- [ ] Apply [Heroku removal checklist](#heroku-removal-checklist) in `settings.py`
-- [ ] `python manage.py check` passes
+- [x] Apply [Heroku removal checklist](#heroku-removal-checklist) in `settings.py`
+- [x] `python manage.py check` passes
 
 ### Phase 3 — Core framework & auth stack
 
-- [ ] Confirm Django **5.2.x** installed; bump DRF, djoser, simplejwt if not done in Phase 1
-- [ ] Fix deprecations if any: URL imports, settings warnings
-- [ ] Retest Djoser/JWT endpoints after auth stack bump
+- [x] Confirm Django **5.2.x** installed; bump DRF, djoser, simplejwt if not done in Phase 1
+- [x] Fix deprecations if any: URL imports, settings warnings
+- [x] Retest Djoser/JWT endpoints after auth stack bump
 
 ### Phase 4 — App services & tooling
 
-- [ ] Celery + redis versions aligned; worker starts (`celery -A src worker`)
-- [ ] pytest + factory-boy + Faker — test suite runs
-- [ ] gunicorn, whitenoise, psycopg2-binary, Pillow, debug-toolbar bumped
+- [x] Celery + redis versions aligned; worker starts (`celery -A src worker`)
+- [x] pytest + factory-boy + Faker — test suite runs
+- [x] gunicorn, whitenoise, psycopg2-binary, Pillow, debug-toolbar bumped
 
 ### Phase 5 — Code & config fixes
 
-- [ ] `python manage.py migrate` succeeds
-- [ ] `python manage.py runserver` — smoke test URLs
-- [ ] Fix runtime/test failures from upgrade
-- [ ] Update `src/Dockerfile` to `python:3.14` (or `-slim`) when local stack is green
+- [x] `python manage.py migrate` succeeds
+- [x] `python manage.py runserver` — smoke test URLs
+- [x] Fix runtime/test failures from upgrade
+- [x] Update `src/Dockerfile` to `python:3.14` (or `-slim`) when local stack is green
 
 ### Phase 6 — Verification
 
 - [ ] Main flows: goals, lessons, repeat sessions
 - [ ] Auth flows: register, login, password reset (email settings)
-- [ ] `pytest` green or known failures documented below
-- [ ] Pin all versions in `requirements.txt` from working venv (`pip freeze` subset)
+- [x] `pytest` green or known failures documented below
+- [x] Pin all versions in `requirements.txt` from working venv (`pip freeze` subset)
 
 ---
 
@@ -183,6 +183,7 @@ Add new rows for blockers discovered during implementation.
 |------|------|
 | 2026-05-31 | Migration track created; env on Python 3.14 + WSL documented |
 | 2026-05-31 | OQ-MIG-001/002 resolved: Django 5.2 LTS + Heroku removal; 5 vs 6 analysis added |
+| 2026-06-02 | Dev: Phases 1–5 + partial 6 complete on WSL Py 3.14 venv. `manage.py check` OK, migrate OK, pytest 2 passed, celery worker starts. Added `pytest-django` (was missing). Remaining: manual SMTP + main UI flows. |
 
 ---
 
