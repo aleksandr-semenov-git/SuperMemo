@@ -2,7 +2,7 @@
 
 **Project work track** — upgrading SuperMemo from its original stack (~Python 3.8/3.9 era, ~2022) to **Python 3.14** and modern dependency versions so the app can run again locally and in deploy.
 
-> **Not in AGENT_CORE** — this is implementation work, not agent routing rules.  
+> **Implementation track** — Dev agent executes via [DEV_AGENT_CORE.md](../DEV_AGENT_CORE.md); Lead maintains plan via [LEAD_AGENT_CORE.md](../LEAD_AGENT_CORE.md).  
 > **Open work checkboxes:** [SUPER_MEMO_TODO.md](../SUPER_MEMO_TODO.md) § Python 3.14 migration  
 > **Local environment:** [dev-environment/pycharm-wsl-venv-setup.md](../dev-environment/pycharm-wsl-venv-setup.md)
 

@@ -2,7 +2,7 @@
 
 Knowledge base for **SuperMemo**: a Django app for spaced-repetition learning — goals, lessons, questions, and repetition sessions.
 
-> **Agents:** start at **[AGENT_CORE.md](./AGENT_CORE.md)** (how to work). Open questions: § [Open questions](#open-questions) in this file.
+> **Agents:** **Lead** (investigate/plan) → [LEAD_AGENT_CORE.md](./LEAD_AGENT_CORE.md) · **Dev** (implement) → [DEV_AGENT_CORE.md](./DEV_AGENT_CORE.md). Open questions: § [Open questions](#open-questions) in this file.
 
 **Open work:** [SUPER_MEMO_TODO.md](./SUPER_MEMO_TODO.md)
 
@@ -12,7 +12,8 @@ Knowledge base for **SuperMemo**: a Django app for spaced-repetition learning �
 
 ## Agent entry
 
-**How to work / ask user:** [AGENT_CORE.md](./AGENT_CORE.md)  
+**Lead agent (investigate / plan):** [LEAD_AGENT_CORE.md](./LEAD_AGENT_CORE.md)  
+**Dev agent (implement TODO):** [DEV_AGENT_CORE.md](./DEV_AGENT_CORE.md)  
 **Open questions:** § [Open questions](#open-questions) below
 
 ---
@@ -100,6 +101,8 @@ SuperMemo/
 | # | Document | Status | Contents |
 |---|----------|--------|----------|
 | — | [dev-environment/pycharm-wsl-venv-setup.md](./dev-environment/pycharm-wsl-venv-setup.md) | Done | Reusable PyCharm + WSL + venv + `.bashrc` setup |
+| — | [LEAD_AGENT_CORE.md](./LEAD_AGENT_CORE.md) | Done | Lead agent: investigation & planning |
+| — | [DEV_AGENT_CORE.md](./DEV_AGENT_CORE.md) | Done | Dev agent: implement TODO / plans |
 | — | [project-work/python-314-migration.md](./project-work/python-314-migration.md) | In progress | Python 3.14 + dependency upgrade track |
 | 01+ | *(domain docs not yet created)* | Planned | Architecture, repetition algorithm, API catalog, glossary |
 
@@ -166,3 +169,4 @@ When the system changes materially (new app, new API surface, repetition algorit
 | 2026-05-31 | Initial master index (pattern from rgo-2.0 `understand_RGO/MASTER_INDEX.md`) |
 | 2026-05-31 | Added dev-environment + python-314-migration docs |
 | 2026-05-31 | OQ-MIG-001/002 resolved: Django 5.2 LTS Phase A, Heroku removal |
+| 2026-05-31 | Two-agent model: LEAD_AGENT_CORE + DEV_AGENT_CORE (replaces AGENT_CORE) |

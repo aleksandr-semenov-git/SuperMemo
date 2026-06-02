@@ -2,9 +2,8 @@
 
 Link-only rollups and checkboxes. **Migration detail:** [project-work/python-314-migration.md](./project-work/python-314-migration.md). **Resolved decisions:** same doc § Decisions.
 
-**Agent rules:** [AGENT_CORE.md](./AGENT_CORE.md)
-
-**Agents implementing Phase A:** work top to bottom; do not skip Heroku removal (Phase 2) before chasing runtime errors.
+**Lead agent (planning):** [LEAD_AGENT_CORE.md](./LEAD_AGENT_CORE.md)  
+**Dev agent (implementation):** [DEV_AGENT_CORE.md](./DEV_AGENT_CORE.md) — work TODO top to bottom; do not skip Heroku removal (Phase 2) before chasing runtime errors.
 
 ---
 
