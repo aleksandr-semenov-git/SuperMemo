@@ -9,8 +9,9 @@ Link-only rollups and checkboxes. **Migration detail:** [project-work/python-314
 
 ## Documentation
 
-- [ ] Add domain child docs (`01-objectives-and-domain.md`, …) and register in MASTER_INDEX
-- [ ] Document repetition / scheduling algorithm once confirmed in code
+- [x] Add domain child docs 01–05 (objectives, architecture, algorithm, API catalog, glossary) and register in MASTER_INDEX
+- [x] Document repetition / scheduling algorithm (→ [03-repetition-algorithm.md](./03-repetition-algorithm.md))
+- [ ] Keep domain docs 01–05 in sync as Phase A migration changes settings/deps
 
 ---
 
@@ -61,6 +62,33 @@ Link-only rollups and checkboxes. **Migration detail:** [project-work/python-314
 - [x] `src/Dockerfile` — update base image to Python 3.14
 - [x] Pin all working versions in `requirements.txt` (from `pip freeze`)
 - [x] Update migration doc § Progress log when phase completes
+
+---
+
+## Post-migration improvements (separate track — NOT Phase A)
+
+Source: [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md). **Do not start until Phase A migration is green**, unless the user promotes an item. Open decisions: OQ-ARCH-001/002/003, OQ-PROD-001 (MASTER_INDEX § Open questions).
+
+### Security & settings (OQ-ARCH-001)
+- [ ] Move `SECRET_KEY` to env; fix `DEBUG` truthy-string parsing; real `ALLOWED_HOSTS`
+- [ ] Separate JWT `SIGNING_KEY` from `SECRET_KEY`; review global `BasicAuthentication`
+- [ ] Split settings dev/prod; env-driven Redis/DB
+
+### Correctness & API
+- [ ] Fix API data leak: per-user querysets + auth on lesson/goal/section/theme endpoints
+- [ ] Consolidate redundant lesson API (generics vs `APILessons` viewset); add pagination
+- [ ] Fix `find_support` status comparison bug; fix `support` `ISSUE_CHOICES` keys
+- [ ] Profile creation via signal/manager (not view `get_or_create`); decide custom user model (OQ-ARCH-002)
+
+### Tests & tooling
+- [ ] Standardize on pytest + factory-boy + real test DB; reduce ORM mocking; fix `pytest.ini` collection
+- [ ] Add ruff + mypy + pre-commit
+
+### Product & polish
+- [ ] Decide scheduler: cycle table vs SM-2 / `memo_index` (OQ-PROD-001)
+- [ ] Implement Goal/Section/Theme repetition modes
+- [ ] Add `select_related`/`prefetch_related` + query-count tests
+- [ ] Frontend direction decision (OQ-ARCH-003)
 
 ---
 

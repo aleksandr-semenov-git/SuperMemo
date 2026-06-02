@@ -33,7 +33,7 @@ Knowledge base for **SuperMemo**: a Django app for spaced-repetition learning �
 | Local dev (PyCharm/WSL/venv) | Yes | [dev-environment/pycharm-wsl-venv-setup.md](./dev-environment/pycharm-wsl-venv-setup.md) |
 | Python 3.14 migration | Yes (in progress) | [project-work/python-314-migration.md](./project-work/python-314-migration.md) |
 
-Child docs (numbered `01-…`, `02-…`) will be added under this folder as the knowledge base grows.
+Numbered domain docs ([01](./01-objectives-and-domain.md)–[05](./05-glossary.md)) cover objectives, architecture, the repetition algorithm, the API catalog, and a glossary.
 
 ---
 
@@ -104,22 +104,35 @@ SuperMemo/
 | — | [LEAD_AGENT_CORE.md](./LEAD_AGENT_CORE.md) | Done | Lead agent: investigation & planning |
 | — | [DEV_AGENT_CORE.md](./DEV_AGENT_CORE.md) | Done | Dev agent: implement TODO / plans |
 | — | [project-work/python-314-migration.md](./project-work/python-314-migration.md) | In progress | Python 3.14 + dependency upgrade track |
-| 01+ | *(domain docs not yet created)* | Planned | Architecture, repetition algorithm, API catalog, glossary |
+| — | [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md) | Done | Point-in-time critique: weaknesses + roadmap (opinions) |
+| 01 | [01-objectives-and-domain.md](./01-objectives-and-domain.md) | Done | Purpose, domain concepts, hierarchy, user flow |
+| 02 | [02-architecture-and-layers.md](./02-architecture-and-layers.md) | Done | Stack, view→service→model layering, app map |
+| 03 | [03-repetition-algorithm.md](./03-repetition-algorithm.md) | Done | Cycle/`DAYS_DICT` scheduler, session lifecycle |
+| 04 | [04-api-and-urls-catalog.md](./04-api-and-urls-catalog.md) | Done | HTML routes + REST endpoints + auth |
+| 05 | [05-glossary.md](./05-glossary.md) | Done | Terms used across code and docs |
 
-When adding domain docs, use numbered filenames (`01-objectives-and-domain.md`, …) and register them in this table.
+**Domain docs (01–05) vs PROJECT_ANALYSIS:** numbered docs are stable *facts* ("how it works"); the analysis is a point-in-time *critique* (weaknesses, severity, roadmap). Keep critique out of the numbered docs — link to the analysis instead.
+
+When adding more domain docs, continue the numbering and register them here.
 
 ---
 
 ## Quick start paths
 
 **“I need the big picture”**  
-→ This file (§ Repo layout, § Django apps) → `src/src/urls.py`
+→ [01-objectives-and-domain.md](./01-objectives-and-domain.md) → [02-architecture-and-layers.md](./02-architecture-and-layers.md)
 
 **“How is content organized?”**  
-→ `src/lesson/models.py` (Goal → Section → Theme → Lesson → Question)
+→ [01-objectives-and-domain.md](./01-objectives-and-domain.md) § Hierarchy · `src/lesson/models.py`
 
 **“How does repetition work?”**  
-→ `src/repeat/models.py`, `src/repeat/views/`, `src/repeat/services/`
+→ [03-repetition-algorithm.md](./03-repetition-algorithm.md) · `src/repeat/`, `src/lesson/services/question_service.py`
+
+**“What are the endpoints?”**  
+→ [04-api-and-urls-catalog.md](./04-api-and-urls-catalog.md)
+
+**“What does term X mean?”**  
+→ [05-glossary.md](./05-glossary.md)
 
 **“Set up PyCharm + WSL + venv”**  
 → [dev-environment/pycharm-wsl-venv-setup.md](./dev-environment/pycharm-wsl-venv-setup.md)
@@ -153,6 +166,10 @@ Canonical for **SuperMemo platform** (product / algorithm / schema decisions).
 |----|---------|---------|--------|
 | **OQ-MIG-001** | ✅ Resolved | **Django 5.2 LTS** (Phase A); Django 6 deferred | [project-work/python-314-migration.md](./project-work/python-314-migration.md) § Decisions · § Django 5.2 vs 6.0 |
 | **OQ-MIG-002** | ✅ Resolved | **Heroku removed**; Docker Compose deploy | [project-work/python-314-migration.md](./project-work/python-314-migration.md) § Heroku removal checklist |
+| **OQ-ARCH-001** | Open | Security/settings hardening — Phase A scope vs separate track | [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md) § 3 · § 5 |
+| **OQ-ARCH-002** | Open | Custom user model now, or stay with `User` + `Profile`? | [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md) § 5 |
+| **OQ-ARCH-003** | Open | Frontend direction (templates+htmx vs API-first) | [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md) § 5 |
+| **OQ-PROD-001** | Open | Keep cycle-table scheduler or implement SM-2 (`memo_index`)? | [project-work/PROJECT_ANALYSIS.md](./project-work/PROJECT_ANALYSIS.md) § 1 · § 5 |
 
 Checkboxes: [SUPER_MEMO_TODO.md](./SUPER_MEMO_TODO.md).
 
@@ -170,3 +187,5 @@ When the system changes materially (new app, new API surface, repetition algorit
 | 2026-05-31 | Added dev-environment + python-314-migration docs |
 | 2026-05-31 | OQ-MIG-001/002 resolved: Django 5.2 LTS Phase A, Heroku removal |
 | 2026-05-31 | Two-agent model: LEAD_AGENT_CORE + DEV_AGENT_CORE (replaces AGENT_CORE) |
+| 2026-06-02 | Added PROJECT_ANALYSIS; raised OQ-ARCH-001/002/003, OQ-PROD-001 (separate post-migration track) |
+| 2026-06-02 | Added domain docs 01–05 (objectives, architecture, algorithm, API catalog, glossary) |
